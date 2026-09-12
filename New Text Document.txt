@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+functions/.env
+functions/.env.*
+!functions/.env.example
+
+# Build files
+dist/
+build/
+.next/
+coverage/
+
+# Firebase local files
+.firebase/
+firebase-debug.log*
+
+# Temporary files
+test_zip_extract/
+*.rar
+*.zip
+*.msi
+*.log
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Private keys
+*.pem
+*-adminsdk-*.json
+serviceAccountKey.json

@@ -1,0 +1,71 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# ============================================================
+# Caching Headers — تسريع تحميل الملفات الثابتة
+# ============================================================
+
+# ملفات Vite المبنية (CSS, JS) — تحتوي على hash في اسمها
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# الأيقونة
+[[headers]]
+  for = "/favicon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Manifest
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Service Worker — لا يجب تخزينه مطلقاً
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/firebase-messaging-sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# ============================================================
+# Security Headers — حماية من XSS و Clickjacking
+# ============================================================
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(self)"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.quilljs.com https://cdn.sheetjs.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.quilljs.com https://cdn.jsdelivr.net; font-src 'self' data: https:; img-src 'self' data: blob: https: http:; media-src 'self' blob: https:; connect-src 'self' https: wss:; frame-src 'self' https://accounts.google.com https://web54-f36f4.firebaseapp.com https://mozilla.github.io https://meet.jit.si https://drive.google.com https://docs.google.com https://www.youtube.com; worker-src 'self' blob:; manifest-src 'self';"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ============================================================
+# SPA Redirect — جميع المسارات تحوّل لـ index.html
+# ============================================================
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ============================================================
+# Cache Control — Prevent root page caching for immediate PWA updates
+# ============================================================
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

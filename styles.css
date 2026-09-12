@@ -1,0 +1,7 @@
+/* TailwindCSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Main Platform Styles & Animations */
+@import './main.css';

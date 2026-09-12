@@ -1,0 +1,45 @@
+{
+  "name": "Masar Platform - منصة مسار الجامعية",
+  "short_name": "مسار",
+  "description": "بوابتك للتعليم الجامعي الذكي - محاضرات، اختبارات، حضور، واجبات، ملتقى طلابي",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3413/3413535.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3413/3413535.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "المواد الدراسية",
+      "short_name": "المواد",
+      "description": "تصفح المواد والدروس",
+      "url": "./index.html#study",
+      "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/3413/3413535.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "نتائجي",
+      "short_name": "النتائج",
+      "description": "عرض النتائج والدرجات",
+      "url": "./index.html#scores",
+      "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/3413/3413535.png", "sizes": "96x96"}]
+    }
+  ],
+  "prefer_related_applications": false
+}

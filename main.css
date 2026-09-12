@@ -1,0 +1,1101 @@
+/* ============================================================
+   main.css - Masar Platform Styles & Animations
+   ============================================================ */
+
+/* ============================================================
+   1. CSS Variables (Design Tokens)
+   ============================================================ */
+:root {
+  --primary: #14b8a6;
+  --primary-light: #2dd4bf;
+  --primary-dark: #2563eb;
+  --secondary: #1e40af;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --success: #22c55e;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* Enhanced Dark Mode Colors */
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #475569;
+  --accent-glow: rgba(20, 184, 166, 0.3);
+}
+
+/* Override Tailwind dark backgrounds with richer colors */
+.dark body {
+  background: linear-gradient(180deg, #0f172a 0%, #1a1f35 100%);
+}
+
+.dark .bg-gray-800 {
+  background: linear-gradient(135deg, #1e293b 0%, #1a1f35 100%) !important;
+}
+
+.dark .bg-gray-900 {
+  background: #0f172a !important;
+}
+
+/* Enhanced dark mode cards with subtle glow */
+.dark .card,
+.dark [class*="rounded-2xl"],
+.dark [class*="rounded-3xl"] {
+  border: 1px solid rgba(20, 184, 166, 0.15);
+}
+
+/* Dark mode input focus states */
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: #14b8a6 !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+}
+
+/* Better dark mode gradients for header/hero sections */
+.dark .from-blue-600 {
+  --tw-gradient-from: #2563eb !important;
+}
+
+.dark .to-indigo-600 {
+  --tw-gradient-to: #0891b2 !important;
+}
+
+/* ============================================================
+   2. Animation Keyframes
+   ============================================================ */
+
+/* Fade In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Down */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide In Right (for sidebar RTL) */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Slide Out Right */
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Bounce */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Float */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Shake (for errors) */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Spin */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Shimmer (for loading) */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================================
+   3. Animation Utility Classes
+   ============================================================ */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.4s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-toast-progress {
+  animation: toastProgress 5s linear forwards;
+}
+
+/* Slide Up */
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+/* Slide Down (for announcements) */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Toast progress bar */
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+/* Staggered animations for lists */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+
+/* ============================================================
+   4. Loading Skeleton
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  height: 8rem;
+  border-radius: 1rem;
+}
+
+/* ============================================================
+   5. Card Styles with Hover Effects
+   ============================================================ */
+.card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+}
+
+.dark .card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  border-color: var(--primary-light);
+}
+
+.card-interactive:active {
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   6. Button Styles
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.dark .btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* ============================================================
+   7. Toast Notifications
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  color: white;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-xl);
+  animation: fadeInUp 0.3s ease-out;
+  z-index: 10000;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toast:hover {
+  transform: scale(1.02);
+}
+
+.toast-success {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.toast-error {
+  background: linear-gradient(135deg, var(--danger), #dc2626);
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, var(--accent), #d97706);
+}
+
+/* ============================================================
+   8. Sidebar Styles
+   ============================================================ */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  color: #4b5563;
+}
+
+.dark .sidebar-link {
+  color: #d1d5db;
+}
+
+.sidebar-link:hover {
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--primary);
+}
+
+.dark .sidebar-link:hover {
+  background: rgba(20, 184, 166, 0.2);
+  color: var(--primary-light);
+}
+
+.sidebar-link.active {
+  background: var(--primary);
+  color: white;
+}
+
+.sidebar-link i {
+  width: 1.5rem;
+  text-align: center;
+}
+
+/* ============================================================
+   9. Admin Panel Styles
+   ============================================================ */
+.admin-section {
+  background: linear-gradient(135deg, #fef2f2 0%, #fce7f3 100%);
+  border: 2px solid #fecaca;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.dark .admin-section {
+  background: linear-gradient(
+    135deg,
+    rgba(127, 29, 29, 0.2) 0%,
+    rgba(157, 23, 77, 0.2) 100%
+  );
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.admin-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  border-right: 4px solid var(--danger);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.dark .admin-card {
+  background: #1f2937;
+}
+
+.admin-card:hover {
+  transform: translateX(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================================
+   10. Modal Styles
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: scaleIn 0.3s ease-out;
+  box-shadow: var(--shadow-xl);
+}
+
+.dark .modal-content {
+  background: #1f2937;
+}
+
+/* ============================================================
+   11. Progress Components
+   ============================================================ */
+.progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.dark .progress-bar {
+  background: #374151;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 9999px;
+  transition: width 0.5s ease-out;
+}
+
+/* ============================================================
+   12. Badge Styles
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.badge-primary {
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--primary);
+}
+
+.badge-success {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--accent);
+}
+
+/* ============================================================
+   13. Glassmorphism Effects
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+/* ============================================================
+   14. Ripple Effect (for buttons)
+   ============================================================ */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 10%,
+    transparent 10%
+  );
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition:
+    transform 0.5s,
+    opacity 0.5s;
+}
+
+.ripple:active::after {
+  transform: scale(0, 0);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* =============================================
+   RESPONSIVE IMPROVEMENTS
+============================================= */
+@media (max-width: 640px) {
+  .sidebar-nav {
+    padding: 1rem;
+  }
+
+  .admin-card {
+    padding: 1rem;
+  }
+
+  .modal-content {
+    margin: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* تصغير النصوص على الموبايل */
+  .text-responsive {
+    font-size: 0.875rem;
+  }
+
+  /* تحسين الجداول على الموبايل */
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  /* إخفاء العناصر غير الضرورية */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* تكديس العناصر */
+  .stack-mobile {
+    flex-direction: column;
+  }
+
+  /* عرض كامل */
+  .full-mobile {
+    width: 100% !important;
+  }
+}
+
+/* =============================================
+   STREAK WIDGET ANIMATIONS
+============================================= */
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* تأثير الوهج للـ Streak */
+.streak-glow {
+  box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+}
+
+/* =============================================
+   ADMIN ROLES BADGES
+============================================= */
+.role-badge-owner {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #78350f;
+}
+
+.role-badge-super {
+  background: linear-gradient(135deg, #06b6d4, #0e7490);
+  color: white;
+}
+
+.role-badge-manager {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.role-badge-moderator {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.role-badge-viewer {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  color: white;
+}
+
+/* =============================================
+   MODERN CARDS
+============================================= */
+.card-hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* =============================================
+   PRINT STYLES
+============================================= */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+}
+
+/* =============================================
+   BOTTOM NAV - Active State Styles
+============================================= */
+#bottom-nav .bottom-nav-item.active {
+  color: #14b8a6 !important;
+  position: relative;
+}
+
+.dark #bottom-nav .bottom-nav-item.active {
+  color: #2dd4bf !important;
+}
+
+#bottom-nav .bottom-nav-item.active::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, #14b8a6, #06b6d4);
+  border-radius: 0 0 4px 4px;
+}
+
+#bottom-nav .bottom-nav-item.active i {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Widget cards consistent sizing */
+#home-screen .grid > div {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* =============================================
+   RESPONSIVE DESIGN - Mobile First
+============================================= */
+
+/* Extra Small Devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  /* Typography */
+  h1,
+  .text-3xl,
+  .text-4xl {
+    font-size: 1.5rem !important;
+  }
+
+  h2,
+  .text-2xl {
+    font-size: 1.25rem !important;
+  }
+
+  h3,
+  .text-xl {
+    font-size: 1.1rem !important;
+  }
+
+  /* Padding adjustments */
+  .p-6,
+  .p-8 {
+    padding: 1rem !important;
+  }
+
+  .px-6,
+  .px-8 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .py-6 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Grid adjustments - allow 2 columns for widget cards on small screens */
+  #home-screen .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Other grids go to 1 column on very small screens */
+  #sections-list.grid-cols-2,
+  #sections-list.grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Gap adjustments */
+  .gap-6,
+  .gap-8 {
+    gap: 0.75rem !important;
+  }
+
+  /* Button sizes - scoped to avoid breaking specific buttons */
+  .modal-content button,
+  .admin-panel button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Bottom nav padding for safe area */
+  #bottom-nav {
+    padding-bottom: max(env(safe-area-inset-bottom, 8px), 8px);
+  }
+
+  /* Modal adjustments */
+  .max-w-lg,
+  .max-w-xl,
+  .max-w-2xl,
+  .max-w-3xl,
+  .max-w-4xl {
+    max-width: calc(100vw - 1rem) !important;
+    margin: 0.5rem !important;
+  }
+
+  /* Cards */
+  .rounded-3xl {
+    border-radius: 1rem !important;
+  }
+
+  /* Hero section */
+  .hero-section,
+  #home-screen > div:first-child {
+    padding: 1rem !important;
+  }
+
+  /* Hide non-essential elements on mobile */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* Sidebar adjustments */
+  #sidebar {
+    width: 100% !important;
+    max-width: 280px !important;
+  }
+
+  /* Avatar sizes */
+  .w-32.h-32 {
+    width: 5rem !important;
+    height: 5rem !important;
+  }
+
+  .w-40.h-40 {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+
+  /* Profile cover */
+  .h-48,
+  .h-64 {
+    height: 8rem !important;
+  }
+}
+
+/* Small Devices (phones landscape, 481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .p-8 {
+    padding: 1.5rem !important;
+  }
+}
+
+/* Medium Devices (tablets, 769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Safe area for notch phones */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top) !important;
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  #bottom-nav,
+  .fixed.bottom-0 {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Touch optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  button,
+  a,
+  [onclick],
+  .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Remove hover effects on touch */
+  .hover\:scale-110:hover {
+    transform: none !important;
+  }
+
+  .hover\:-translate-y-1:hover {
+    transform: none !important;
+  }
+}
+
+/* Landscape phone */
+@media (max-height: 500px) and (orientation: landscape) {
+  .h-screen {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .max-h-96,
+  .max-h-\[80vh\] {
+    max-height: 70vh !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .dark .bg-gray-800 {
+    background: #000 !important;
+  }
+
+  .dark .text-gray-400 {
+    color: #fff !important;
+  }
+
+  .border {
+    border-width: 2px !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

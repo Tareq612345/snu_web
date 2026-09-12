@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Masar Platform | منصة مسار الجامعية</title>
+
+    <!-- Preconnect to CDN domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="منصة مسار الجامعية - نظام متكامل لإدارة التعليم الجامعي، المحاضرات، الحضور، الاختبارات والواجبات">
+    <meta name="keywords" content="منصة تعليمية, جامعة, حضور, اختبارات, مسار, تعليم عن بعد">
+    <meta name="author" content="Masar Platform">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://snu-study.netlify.app/">
+    <meta property="og:title" content="منصة مسار الجامعية | Masar Platform">
+    <meta property="og:description" content="بوابتك للتعليم الجامعي الذكي - محاضرات، اختبارات، حضور، واجبات، ملتقى طلابي، وAI مساعد في منصة واحدة">
+    <meta property="og:image" content="https://snu-study.netlify.app/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:locale" content="ar_EG">
+    <meta property="og:site_name" content="Masar Platform">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://snu-study.netlify.app/">
+    <meta name="twitter:title" content="منصة مسار الجامعية | Masar Platform">
+    <meta name="twitter:description" content="بوابتك للتعليم الجامعي الذكي - محاضرات، اختبارات، خدمات طلابية وأكثر">
+    <meta name="twitter:image" content="https://snu-study.netlify.app/favicon.png">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <!-- TailwindCSS (CDN for Demo Portability) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="./main.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" media="print" onload="this.media='all'">
+
+    <!-- Heavy libraries - loaded on demand to speed up initial page load -->
+    <script>
+        // Lazy loader: loads scripts only when needed
+        window._loadScript = (src) => new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${src}"]`)) return resolve();
+            const s = document.createElement('script');
+            s.src = src; s.onload = resolve; s.onerror = reject;
+            document.head.appendChild(s);
+        });
+        // Load QR, PDF, Excel, KaTeX on demand
+        window.loadQRLibs = () => Promise.all([
+            window._loadScript('https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js'),
+            window._loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js')
+        ]);
+        window.loadPDFLibs = () => Promise.all([
+            window._loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'),
+            window._loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')
+        ]);
+        window.loadExcelLib = () => window._loadScript('https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js');
+        window.loadKaTeX = () => Promise.all([
+            window._loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js'),
+            window._loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js')
+        ]);
+        window.loadQuill = () => Promise.all([
+            window._loadScript('https://cdn.quilljs.com/1.3.6/quill.js'),
+            window._loadScript('https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js')
+        ]);
+    </script>
+
+    <!-- KaTeX CSS (lightweight, needed for rendering) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .glass-effect {
+            background: rgba(17, 24, 39, 0.95);
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Loading bar animation */
+        @keyframes loadingBar {
+            0% {
+                width: 0%;
+            }
+
+            50% {
+                width: 70%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Orbiting particles */
+        @keyframes orbit1 {
+            0% {
+                transform: rotate(0deg) translateX(60px) rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(60px) rotate(-360deg);
+            }
+        }
+
+        @keyframes orbit2 {
+            0% {
+                transform: rotate(120deg) translateX(55px) rotate(-120deg);
+            }
+
+            100% {
+                transform: rotate(480deg) translateX(55px) rotate(-480deg);
+            }
+        }
+
+        @keyframes orbit3 {
+            0% {
+                transform: rotate(240deg) translateX(65px) rotate(-240deg);
+            }
+
+            100% {
+                transform: rotate(600deg) translateX(65px) rotate(-600deg);
+            }
+        }
+
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.7));
+            }
+        }
+
+        /* Enhanced navbar on scroll */
+        #main-header.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+    </style>
+
+    <!-- Navbar scroll effect -->
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('main-header')?.classList.toggle('scrolled', window.scrollY > 10);
+        }, { passive: true });
+    </script>
+
+    <!-- 🔒 Screenshot & Screen Capture Prevention -->
+    <style>
+        /* منع تحديد النصوص */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* السماح بتحديد النص في حقول الإدخال */
+        input,
+        textarea,
+        [contenteditable="true"],
+        code,
+        pre {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+    </style>
+    <script>
+        // 🔒 حماية ضد Screenshots — الأونر معفي
+        const _isOwnerUser = () => window._isOwner === true;
+
+        // منع كليك يمين (ماعدا الأونر)
+        document.addEventListener('contextmenu', e => {
+            if (!_isOwnerUser()) e.preventDefault();
+        });
+
+        // منع اختصارات الكيبورد الخطرة (ماعدا الأونر)
+        document.addEventListener('keydown', e => {
+            if (_isOwnerUser()) return; // الأونر يقدر يعمل أي حاجة
+
+            // Print Screen
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+                document.body.style.filter = 'blur(20px)';
+                setTimeout(() => document.body.style.filter = '', 1500);
+            }
+            // Ctrl+P (طباعة)
+            if (e.ctrlKey && e.key === 'p') { e.preventDefault(); }
+            // Ctrl+S (حفظ)
+            if (e.ctrlKey && e.key === 's') { e.preventDefault(); }
+            // Ctrl+U (عرض المصدر)
+            if (e.ctrlKey && e.key === 'u') { e.preventDefault(); }
+            // F12 (أدوات المطور)
+            if (e.key === 'F12') { e.preventDefault(); }
+            // Ctrl+Shift+I (أدوات المطور)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') { e.preventDefault(); }
+            // Ctrl+Shift+J (كونسول)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') { e.preventDefault(); }
+            // Windows + Shift + S (Windows screenshot tool)
+            if (e.metaKey && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                document.body.style.filter = 'blur(20px)';
+                setTimeout(() => document.body.style.filter = '', 2000);
+            }
+        });
+
+        // تعتيم الصفحة عند تبديل التاب (ماعدا الأونر)
+        document.addEventListener('visibilitychange', () => {
+            if (_isOwnerUser()) return;
+            if (document.hidden) {
+                document.body.style.filter = 'blur(15px)';
+            } else {
+                // إزالة فورية عند الرجوع  
+                document.body.style.filter = '';
+            }
+        });
+
+        // إزالة التشويش عند الفوكس كـ حل احتياطي
+        window.addEventListener('focus', () => {
+            if (_isOwnerUser()) return;
+            document.body.style.filter = '';
+        });
+
+        // إزالة التشويش عند الضغط في أي مكان (حل نهائي)
+        document.addEventListener('click', () => {
+            if (document.body.style.filter && document.body.style.filter.includes('blur')) {
+                document.body.style.filter = '';
+            }
+        });
+        document.addEventListener('touchstart', () => {
+            if (document.body.style.filter && document.body.style.filter.includes('blur')) {
+                document.body.style.filter = '';
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+
+    <div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+        style="background: linear-gradient(135deg, #0f172a 0%, #0d2847 30%, #0e4d64 60%, #134e5e 80%, #1a3a5c 100%)">
+
+        <!-- Radial glow -->
+        <div class="absolute"
+            style="width: 200px; height: 200px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -60%); border-radius: 50%;">
+        </div>
+
+        <!-- Logo -->
+        <div class="relative mb-8 flex justify-center items-center" style="width: 120px; height: 120px;">
+            <div class="absolute inset-0 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
+            <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" class="w-20 h-20 drop-shadow-xl relative z-10" alt="Masar Logo">
+        </div>
+
+        <h2 class="text-2xl font-black text-white mb-1 tracking-wide">Masar Platform</h2>
+        <p class="text-sm mb-6" style="color: rgba(148, 208, 235, 0.7)">جارٍ تجهيز مساحتك التعليمية...</p>
+
+        <!-- Progress bar -->
+        <div class="w-48 h-1.5 rounded-full overflow-hidden" style="background: rgba(255,255,255,0.1)">
+            <div class="h-full rounded-full"
+                style="background: linear-gradient(90deg, #38bdf8, #2dd4bf); animation: loadingBar 2s ease-out forwards">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="toast-container"
+        class="fixed top-14 left-1/2 transform -translate-x-1/2 z-[300] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4">
+    </div>
+
+    <div id="auth-screen"
+        class="hidden min-h-screen bg-slate-950 fixed inset-0 z-[200] overflow-y-auto custom-scrollbar font-cairo">
+
+        <!-- Modern Abstract Background -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-[20%] -right-[10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 blur-[120px]"></div>
+            <div class="absolute top-[40%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-600/10 blur-[100px]"></div>
+            <div class="absolute -bottom-[20%] right-[20%] w-[60%] h-[60%] rounded-full bg-purple-600/10 blur-[120px]"></div>
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
+        </div>
+
+        <!-- Glassmorphism Navbar -->
+        <nav class="fixed top-0 w-full z-50 bg-slate-950/50 backdrop-blur-xl border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" class="w-10 h-10 drop-shadow-lg" alt="Logo">
+                    <span class="text-2xl font-black bg-gradient-to-l from-blue-400 to-indigo-400 bg-clip-text text-transparent tracking-tight">مسار</span>
+                </div>
+                <div>
+                    <button onclick="document.getElementById('auth-button').click()" class="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-full font-bold text-sm transition-all border border-white/10 backdrop-blur-md">
+                        تسجيل الدخول
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 pt-32 pb-20">
+            <!-- Hero Section -->
+            <div class="text-center max-w-4xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm font-bold mb-8 animate-fade-in">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    الجيل الجديد من أنظمة التعليم الجامعي
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+                    ارتقِ بتجربة التعليم مع 
+                    <span class="relative inline-block">
+                        <span class="bg-gradient-to-l from-blue-500 via-indigo-400 to-purple-400 bg-clip-text text-transparent relative z-10">الذكاء الاصطناعي</span>
+                        <div class="absolute bottom-2 left-0 w-full h-4 bg-blue-600/30 -z-10 -rotate-2 rounded-full blur-sm"></div>
+                    </span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-slate-400 mb-10 leading-relaxed font-medium max-w-2xl mx-auto">
+                    منصة تعليمية متكاملة توفر بيئة تفاعلية، إدارة ذكية للمحاضرات، اختبارات دقيقة، ومجتمع طلابي نابض بالحياة.
+                </p>
+
+                <!-- Login Button & CTA -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button id="auth-button"
+                        class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-2xl shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] transform transition-all hover:scale-[1.02] hover:-translate-y-1 flex items-center justify-center gap-3 text-lg w-full sm:w-auto border border-blue-400/30 relative overflow-hidden group">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[200%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6 bg-white rounded-full p-0.5">
+                        دخول باستخدام Google
+                    </button>
+                    
+                    <a href="#demo-preview" class="bg-white/5 hover:bg-white/10 text-white font-bold py-4 px-10 rounded-2xl border border-white/10 transition-all flex items-center justify-center gap-2 text-lg w-full sm:w-auto backdrop-blur-sm">
+                        <i class="fas fa-play text-sm text-blue-400"></i>
+                        استكشف المنصة
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dashboard Mockup Image -->
+            <div id="demo-preview" class="relative max-w-5xl mx-auto mb-32 group pt-10">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl blur-3xl opacity-20 group-hover:opacity-40 transition duration-1000 mt-10"></div>
+                <div class="relative bg-slate-900 rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden ring-1 ring-white/10 transform transition duration-700 hover:-translate-y-2">
+                    <!-- Browser Chrome -->
+                    <div class="flex items-center gap-2 px-4 py-3 bg-slate-800 border-b border-slate-700">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <img src="./dashboard-mockup.png" alt="Dashboard Preview" class="w-full h-auto object-cover">
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-32 border-y border-white/5 py-12 relative">
+                <!-- Vertical separators for desktop -->
+                <div class="hidden md:block absolute top-12 bottom-12 left-1/4 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+                <div class="hidden md:block absolute top-12 bottom-12 left-2/4 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+                <div class="hidden md:block absolute top-12 bottom-12 left-3/4 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+                
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black text-white mb-2 landing-counter" data-target="99">0</div>
+                    <div class="text-blue-400 text-sm font-bold tracking-wider uppercase">وقت التشغيل %</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black text-white mb-2 landing-counter" data-target="1500">0</div>
+                    <div class="text-indigo-400 text-sm font-bold tracking-wider uppercase">طالب نشط</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black text-white mb-2 landing-counter" data-target="300">0</div>
+                    <div class="text-purple-400 text-sm font-bold tracking-wider uppercase">محاضرة تفاعلية</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black text-white mb-2 landing-counter" data-target="50">0</div>
+                    <div class="text-pink-400 text-sm font-bold tracking-wider uppercase">أستاذ جامعي</div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-white mb-4">كل ما تحتاجه في مكان واحد</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">تصميم هندسي دقيق يجمع بين قوة الأداء وسهولة الاستخدام لتوفير أفضل تجربة للأساتذة والطلاب.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+                <!-- Feature 1 -->
+                <div class="bg-slate-900/50 backdrop-blur-lg border border-white/5 rounded-3xl p-8 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-blue-500/20">
+                        <i class="fas fa-video text-2xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">محاضرات تفاعلية مسجلة</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">نظام متكامل لرفع المحاضرات وملفات الـ PDF مع دعم المحادثات الفورية.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-slate-900/50 backdrop-blur-lg border border-white/5 rounded-3xl p-8 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-indigo-500/20">
+                        <i class="fas fa-brain text-2xl text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">اختبارات ذكية (AI)</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">كويزات تفاعلية، تصحيح تلقائي، ومنع الغش مع تقارير أداء شاملة لكل طالب.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-slate-900/50 backdrop-blur-lg border border-white/5 rounded-3xl p-8 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-purple-500/20">
+                        <i class="fas fa-qrcode text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">نظام الحضور بالـ QR</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">تسجيل الحضور تلقائياً في قاعات المحاضرات عبر مسح كود QR متجدد لمنع التلاعب.</p>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="text-center pt-8 border-t border-white/5">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" class="w-6 h-6 grayscale opacity-50">
+                    <span class="text-slate-500 font-bold">منصة مسار</span>
+                </div>
+                <p class="text-sm text-slate-500">تم التطوير بأحدث تقنيات الويب © 2026</p>
+            </div>
+        </div>
+
+        <style>
+            @keyframes shimmer {
+                100% { transform: translateX(200%); }
+            }
+            html { scroll-behavior: smooth; }
+        </style>
+
+        <!-- Counter Animation Script -->
+        <script>
+            setTimeout(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const el = entry.target;
+                            const target = parseInt(el.dataset.target);
+                            let current = 0;
+                            const step = Math.max(1, Math.ceil(target / 40));
+                            const timer = setInterval(() => {
+                                current += step;
+                                if (current >= target) { 
+                                    current = target; 
+                                    clearInterval(timer); 
+                                    el.textContent = (target > 100 ? '+' : '') + target; 
+                                } else el.textContent = current;
+                            }, 40);
+                            observer.unobserve(el);
+                        }
+                    });
+                });
+                document.querySelectorAll('.landing-counter').forEach(el => observer.observe(el));
+            }, 500);
+        </script>
+    </div>
+
+    <div id="college-selector-modal"
+        class="hidden fixed inset-0 z-[250] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div
+            class="bg-white dark:bg-gray-800 w-full max-w-lg rounded-3xl shadow-2xl p-8 border-t-8 border-blue-600 animate-slide-up relative my-4">
+            <div class="text-center mb-6">
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border-2 border-blue-200">
+                    🏛️</div>
+                <h2 class="text-2xl font-bold dark:text-white">أهلاً بك في الجامعة!</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">يرجى إكمال بياناتك للتسجيل.</p>
+            </div>
+            <div class="space-y-5">
+                <!-- الكلية -->
+                <div>
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-300">الكلية:</label>
+                    <select id="modal-college-select"
+                        class="w-full p-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                        <option value="">-- اختر الكلية --</option>
+                    </select>
+                </div>
+                <!-- القسم -->
+                <div id="modal-dept-wrapper" class="hidden">
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-300">القسم:</label>
+                    <select id="modal-dept-select"
+                        class="w-full p-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                        <option value="">-- اختر القسم --</option>
+                    </select>
+                </div>
+
+                <!-- الاسم الرباعي (أولاً) -->
+                <div>
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-300">👤 الاسم الرباعي <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="modal-full-name" placeholder="مثال: أحمد محمد علي حسن"
+                        class="w-full p-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none font-bold text-center">
+                    <p class="text-xs mt-1 text-gray-400">كما هو مدوّن في بطاقة الهوية</p>
+                </div>
+
+                <!-- الرقم القومي -->
+                <div>
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-300">🆔 الرقم القومي <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="modal-national-id" placeholder="أدخل الرقم القومي" maxlength="14"
+                        class="w-full p-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none font-mono text-center text-lg tracking-widest"
+                        oninput="this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g, '')">
+                    <p id="national-id-hint" class="text-xs mt-1 text-gray-400">الرقم المكوّن من 14 خانة</p>
+                </div>
+
+                <!-- رقم الطالب -->
+                <div>
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-300">🎓 الرقم الجامعي <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="modal-student-id" placeholder="أدخل الرقم الجامعي" maxlength="9"
+                        class="w-full p-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none font-mono text-center text-lg tracking-widest"
+                        oninput="this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g, '')">
+                    <p id="student-id-hint" class="text-xs mt-1 text-gray-400">كما هو مدوّن في كارنيه الجامعة</p>
+                </div>
+            </div>
+            <button id="save-college-selection"
+                class="mt-8 w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-lg">حفظ
+                ومتابعة 🚀</button>
+        </div>
+    </div>
+
+    <div id="name-force-modal"
+        class="hidden fixed inset-0 z-[300] bg-blue-900/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div
+            class="bg-white dark:bg-gray-800 w-full max-w-md rounded-3xl shadow-2xl p-8 text-center border-4 border-white dark:border-gray-700">
+            <h2 class="text-2xl font-black dark:text-white mb-2">تحديث الاسم</h2>
+            <p class="text-gray-500 mb-6 text-sm">يرجى كتابة اسمك الثلاثي الحقيقي.</p>
+            <input type="text" id="force-name-input" placeholder="الاسم الثلاثي"
+                class="w-full p-4 border-2 border-blue-100 rounded-2xl bg-gray-50 text-center font-bold text-lg mb-4 dark:bg-gray-700 dark:text-white">
+            <button id="save-force-name-btn"
+                class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">حفظ والدخول</button>
+        </div>
+    </div>
+
+    <div id="id-card-modal"
+        class="hidden fixed inset-0 z-[310] bg-gray-900/98 backdrop-blur-xl flex items-center justify-center p-4">
+        <div
+            class="bg-white dark:bg-gray-800 w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border-4 border-red-500">
+            <div class="bg-red-600 p-6 text-white text-center">
+                <i class="fas fa-shield-alt text-5xl mb-2"></i>
+                <h2 class="text-2xl font-black">التحقق من الهوية</h2>
+            </div>
+            <div class="p-8 text-center">
+                <p class="text-gray-600 dark:text-gray-300 text-sm font-bold mb-6">يرجى رفع صورة الكارنيه الجامعي.</p>
+                <div class="relative w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-2xl border-2 border-dashed border-gray-300 mb-6 flex flex-col items-center justify-center cursor-pointer"
+                    onclick="document.getElementById('id-card-file').click()">
+                    <img id="id-card-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl">
+                    <div id="id-card-placeholder"><i class="fas fa-camera text-4xl text-gray-400 mb-2"></i>
+                        <p class="text-xs text-gray-500">اضغط للرفع</p>
+                    </div>
+                    <input type="file" id="id-card-file" class="hidden" accept="image/*"
+                        onchange="window.previewIdCard(this)">
+                </div>
+                <button id="upload-id-btn"
+                    class="w-full bg-gray-800 text-white py-4 rounded-2xl font-black shadow-lg disabled:opacity-50"
+                    disabled>رفع وتفعيل</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-content" class="hidden min-h-screen flex flex-col md:flex-row pb-20 md:pb-0 pt-16">
+
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[290] hidden backdrop-blur-sm transition-opacity">
+        </div>
+        <aside id="sidebar"
+            class="fixed top-0 right-0 w-72 h-full bg-white dark:bg-gray-800 z-[300] transform translate-x-full transition-transform duration-300 shadow-2xl overflow-y-auto custom-scrollbar border-l dark:border-gray-700 flex flex-col">
+            <div
+                class="p-6 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900">
+                <span class="font-bold text-xl dark:text-white flex items-center gap-2">
+                    <i class="fas fa-bars text-blue-600"></i> <span data-i18n="nav-menu">القائمة</span>
+                </span>
+                <button id="close-sidebar-btn"
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <nav class="p-4 space-y-2">
+                <a href="#home"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition"><i
+                        class="fas fa-home w-6 text-center"></i> <span data-i18n="nav-home">الرئيسية</span></a>
+                <a href="#sections"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition"><i
+                        class="fas fa-book-open w-6 text-center"></i> <span data-i18n="nav-sections">المواد
+                        الدراسية</span></a>
+                <a href="#quiz"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition"><i
+                        class="fas fa-clipboard-check w-6 text-center"></i> <span
+                        data-i18n="nav-quiz">الامتحانات</span></a>
+                <a href="#leaderboard"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition"><i
+                        class="fas fa-trophy w-6 text-center"></i> <span data-i18n="nav-leaderboard">لوحة
+                        الشرف</span></a>
+                <a href="#profile"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition"><i
+                        class="fas fa-user w-6 text-center"></i> <span data-i18n="nav-profile">ملفي الشخصي</span></a>
+
+                <!-- الواجبات للطلاب -->
+                <a href="#assignments"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-orange-50 dark:hover:bg-orange-900/20 text-gray-700 dark:text-gray-200 font-bold transition">
+                    <i class="fas fa-tasks w-6 text-center text-orange-500"></i> <span
+                        data-i18n="nav-assignments">الواجبات</span>
+                </a>
+
+                <!-- Feed - منشورات الإدارة -->
+                <a href="#feed" onclick="window.markFeedAsSeen?.()"
+                    class="flex items-center gap-3 p-3 rounded-xl hover:bg-pink-50 dark:hover:bg-pink-900/20 text-gray-700 dark:text-gray-200 font-bold transition nav-item relative">
+                    <i class="fas fa-newspaper w-6 text-center text-pink-500"></i> <span>المنشورات</span>
+                    <span id="feed-badge"
+                        class="hidden absolute left-3 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">!</span>
+                </a>
+
+                <!-- Support Chat -->
+                <button onclick="window.toggleSupportChat()"
+                    class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-200 font-bold transition relative">
+                    <i class="fas fa-headset w-6 text-center text-blue-500"></i> <span data-i18n="nav-support">الدعم
+                        الفني</span>
+                    <span id="support-badge-sidebar"
+                        class="hidden absolute left-3 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">!</span>
+                </button>
+
+                <!-- Attendance System -->
+                <button onclick="window.openStudentAttendanceScanner()"
+                    class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20 text-gray-700 dark:text-gray-200 font-bold transition relative">
+                    <i class="fas fa-qrcode w-6 text-center text-green-500"></i> <span
+                        data-i18n="register-attendance">تسجيل الحضور</span>
+                </button>
+
+                <!-- Attendance History -->
+                <button onclick="window.openStudentAttendanceHistory()"
+                    class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-200 font-bold transition relative">
+                    <i class="fas fa-clipboard-check w-6 text-center text-blue-500"></i> <span
+                        data-i18n="nav-attendance">سجل حضوري</span>
+                </button>
+
+                <!-- Private Messages (DM) -->
+                <button onclick="window.openDMPanel()"
+                    class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-indigo-900/20 text-gray-700 dark:text-gray-200 font-bold transition relative">
+                    <i class="fas fa-comments w-6 text-center text-indigo-500"></i> <span data-i18n="nav-messages">الرسائل
+                        الخاصة</span>
+                    <span id="dm-badge-sidebar"
+                        class="hidden absolute left-3 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                </button>
+
+                <div class="my-4 border-t dark:border-gray-700"></div>
+
+                <div id="admin-sidebar-links" class="hidden space-y-1">
+                    <!-- عنوان القسم -->
+                    <div class="flex items-center gap-2 px-3 py-2 mb-2">
+                        <i class="fas fa-shield-alt text-red-500"></i>
+                        <span class="text-xs font-bold text-red-500 uppercase tracking-wide" data-i18n="admin-panel">لوحة التحكم</span>
+                    </div>
+
+                    <!-- 📚 المحتوى والتقييم -->
+                    <details class="group mb-1">
+                        <summary class="flex items-center justify-between p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-200 font-bold transition cursor-pointer list-none [&::-webkit-details-marker]:hidden bg-transparent group-open:bg-gray-50 dark:group-open:bg-gray-800">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-layer-group w-6 text-center text-red-500"></i>
+                                <span>المحتوى والواجبات</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300 group-open:rotate-180 text-gray-400"></i>
+                        </summary>
+                        <div class="mt-1 pb-2 px-2 mx-2 space-y-1 border-r-2 dark:border-gray-700 border-gray-200">
+                            <!-- إدارة المحتوى -->
+                            <a href="#admin/cms" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-folder-open w-5 text-center text-red-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-cms">إدارة المحتوى</span>
+                            </a>
+                            <!-- إدارة الكويزات -->
+                            <a href="#admin/quiz" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-question-circle w-5 text-center text-orange-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-quiz">إدارة الكويزات</span>
+                            </a>
+                            <!-- إدارة الواجبات -->
+                            <a href="#admin/assignments" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-tasks w-5 text-center text-blue-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-assign">إدارة الواجبات</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <!-- 👥 شؤون الطلاب -->
+                    <details class="group mb-1">
+                        <summary class="flex items-center justify-between p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-200 font-bold transition cursor-pointer list-none [&::-webkit-details-marker]:hidden bg-transparent group-open:bg-gray-50 dark:group-open:bg-gray-800">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-users-cog w-6 text-center text-green-500"></i>
+                                <span>شؤون الطلاب</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300 group-open:rotate-180 text-gray-400"></i>
+                        </summary>
+                        <div class="mt-1 pb-2 px-2 mx-2 space-y-1 border-r-2 dark:border-gray-700 border-gray-200">
+                            <!-- إدارة الطلاب -->
+                            <a href="#admin/users" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-users w-5 text-center text-green-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-users">إدارة الطلاب</span>
+                            </a>
+                            <!-- مراجعة الهويات -->
+                            <a href="#admin/id-review" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm relative">
+                                <i class="fas fa-id-card w-5 text-center text-indigo-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-id-review">مراجعة الهويات</span>
+                                <span id="id-cards-badge" class="hidden absolute left-3 min-w-[20px] h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1 animate-pulse"></span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <!-- 📅 نظام الحضور -->
+                    <details class="group mb-1">
+                        <summary class="flex items-center justify-between p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-200 font-bold transition cursor-pointer list-none [&::-webkit-details-marker]:hidden bg-transparent group-open:bg-gray-50 dark:group-open:bg-gray-800">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-qrcode w-6 text-center text-purple-500"></i>
+                                <span>الحضور والمتابعة</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300 group-open:rotate-180 text-gray-400"></i>
+                        </summary>
+                        <div class="mt-1 pb-2 px-2 mx-2 space-y-1 border-r-2 dark:border-gray-700 border-gray-200">
+                            <button onclick="window.openAttendanceAdminPanel()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-qrcode w-5 text-center text-purple-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="qr-attendance">عرض QR الحضور</span>
+                            </button>
+                            <button onclick="window.openAttendanceRecords()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-clipboard-list w-5 text-center text-purple-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="attendance-records">سجلات الحضور</span>
+                            </button>
+                            <button onclick="window.openAttendanceDashboard()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-chart-pie w-5 text-center text-indigo-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="attendance-stats">إحصائيات الحضور</span>
+                            </button>
+                        </div>
+                    </details>
+
+                    <!-- 💬 التواصل والدعم -->
+                    <details class="group mb-1">
+                        <summary class="flex items-center justify-between p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-200 font-bold transition cursor-pointer list-none [&::-webkit-details-marker]:hidden bg-transparent group-open:bg-gray-50 dark:group-open:bg-gray-800">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-headset w-6 text-center text-indigo-500"></i>
+                                <span>التواصل والدعم</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300 group-open:rotate-180 text-gray-400"></i>
+                        </summary>
+                        <div class="mt-1 pb-2 px-2 mx-2 space-y-1 border-r-2 dark:border-gray-700 border-gray-200">
+                            <!-- البث المباشر -->
+                            <a href="#admin/live" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-video w-5 text-center text-pink-500 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-live">البث المباشر</span>
+                            </a>
+                            <!-- الدعم الفني -->
+                            <a href="#admin/support" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 font-bold transition group text-sm">
+                                <i class="fas fa-life-ring w-5 text-center text-indigo-400 group-hover:scale-110 transition"></i>
+                                <span data-i18n="admin-support">الدعم الفني</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <!-- فاصل -->
+                    <div class="my-2 border-t dark:border-gray-700"></div>
+
+                    <!-- الإعدادات والصيانة -->
+                    <a href="#admin/settings"
+                        class="flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-200 font-bold transition group">
+                        <i
+                            class="fas fa-cog w-6 text-center text-gray-500 group-hover:rotate-90 transition-transform"></i>
+                        <span data-i18n="admin-settings">الإعدادات العامة</span>
+                    </a>
+                </div>
+
+                <div class="my-4 border-t dark:border-gray-700"></div>
+
+                <!-- Language & Theme Settings -->
+                <div class="space-y-2 mb-4">
+                    <!-- Language Toggle -->
+                    <button id="lang-toggle-btn" onclick="window.toggleLanguage()"
+                        class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition">
+                        <i class="fas fa-globe w-6 text-center text-blue-500"></i>
+                        <span id="lang-toggle-text">English</span>
+                        <span
+                            class="mr-auto text-xs bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-2 py-1 rounded-full"
+                            id="current-lang-badge">AR</span>
+                    </button>
+
+                    <!-- Theme Toggle in sidebar -->
+                    <button id="sidebar-theme-toggle" onclick="window.toggleSidebarTheme()"
+                        class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-yellow-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold transition">
+                        <i class="fas fa-moon w-6 text-center text-yellow-500" id="sidebar-theme-icon"></i>
+                        <span id="sidebar-theme-text">الوضع الداكن</span>
+                    </button>
+                </div>
+
+                <button id="logout-btn" onclick="window.handleSignOut()"
+                    class="w-full flex items-center gap-3 p-3 rounded-xl bg-red-100 text-red-600 font-bold hover:bg-red-200 transition"><i
+                        class="fas fa-sign-out-alt w-6 text-center"></i> <span data-i18n="btn-logout">تسجيل
+                        الخروج</span></button>
+            </nav>
+        </aside>
+
+        <main class="flex-1 min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300 w-full">
+            <header
+                class="fixed top-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b dark:border-gray-800 transition-all duration-300"
+                id="main-header">
+                <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button id="mobile-menu-btn"
+                            class="p-2 text-2xl text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+                            <i class="fas fa-bars"></i>
+                        </button>
+
+                        <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.hash='home'">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" class="w-8 h-8">
+                            <span class="font-bold text-xl tracking-tight hidden sm:block dark:text-white">Masar</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <!-- Search Button -->
+                        <button onclick="window.openSearchPanel?.()"
+                            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition hover:scale-110 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                            title="بحث (Ctrl+K)">
+                            <i class="fas fa-search text-gray-500 dark:text-gray-400"></i>
+                        </button>
+
+                        <button id="theme-toggle"
+                            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hidden sm:flex items-center justify-center transition hover:scale-110"></button>
+
+                        <div class="relative group cursor-pointer" onclick="window.location.hash='profile'">
+                            <img id="header-user-img"
+                                src="https://ui-avatars.com/api/?background=random&color=fff&name=User"
+                                class="w-10 h-10 rounded-full border-2 border-blue-500 p-0.5 object-cover bg-gray-200">
+                            <div
+                                class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="top-announcement-bar"
+                    class="hidden bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs py-1 text-center font-bold px-4 relative overflow-hidden">
+                    <span id="announcement-text" class="inline-block animate-marquee whitespace-nowrap"></span>
+                </div>
+            </header>
+
+            <div class="p-4 md:p-8 max-w-6xl mx-auto">
+
+                <section id="home-screen" class="animate-fade-in space-y-6">
+                    <div
+                        class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h1 class="text-2xl md:text-4xl font-black mb-2"><span data-i18n="welcome-hero">أهلاً يا
+                                    بطل</span> 🚀</h1>
+                            <p class="text-blue-100 text-sm md:text-base mb-4" data-i18n="welcome-subtitle">واصل
+                                تقدمك، أنت تصنع مستقبلك الآن!</p>
+                            <div class="flex flex-wrap gap-2 sm:gap-3">
+                                <button onclick="window.location.hash='sections'"
+                                    class="bg-white text-blue-700 px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-50 shadow-md transition-all whitespace-nowrap"
+                                    data-i18n="start-studying">ابدأ المذاكرة</button>
+                                <button onclick="window.location.hash='quiz'"
+                                    class="bg-blue-500/30 text-white border border-white/30 px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-500/50 transition-all whitespace-nowrap"
+                                    data-i18n="test-yourself">اختبر نفسك</button>
+                            </div>
+                        </div>
+                        <i class="fas fa-graduation-cap absolute -bottom-5 -left-5 text-9xl opacity-10 rotate-12"></i>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Streak Widget - يتم تحديثه ديناميكياً -->
+                        <div id="streak-widget" class="col-span-1"></div>
+
+                        <!-- Stats Widget - إحصائيات الطالب -->
+                        <div id="stats-widget"
+                            class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border-r-4 border-blue-500 hover:shadow-lg transition cursor-pointer group col-span-1 sm:col-span-2 lg:col-span-1"
+                            onclick="window.openStudentAnalytics?.() || window.openStatsPanel?.()">
+                            <div class="flex items-center justify-between mb-2">
+                                <div
+                                    class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-chart-bar text-blue-600"></i>
+                                </div>
+                                <i class="fas fa-expand text-gray-300 group-hover:text-blue-500 transition"></i>
+                            </div>
+                            <p class="text-sm font-bold dark:text-white">📊 <span data-i18n="my-stats">إحصائياتي</span>
+                            </p>
+                            <p class="text-[10px] text-gray-400" data-i18n="click-details">اضغط لعرض التفاصيل</p>
+                        </div>
+                        <!-- Notes Widget -->
+                        <div id="notes-widget"
+                            class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border-r-4 border-indigo-500 hover:shadow-lg transition cursor-pointer group"
+                            onclick="window.openNotesPanel?.()">
+                            <div class="flex items-center justify-between mb-2">
+                                <div
+                                    class="w-10 h-10 bg-blue-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-sticky-note text-indigo-600"></i>
+                                </div>
+                                <i class="fas fa-plus text-gray-300 group-hover:text-indigo-500 transition"></i>
+                            </div>
+                            <p class="text-sm font-bold dark:text-white" data-i18n="my-notes">ملاحظاتي</p>
+                            <p class="text-[10px] text-gray-400" data-i18n="click-add-note">اضغط لإضافة ملاحظة</p>
+                        </div>
+
+                        <!-- Goals Widget -->
+                        <div id="goals-widget"
+                            class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border-r-4 border-green-500 hover:shadow-lg transition cursor-pointer group"
+                            onclick="window.openGoalsPanel?.()">
+                            <div class="flex items-center justify-between mb-2">
+                                <div
+                                    class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-bullseye text-green-600"></i>
+                                </div>
+                                <span id="goals-progress" class="text-xs font-bold text-green-600">0%</span>
+                            </div>
+                            <p class="text-sm font-bold dark:text-white" data-i18n="my-weekly-goals">أهدافي الأسبوعية
+                            </p>
+                            <div class="mt-2 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                <div id="goals-bar" class="h-full bg-green-500 rounded-full transition-all"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Bookmarks Widget -->
+                        <div id="bookmarks-widget"
+                            class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border-r-4 border-pink-500 hover:shadow-lg transition cursor-pointer group"
+                            onclick="window.openBookmarksPanel?.()">
+                            <div class="flex items-center justify-between mb-2">
+                                <div
+                                    class="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-heart text-pink-600"></i>
+                                </div>
+                                <span id="bookmarks-count"
+                                    class="text-xs font-bold text-pink-600 bg-pink-100 dark:bg-pink-900/30 px-2 py-0.5 rounded-full">0</span>
+                            </div>
+                            <p class="text-sm font-bold dark:text-white" data-i18n="favorites">المفضلة</p>
+                            <p class="text-[10px] text-gray-400" data-i18n="saved-content">المحتوى المحفوظ</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="study-sections-container" class="hidden animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4 dark:text-white border-b-4 border-blue-500 w-fit pb-1">📚 <span
+                            data-i18n="subjects">المواد</span></h2>
+                    <div id="sections-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </section>
+
+                <section id="subsection-viewer" class="hidden animate-fade-in">
+                    <button id="back-to-sections" onclick="window.location.hash='sections'"
+                        class="mb-4 text-blue-600 hover:underline flex items-center gap-2 text-sm font-bold"><i
+                            class="fas fa-arrow-right"></i> <span data-i18n="btn-back">عودة</span></button>
+                    <div class="flex flex-col gap-2 mb-4">
+                        <h2 id="subsection-title" class="text-2xl font-bold dark:text-white"></h2>
+                        <div id="progress-action-area"></div>
+                    </div>
+                    <div id="subsections-content" class="space-y-6"></div>
+                </section>
+
+                <section id="assignments-section" class="hidden animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4 dark:text-white border-b-4 border-blue-500 w-fit pb-1">📝
+                        الواجبات</h2>
+                    <div id="assignments-list" class="space-y-4"></div>
+                </section>
+
+                <!-- Feed Section - منشورات الإدارة -->
+                <section id="feed-section" class="hidden animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold dark:text-white border-b-4 border-pink-500 w-fit pb-1">📰 منشورات
+                            الإدارة</h2>
+                        <button id="create-post-btn" onclick="window.openCreatePostModal?.()"
+                            class="hidden bg-gradient-to-r from-pink-500 to-indigo-600 text-white px-4 py-2 rounded-xl font-bold hover:opacity-90 transition">
+                            <i class="fas fa-plus ml-2"></i> منشور جديد
+                        </button>
+                    </div>
+                    <div id="feed-posts-container" class="space-y-4 max-w-2xl mx-auto"></div>
+                </section>
+
+                <section id="quiz-section" class="hidden animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4 dark:text-white border-b-4 border-indigo-500 w-fit pb-1">🧠
+                        الاختبارات</h2>
+                    <div id="quiz-area" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </section>
+
+                <section id="leaderboard-section" class="hidden animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4 dark:text-white border-b-4 border-yellow-500 w-fit pb-1">🏆
+                        الأوائل</h2>
+                    <div id="leaderboard-list" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 space-y-3">
+                    </div>
+                </section>
+
+                <section id="scores-section" class="hidden animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4 dark:text-white border-b-4 border-green-500 w-fit pb-1">📊 درجاتي
+                    </h2>
+                    <div id="user-scores-list" class="space-y-3"></div>
+                </section>
+
+                <section id="profile-section" class="hidden animate-fade-in"></section>
+
+                <section id="admin-view-area" class="hidden animate-fade-in">
+                    <h2 id="admin-view-title" class="text-2xl font-bold mb-4 text-red-600"></h2>
+                    <div id="admin-view-content"></div>
+                </section>
+
+                <section id="admin-settings-section" class="hidden animate-fade-in">
+                    <div id="admin-settings-content"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+
+
+    <nav id="bottom-nav"
+        class="md:hidden fixed bottom-0 left-0 w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 flex justify-around items-center py-2 pb-safe z-[100] shadow-[0_-5px_15px_rgba(0,0,0,0.08)]">
+        <a href="#home"
+            class="bottom-nav-item flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 py-1 px-3 rounded-xl min-w-[60px]">
+            <i class="fas fa-home text-lg mb-0.5"></i>
+            <span class="text-[10px] font-bold">الرئيسية</span>
+        </a>
+        <a href="#sections"
+            class="bottom-nav-item flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 py-1 px-3 rounded-xl min-w-[60px]">
+            <i class="fas fa-book text-lg mb-0.5"></i>
+            <span class="text-[10px] font-bold">المواد</span>
+        </a>
+        <a href="#leaderboard"
+            class="bottom-nav-item flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 py-1 px-3 rounded-xl min-w-[60px]">
+            <i class="fas fa-trophy text-lg mb-0.5"></i>
+            <span class="text-[10px] font-bold">الأوائل</span>
+        </a>
+        <a href="#profile"
+            class="bottom-nav-item flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 py-1 px-3 rounded-xl min-w-[60px]">
+            <i class="fas fa-user text-lg mb-0.5"></i>
+            <span class="text-[10px] font-bold">حسابي</span>
+        </a>
+    </nav>
+
+    <button id="pwa-install-btn"
+        class="hidden fixed top-20 left-4 z-[200] bg-blue-600 text-white px-3 py-2 rounded-lg shadow-xl font-bold animate-pulse text-xs flex items-center gap-2">
+        <i class="fas fa-download"></i> تثبيت
+    </button>
+
+    <!-- Quill.js loads on demand via window.loadQuill() -->
+    <script type="module" src="main.js"></script>
+
+    <script>
+        // منطق معاينة صورة الكارنيه
+        window.previewIdCard = (input) => {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.getElementById('id-card-preview');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById('id-card-placeholder').classList.add('hidden');
+                    const btn = document.getElementById('upload-id-btn');
+                    btn.disabled = false;
+                    btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                    btn.classList.remove('bg-gray-800');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwa-install-btn');
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBtn.classList.add('hidden');
+                deferredPrompt = null;
+            }
+        });
+
+        // Push Notifications - الكود الأساسي في notifications.js و main.js
+    </script>
+</body>
+
+</html>

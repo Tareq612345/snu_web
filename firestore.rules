@@ -1,0 +1,345 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================================
+    // Helper Functions
+    // ============================================================
+    function isSuperAdmin() {
+      return request.auth != null && 
+             request.auth.token.email == "tareq612345@gmail.com";
+    }
+    
+    function isAdmin() {
+      return request.auth != null && (
+             isSuperAdmin() ||
+             exists(/databases/$(database)/documents/admins/$(request.auth.token.email))
+      );
+    }
+    
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    // التحقق من صلاحية معينة للأدمن
+    function hasPermission(perm) {
+      return isSuperAdmin() || (
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email)) &&
+        get(/databases/$(database)/documents/admins/$(request.auth.token.email)).data.permissions[perm] == true
+      );
+    }
+    
+    // ============================================================
+    // Users
+    // ============================================================
+    match /users/{userId} {
+      allow read: if isLoggedIn();
+      allow create: if isLoggedIn() && isOwner(userId);
+      allow update: if isLoggedIn() && (isOwner(userId) || isAdmin());
+      allow delete: if hasPermission('deleteUsers');
+    }
+    
+    // ============================================================
+    // Study Sections + Subcollections
+    // ============================================================
+    match /study_sections/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('cms');
+      
+      match /subsections/{subId} {
+        allow read: if isLoggedIn();
+        allow write: if hasPermission('cms');
+        
+        match /comments/{commentId} {
+          allow read, write: if isLoggedIn();
+        }
+      }
+    }
+    
+    match /subsections/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('cms');
+    }
+    
+    // ============================================================
+    // Quizzes
+    // ============================================================
+    match /quizzes/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('quiz');
+      
+      match /questions/{qId} {
+        allow read: if isLoggedIn();
+        allow write: if hasPermission('quiz');
+      }
+    }
+    
+    match /user_scores/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    // سجل محاولات الكويزات (مهم لتتبع عدد المحاولات)
+    match /user_scores_log/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /quiz_attempts/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    // سجل محاولات الغش
+    match /cheating_logs/{docId} {
+      allow read: if isAdmin();
+      allow create: if isLoggedIn();
+    }
+    
+    // ============================================================
+    // Assignments
+    // ============================================================
+    match /assignments/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('exams');
+    }
+    
+    match /submissions/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    // ============================================================
+    // Chat
+    // ============================================================
+    match /global_chat/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /group_messages/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /chat_rooms/{roomId} {
+      allow read, write: if isLoggedIn();
+      
+      match /messages/{msgId} {
+        allow read, write: if isLoggedIn();
+      }
+    }
+    
+    // ============================================================
+    // DM
+    // ============================================================
+    match /dm_chats/{chatId} {
+      allow read, write: if isLoggedIn();
+      
+      match /messages/{msgId} {
+        allow read, write: if isLoggedIn();
+      }
+    }
+    
+    // ============================================================
+    // Support
+    // ============================================================
+    match /support_chats/{docId} {
+      allow read: if isLoggedIn() && (resource.data.userId == request.auth.uid || hasPermission('support'));
+      allow create: if isLoggedIn();
+      allow update: if isLoggedIn() && (resource.data.userId == request.auth.uid || hasPermission('support'));
+      allow delete: if isSuperAdmin();
+      
+      match /messages/{msgId} {
+        allow read, write: if isLoggedIn();
+      }
+    }
+    
+    // ============================================================
+    // Notifications
+    // ============================================================
+    match /notifications/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /notifications_broadcast/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if isAdmin();
+    }
+    
+    match /notifications_queue/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('broadcast');
+    }
+    
+    // ============================================================
+    // Attendance System
+    // ============================================================
+    match /attendance_sessions/{sessionId} {
+      allow read: if isLoggedIn();
+      allow create: if isAdmin();
+      allow update: if isLoggedIn();
+      allow delete: if isSuperAdmin();
+    }
+    
+    match /attendance_records/{recordId} {
+      allow read: if isLoggedIn();
+      allow create: if isLoggedIn();
+      allow update: if isAdmin();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // ============================================================
+    // Admin & System
+    // ============================================================
+    match /admins/{email} {
+      allow read: if isLoggedIn();
+      allow write: if isSuperAdmin();
+    }
+    
+    // إعدادات النظام — Owner فقط
+    match /system/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if isAdmin();
+    }
+    
+    // ============================================================
+    // Admin Activity Log (سجل نشاط المشرفين)
+    // ============================================================
+    match /admin_logs/{logId} {
+      allow read: if isSuperAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if false; // لا يمكن تعديل أو حذف السجلات
+    }
+    
+    // ============================================================
+    // Social (Posts, Feed)
+    // ============================================================
+    match /admin_posts/{postId} {
+      allow read: if isLoggedIn();
+      allow write: if isAdmin();
+      
+      match /comments/{commentId} {
+        allow read, write: if isLoggedIn();
+      }
+    }
+    
+    // ============================================================
+    // Follow System (المتابعين)
+    // ============================================================
+    match /follows/{docId} {
+      allow read: if isLoggedIn();
+      allow create: if isLoggedIn();
+      allow delete: if isLoggedIn() && resource.data.followerId == request.auth.uid;
+    }
+    
+    // ============================================================
+    // Device Sessions (تتبع الأجهزة)
+    // ============================================================
+    match /device_sessions/{sessionId} {
+      allow read: if isLoggedIn() && (resource.data.userId == request.auth.uid || hasPermission('devices'));
+      allow create: if isLoggedIn();
+      allow update, delete: if isLoggedIn() && (resource.data.userId == request.auth.uid || hasPermission('devices'));
+    }
+    
+    // ============================================================
+    // Login Logs (سجل تسجيلات الدخول)
+    // ============================================================
+    match /login_logs/{logId} {
+      allow read: if hasPermission('loginLogs');
+      allow create: if isLoggedIn();
+    }
+    
+    // ============================================================
+    // User Data
+    // ============================================================
+    match /user_logs/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /user_progress/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /bookmarks/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /notes/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /streaks/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    // ============================================================
+    // Gamification
+    // ============================================================
+    match /user_achievements/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /user_xp/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    match /leaderboard/{docId} {
+      allow read, write: if isLoggedIn();
+    }
+    
+    // ============================================================
+    // Reports (البلاغات)
+    // ============================================================
+    match /reports/{reportId} {
+      allow read: if hasPermission('reports');
+      allow create: if isLoggedIn();
+      allow update, delete: if hasPermission('reports');
+    }
+    
+    // ============================================================
+    // Scheduled Notifications (الإشعارات المجدولة)
+    // ============================================================
+    match /scheduled_notifications/{notifId} {
+      allow read, write: if hasPermission('broadcast');
+    }
+    
+    // ============================================================
+    // Archived Content (المحتوى المؤرشف)
+    // ============================================================
+    match /archived_content/{docId} {
+      allow read, write: if hasPermission('cms');
+    }
+    
+    // ============================================================
+    // Quiz Extra Attempts (المحاولات الإضافية للكويزات)
+    // ============================================================
+    match /quiz_extra_attempts/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('quiz');
+    }
+    
+    // ============================================================
+    // Final Grades
+    // ============================================================
+    match /final_grades/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if hasPermission('grades');
+    }
+    
+    // ============================================================
+    // Banned Users (المحظورين)
+    // ============================================================
+    match /banned_users/{docId} {
+      allow read: if isAdmin();
+      allow write: if hasPermission('bannedUsers');
+    }
+    
+    // ============================================================
+    // ⛔ Fallback - حظر أي collection غير معرّف
+    // ============================================================
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+    
+  }
+}

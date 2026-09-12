@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - الصفحة غير موجودة | منصة مسار</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #0d2847 40%, #134e5e 100%);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            color: white; padding: 1.5rem; overflow: hidden;
+        }
+        .container { text-align: center; max-width: 480px; position: relative; z-index: 1; }
+        
+        /* Floating particles */
+        .particle {
+            position: fixed; border-radius: 50%; opacity: 0.15;
+            animation: float-around 15s ease-in-out infinite;
+        }
+        .particle:nth-child(1) { width: 300px; height: 300px; background: #14b8a6; top: -100px; right: -80px; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 200px; height: 200px; background: #06b6d4; bottom: -60px; left: -40px; animation-delay: -5s; }
+        .particle:nth-child(3) { width: 150px; height: 150px; background: #ec4899; top: 50%; left: 50%; animation-delay: -10s; }
+        
+        @keyframes float-around {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -20px) scale(1.05); }
+            50% { transform: translate(-20px, 30px) scale(0.95); }
+            75% { transform: translate(20px, 20px) scale(1.02); }
+        }
+        
+        .error-code {
+            font-size: 8rem; font-weight: 900; line-height: 1;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4, #ec4899);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(20,184,166,0.3)); }
+            50% { filter: drop-shadow(0 0 30px rgba(20,184,166,0.6)); }
+        }
+        
+        h1 { font-size: 1.5rem; margin-bottom: 0.75rem; font-weight: 700; }
+        p { color: #94a3b8; margin-bottom: 2rem; line-height: 1.8; font-size: 0.95rem; }
+        
+        .buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.875rem 2rem; border-radius: 1rem;
+            font-weight: 700; font-size: 0.9rem; text-decoration: none;
+            transition: all 0.3s; border: none; cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            color: white; box-shadow: 0 4px 15px rgba(20,184,166,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(20,184,166,0.5); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.08); color: #e2e8f0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        
+        .logo { margin-bottom: 2rem; }
+        .logo img { width: 64px; height: 64px; animation: bounce 2s ease-in-out infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" alt="Masar">
+        </div>
+        <div class="error-code">404</div>
+        <h1>الصفحة غير موجودة</h1>
+        <p>يبدو أن الرابط الذي تبحث عنه غير موجود أو تم نقله. لا تقلق، يمكنك العودة للصفحة الرئيسية.</p>
+        <div class="buttons">
+            <a href="/" class="btn btn-primary">🏠 الرئيسية</a>
+            <button onclick="history.back()" class="btn btn-secondary">↩️ رجوع</button>
+        </div>
+    </div>
+</body>
+</html>
