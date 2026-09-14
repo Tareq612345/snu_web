@@ -166,11 +166,11 @@ const startQRRefresh = (sessionId) => {
             timerEl.textContent = secondsLeft;
             // تغيير اللون عند الاقتراب من الصفر
             if (secondsLeft <= 5) {
-                timerEl.classList.remove('text-green-500');
+                timerEl.classList.remove('text-accent-500');
                 timerEl.classList.add('text-red-500');
             } else {
                 timerEl.classList.remove('text-red-500');
-                timerEl.classList.add('text-green-500');
+                timerEl.classList.add('text-accent-500');
             }
         }
 
@@ -261,18 +261,18 @@ window.showAttendanceCloseConfirm = (sessionId, sessionData) => {
     confirmModal.id = 'attendance-close-confirm';
     confirmModal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[10000] flex items-center justify-center p-4';
     confirmModal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md p-6 animate-fade-in">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-md p-6 animate-fade-in">
             <div class="text-center mb-6">
                 <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-user-times text-3xl text-red-500"></i>
                 </div>
                 <h3 class="text-xl font-black dark:text-white mb-2">إغلاق جلسة الحضور</h3>
-                <p class="text-gray-500 text-sm">📚 ${sessionData.subjectName || 'المادة'}</p>
+                <p class="text-surface-500 text-sm">📚 ${sessionData.subjectName || 'المادة'}</p>
             </div>
             
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-4 mb-6 text-center">
-                <p class="text-3xl font-black text-green-500 mb-1">${attendeesCount}</p>
-                <p class="text-sm text-gray-500">طالب حضروا</p>
+            <div class="bg-surface-50 dark:bg-surface-700/50 rounded-2xl p-4 mb-6 text-center">
+                <p class="text-3xl font-black text-accent-500 mb-1">${attendeesCount}</p>
+                <p class="text-sm text-surface-500">طالب حضروا</p>
             </div>
             
             <div class="flex items-center gap-3 mb-6 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-xl">
@@ -284,7 +284,7 @@ window.showAttendanceCloseConfirm = (sessionId, sessionData) => {
             
             <div class="flex gap-3">
                 <button onclick="document.getElementById('attendance-close-confirm').remove()" 
-                    class="flex-1 py-3 rounded-xl border-2 font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    class="flex-1 py-3 rounded-xl border-2 font-bold text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 transition">
                     إلغاء
                 </button>
                 <button onclick="window.confirmCloseAttendance('${sessionId}')" 
@@ -590,8 +590,8 @@ window.openAttendanceAdminPanel = async () => {
     modal.id = 'attendance-admin-modal';
     modal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-accent-500 to-accent-600 p-6 text-white">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-black flex items-center gap-3">
                         <i class="fas fa-qrcode"></i> نظام الحضور
@@ -607,46 +607,46 @@ window.openAttendanceAdminPanel = async () => {
                 <!-- قبل بدء الجلسة -->
                 <div id="session-setup">
                     <div class="mb-4">
-                        <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-2">نطاق الحضور:</label>
-                        <select id="attendance-scope" onchange="window.loadSubjectsForAttendance()" class="w-full p-4 border-2 rounded-2xl dark:bg-gray-700 dark:text-white font-bold outline-none focus:border-green-500">
+                        <label class="block text-sm font-bold text-surface-600 dark:text-surface-300 mb-2">نطاق الحضور:</label>
+                        <select id="attendance-scope" onchange="window.loadSubjectsForAttendance()" class="w-full p-4 border-2 rounded-2xl dark:bg-surface-700 dark:text-white font-bold outline-none focus:border-accent-500">
                             ${scopeOptions}
                         </select>
                     </div>
                     
                     <!-- اختيار المادة -->
                     <div class="mb-4">
-                        <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-2">📚 المادة الدراسية:</label>
-                        <select id="attendance-subject" class="w-full p-4 border-2 rounded-2xl dark:bg-gray-700 dark:text-white font-bold outline-none focus:border-green-500">
+                        <label class="block text-sm font-bold text-surface-600 dark:text-surface-300 mb-2">📚 المادة الدراسية:</label>
+                        <select id="attendance-subject" class="w-full p-4 border-2 rounded-2xl dark:bg-surface-700 dark:text-white font-bold outline-none focus:border-accent-500">
                             <option value="">-- اختر المادة --</option>
                         </select>
-                        <p class="text-xs text-gray-400 mt-1">المواد تُجلب من قائمة المحتوى الدراسي</p>
+                        <p class="text-xs text-surface-400 mt-1">المواد تُجلب من قائمة المحتوى الدراسي</p>
                     </div>
                     
                     <!-- خيارات إضافية -->
-                    <div class="mb-4 space-y-3 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl">
+                    <div class="mb-4 space-y-3 bg-surface-50 dark:bg-surface-700/50 p-4 rounded-2xl">
                         <!-- تخطي GPS -->
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="skip-gps-check" class="w-5 h-5 accent-yellow-500">
-                            <label for="skip-gps-check" class="text-sm font-bold text-gray-600 dark:text-gray-300">
+                            <label for="skip-gps-check" class="text-sm font-bold text-surface-600 dark:text-surface-300">
                                 <i class="fas fa-map-marker-alt text-yellow-500"></i> تخطي التحقق من الموقع
                             </label>
                         </div>
                         <!-- تسجيل الغياب -->
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="mark-absent-check" checked class="w-5 h-5 accent-red-500">
-                            <label for="mark-absent-check" class="text-sm font-bold text-gray-600 dark:text-gray-300">
+                            <label for="mark-absent-check" class="text-sm font-bold text-surface-600 dark:text-surface-300">
                                 <i class="fas fa-user-times text-red-500"></i> تسجيل الغياب تلقائياً عند الإغلاق
                             </label>
                         </div>
                     </div>
                     
                     <button onclick="window.startAttendanceQR()" 
-                        class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-2xl font-black text-xl hover:shadow-lg hover:shadow-green-500/30 transition transform hover:scale-105 flex items-center justify-center gap-3">
+                        class="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white py-5 rounded-2xl font-black text-xl hover:shadow-lg hover:shadow-accent-500/30 transition transform hover:scale-105 flex items-center justify-center gap-3">
                         <i class="fas fa-play-circle text-2xl"></i>
                         بدء جلسة الحضور
                     </button>
                     
-                    <p class="text-center text-sm text-gray-400 mt-4">
+                    <p class="text-center text-sm text-surface-400 mt-4">
                         <i class="fas fa-info-circle"></i> سيتم توليد QR Code يتغير كل 30 ثانية
                     </p>
                 </div>
@@ -665,17 +665,17 @@ window.openAttendanceAdminPanel = async () => {
                                 style="transition: stroke-dashoffset 1s linear;"/>
                         </svg>
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <span id="qr-timer" class="text-3xl font-black text-green-500">30</span>
+                            <span id="qr-timer" class="text-3xl font-black text-accent-500">30</span>
                         </div>
                     </div>
-                    <p class="text-gray-500 mb-4">ثانية حتى التحديث</p>
+                    <p class="text-surface-500 mb-4">ثانية حتى التحديث</p>
                     
-                    <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl p-4 mb-6">
-                        <div class="flex items-center justify-center gap-2 text-2xl font-black text-green-600">
+                    <div class="bg-surface-100 dark:bg-surface-700 rounded-2xl p-4 mb-6">
+                        <div class="flex items-center justify-center gap-2 text-2xl font-black text-accent-600">
                             <i class="fas fa-users"></i>
                             <span id="attendees-count">0</span>
                         </div>
-                        <p class="text-sm text-gray-500">طالب سجلوا حضورهم</p>
+                        <p class="text-sm text-surface-500">طالب سجلوا حضورهم</p>
                     </div>
                     
                     <button onclick="window.stopAttendanceSession(window.currentAttendanceSession); document.getElementById('session-active').classList.add('hidden'); document.getElementById('session-setup').classList.remove('hidden');" 
@@ -898,7 +898,7 @@ window.openStudentAttendanceScanner = async () => {
         
         <div class="relative w-full max-w-sm aspect-square rounded-3xl overflow-hidden border-4 border-white/30">
             <video id="qr-video" class="w-full h-full object-cover"></video>
-            <div class="absolute inset-0 border-4 border-green-500 rounded-3xl pointer-events-none animate-pulse"></div>
+            <div class="absolute inset-0 border-4 border-accent-500 rounded-3xl pointer-events-none animate-pulse"></div>
         </div>
         
         <div id="scan-result" class="mt-6 text-center text-white"></div>
@@ -972,7 +972,7 @@ const handleScannedCode = async (code, stream) => {
 
     if (result.success) {
         resultEl.innerHTML = `
-            <div class="text-green-400 text-xl font-bold animate-bounce">
+            <div class="text-accent-400 text-xl font-bold animate-bounce">
                 <i class="fas fa-check-circle text-5xl mb-3"></i>
                 <p>${result.message}</p>
             </div>
@@ -1020,8 +1020,8 @@ window.openAttendanceRecords = async () => {
     modal.id = 'attendance-records-modal';
     modal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div class="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white flex justify-between items-center">
                 <h2 class="text-2xl font-black"><i class="fas fa-clipboard-list"></i> سجلات الحضور</h2>
                 <div class="flex gap-2">
                     ${isOwner ? `
@@ -1035,7 +1035,7 @@ window.openAttendanceRecords = async () => {
                 </div>
             </div>
             <div id="attendance-records-content" class="p-6 overflow-y-auto max-h-[70vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-gray-400"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-surface-400"></i></div>
             </div>
         </div>
     `;
@@ -1067,7 +1067,7 @@ const loadAttendanceRecords = async () => {
         const sessionsSnap = await getDocs(sessionsQuery);
 
         if (sessionsSnap.empty) {
-            container.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد سجلات حضور</p>';
+            container.innerHTML = '<p class="text-center text-surface-400 py-10">لا توجد سجلات حضور</p>';
             return;
         }
 
@@ -1087,35 +1087,35 @@ const loadAttendanceRecords = async () => {
             }
 
             html += `
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-4 border dark:border-gray-600">
+                <div class="bg-surface-50 dark:bg-surface-700 rounded-2xl p-4 border dark:border-surface-600">
                     <div class="flex justify-between items-start mb-3">
                         <div>
                             <p class="font-bold dark:text-white text-lg">${data.subjectName || 'بدون مادة'}</p>
-                            <p class="text-sm text-blue-500 font-bold">${scopeName}</p>
-                            <p class="text-xs text-gray-500">${date.toLocaleDateString('ar-EG')} - ${date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</p>
-                            <p class="text-xs text-gray-400">بواسطة: ${data.createdByName || data.createdByEmail}</p>
+                            <p class="text-sm text-primary-500 font-bold">${scopeName}</p>
+                            <p class="text-xs text-surface-500">${date.toLocaleDateString('ar-EG')} - ${date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</p>
+                            <p class="text-xs text-surface-400">بواسطة: ${data.createdByName || data.createdByEmail}</p>
                         </div>
                         <div class="text-right">
-                            <span class="px-3 py-1 rounded-full text-sm font-bold ${data.isActive ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600'}">
+                            <span class="px-3 py-1 rounded-full text-sm font-bold ${data.isActive ? 'bg-accent-100 text-accent-600' : 'bg-surface-200 text-surface-600'}">
                                 ${data.isActive ? '🟢 نشطة' : '⚫ منتهية'}
                             </span>
                             <div class="flex gap-4 mt-2 justify-end">
                                 <div class="text-center">
-                                    <p class="text-xl font-black text-green-600">${data.attendees?.length || 0}</p>
-                                    <p class="text-xs text-gray-400">حاضر</p>
+                                    <p class="text-xl font-black text-accent-600">${data.attendees?.length || 0}</p>
+                                    <p class="text-xs text-surface-400">حاضر</p>
                                 </div>
                                 <div class="text-center">
                                     <p class="text-xl font-black text-red-500">${data.absentees?.length || 0}</p>
-                                    <p class="text-xs text-gray-400">غائب</p>
+                                    <p class="text-xs text-surface-400">غائب</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="window.viewSessionAttendees('${doc.id}')" class="flex-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 py-2 rounded-xl font-bold text-sm hover:bg-blue-200 transition">
+                        <button onclick="window.viewSessionAttendees('${doc.id}')" class="flex-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 py-2 rounded-xl font-bold text-sm hover:bg-primary-200 transition">
                             <i class="fas fa-users"></i> عرض التفاصيل
                         </button>
-                        <button onclick="window.exportSessionToExcel('${doc.id}')" class="bg-green-100 dark:bg-green-900/30 text-green-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-green-200 transition">
+                        <button onclick="window.exportSessionToExcel('${doc.id}')" class="bg-accent-100 dark:bg-accent-900/30 text-accent-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-accent-200 transition">
                             <i class="fas fa-file-excel"></i>
                         </button>
                     </div>
@@ -1205,8 +1205,8 @@ window.viewSessionAttendees = async (sessionId) => {
         popup.id = 'attendees-popup';
         popup.className = 'fixed inset-0 bg-black/70 z-[10000] flex items-center justify-center p-4 animate-fade-in';
         popup.innerHTML = `
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
-                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-5 text-white">
+            <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+                <div class="bg-gradient-to-r from-primary-500 to-primary-600 p-5 text-white">
                     <div class="flex justify-between items-center">
                         <div>
                             <h3 class="text-xl font-black"><i class="fas fa-users"></i> سجل الحضور</h3>
@@ -1220,45 +1220,45 @@ window.viewSessionAttendees = async (sessionId) => {
                 </div>
                 
                 <!-- الإحصائيات -->
-                <div class="flex gap-4 p-4 bg-gray-50 dark:bg-gray-700/50">
+                <div class="flex gap-4 p-4 bg-surface-50 dark:bg-surface-700/50">
                     <div class="flex-1 text-center">
-                        <p class="text-2xl font-black text-green-500">${presentStudents.length}</p>
-                        <p class="text-xs text-gray-500">حاضر</p>
+                        <p class="text-2xl font-black text-accent-500">${presentStudents.length}</p>
+                        <p class="text-xs text-surface-500">حاضر</p>
                     </div>
                     <div class="flex-1 text-center">
                         <p class="text-2xl font-black text-red-500">${absentStudents.length}</p>
-                        <p class="text-xs text-gray-500">غائب</p>
+                        <p class="text-xs text-surface-500">غائب</p>
                     </div>
                     <div class="flex-1 text-center">
-                        <p class="text-2xl font-black text-blue-500">${allStudents.length}</p>
-                        <p class="text-xs text-gray-500">إجمالي</p>
+                        <p class="text-2xl font-black text-primary-500">${allStudents.length}</p>
+                        <p class="text-xs text-surface-500">إجمالي</p>
                     </div>
                 </div>
                 
                 <!-- التبويبات -->
-                <div class="flex border-b dark:border-gray-700" id="attendance-tabs">
-                    <button onclick="showAttendanceTab('present')" class="flex-1 py-3 font-bold text-green-600 border-b-2 border-green-500 bg-green-50 dark:bg-green-900/20" id="tab-present">
+                <div class="flex border-b dark:border-surface-700" id="attendance-tabs">
+                    <button onclick="showAttendanceTab('present')" class="flex-1 py-3 font-bold text-accent-600 border-b-2 border-accent-500 bg-accent-50 dark:bg-accent-900/20" id="tab-present">
                         ✅ الحاضرين (${presentStudents.length})
                     </button>
-                    <button onclick="showAttendanceTab('absent')" class="flex-1 py-3 font-bold text-gray-400 hover:text-red-500 transition" id="tab-absent">
+                    <button onclick="showAttendanceTab('absent')" class="flex-1 py-3 font-bold text-surface-400 hover:text-red-500 transition" id="tab-absent">
                         ❌ الغائبين (${absentStudents.length})
                     </button>
                 </div>
                 
                 <!-- قائمة الحاضرين -->
                 <div id="list-present" class="p-4 overflow-y-auto max-h-[50vh]">
-                    ${presentStudents.length === 0 ? '<p class="text-center text-gray-400 py-4">لا يوجد حاضرين</p>' : ''}
+                    ${presentStudents.length === 0 ? '<p class="text-center text-surface-400 py-4">لا يوجد حاضرين</p>' : ''}
                     <div class="space-y-2">
                         ${presentStudents.map((s, i) => `
-                            <div class="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-xl border-r-4 border-green-500">
-                                <span class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-sm">${i + 1}</span>
+                            <div class="flex items-center gap-3 p-3 bg-accent-50 dark:bg-accent-900/20 rounded-xl border-r-4 border-accent-500">
+                                <span class="w-8 h-8 rounded-full bg-accent-500 text-white flex items-center justify-center font-bold text-sm">${i + 1}</span>
                                 <div class="flex-1">
                                     <p class="font-bold dark:text-white">${s.name}</p>
-                                    <p class="text-xs text-gray-500">${s.email}</p>
+                                    <p class="text-xs text-surface-500">${s.email}</p>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-xs bg-green-500 text-white px-2 py-1 rounded-full">${s.status === 'absent' ? 'غائب' : 'حاضر'}</span>
-                                    ${s.time ? `<p class="text-xs text-gray-400 mt-1">${s.time}</p>` : ''}
+                                    <span class="text-xs bg-accent-500 text-white px-2 py-1 rounded-full">${s.status === 'absent' ? 'غائب' : 'حاضر'}</span>
+                                    ${s.time ? `<p class="text-xs text-surface-400 mt-1">${s.time}</p>` : ''}
                                 </div>
                             </div>
                         `).join('')}
@@ -1267,14 +1267,14 @@ window.viewSessionAttendees = async (sessionId) => {
                 
                 <!-- قائمة الغائبين -->
                 <div id="list-absent" class="p-4 overflow-y-auto max-h-[50vh] hidden">
-                    ${absentStudents.length === 0 ? '<p class="text-center text-gray-400 py-4">لا يوجد غائبين 🎉</p>' : ''}
+                    ${absentStudents.length === 0 ? '<p class="text-center text-surface-400 py-4">لا يوجد غائبين 🎉</p>' : ''}
                     <div class="space-y-2">
                         ${absentStudents.map((s, i) => `
                             <div class="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-xl border-r-4 border-red-500">
                                 <span class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-sm">${i + 1}</span>
                                 <div class="flex-1">
                                     <p class="font-bold dark:text-white">${s.name}</p>
-                                    <p class="text-xs text-gray-500">${s.email}</p>
+                                    <p class="text-xs text-surface-500">${s.email}</p>
                                 </div>
                                 <span class="text-xs bg-red-500 text-white px-2 py-1 rounded-full">غائب</span>
                             </div>
@@ -1294,13 +1294,13 @@ window.viewSessionAttendees = async (sessionId) => {
             const listAbsent = document.getElementById('list-absent');
 
             if (tab === 'present') {
-                tabPresent.className = 'flex-1 py-3 font-bold text-green-600 border-b-2 border-green-500 bg-green-50 dark:bg-green-900/20';
-                tabAbsent.className = 'flex-1 py-3 font-bold text-gray-400 hover:text-red-500 transition';
+                tabPresent.className = 'flex-1 py-3 font-bold text-accent-600 border-b-2 border-accent-500 bg-accent-50 dark:bg-accent-900/20';
+                tabAbsent.className = 'flex-1 py-3 font-bold text-surface-400 hover:text-red-500 transition';
                 listPresent.classList.remove('hidden');
                 listAbsent.classList.add('hidden');
             } else {
                 tabAbsent.className = 'flex-1 py-3 font-bold text-red-600 border-b-2 border-red-500 bg-red-50 dark:bg-red-900/20';
-                tabPresent.className = 'flex-1 py-3 font-bold text-gray-400 hover:text-green-500 transition';
+                tabPresent.className = 'flex-1 py-3 font-bold text-surface-400 hover:text-accent-500 transition';
                 listAbsent.classList.remove('hidden');
                 listPresent.classList.add('hidden');
             }
@@ -1522,8 +1522,8 @@ window.openStudentAttendanceHistory = async () => {
     modal.id = 'student-attendance-history';
     modal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+            <div class="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white flex justify-between items-center">
                 <h2 class="text-2xl font-black"><i class="fas fa-clipboard-check"></i> سجل حضوري</h2>
                 <button onclick="document.getElementById('student-attendance-history').remove()" 
                     class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition flex items-center justify-center">
@@ -1531,7 +1531,7 @@ window.openStudentAttendanceHistory = async () => {
                 </button>
             </div>
             <div id="student-attendance-content" class="p-6 overflow-y-auto max-h-[70vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-gray-400"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-surface-400"></i></div>
             </div>
         </div>
     `;
@@ -1556,7 +1556,7 @@ const loadStudentAttendanceHistory = async (studentId) => {
         const recordsSnap = await getDocs(recordsQuery);
 
         if (recordsSnap.empty) {
-            container.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد سجلات حضور</p>';
+            container.innerHTML = '<p class="text-center text-surface-400 py-10">لا توجد سجلات حضور</p>';
             return;
         }
 
@@ -1591,7 +1591,7 @@ const loadStudentAttendanceHistory = async (studentId) => {
         let html = '';
 
         // إحصائيات المواد
-        html += '<h3 class="font-black text-lg dark:text-white mb-4"><i class="fas fa-chart-bar text-blue-500"></i> إحصائيات المواد</h3>';
+        html += '<h3 class="font-black text-lg dark:text-white mb-4"><i class="fas fa-chart-bar text-primary-500"></i> إحصائيات المواد</h3>';
         html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">';
 
         Object.entries(subjectStats).forEach(([id, stats]) => {
@@ -1600,20 +1600,20 @@ const loadStudentAttendanceHistory = async (studentId) => {
             const isLow = percentage < 75;
 
             html += `
-                <div class="p-4 rounded-2xl ${isLow ? 'bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800' : 'bg-gray-50 dark:bg-gray-700'}">
+                <div class="p-4 rounded-2xl ${isLow ? 'bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800' : 'bg-surface-50 dark:bg-surface-700'}">
                     <div class="flex justify-between items-center mb-2">
                         <h4 class="font-bold dark:text-white">${stats.name}</h4>
                         ${isLow ? '<span class="text-xs bg-red-500 text-white px-2 py-1 rounded-full">⚠️ تحذير</span>' : ''}
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="flex-1">
-                            <div class="h-3 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                                <div class="h-full ${isLow ? 'bg-red-500' : 'bg-green-500'} rounded-full" style="width: ${percentage}%"></div>
+                            <div class="h-3 bg-surface-200 dark:bg-surface-600 rounded-full overflow-hidden">
+                                <div class="h-full ${isLow ? 'bg-red-500' : 'bg-accent-500'} rounded-full" style="width: ${percentage}%"></div>
                             </div>
                         </div>
-                        <span class="text-2xl font-black ${isLow ? 'text-red-500' : 'text-green-500'}">${percentage}%</span>
+                        <span class="text-2xl font-black ${isLow ? 'text-red-500' : 'text-accent-500'}">${percentage}%</span>
                     </div>
-                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                    <div class="flex justify-between text-xs text-surface-500 mt-2">
                         <span>✅ حاضر: ${stats.present}</span>
                         <span>❌ غائب: ${stats.absent}</span>
                     </div>
@@ -1624,7 +1624,7 @@ const loadStudentAttendanceHistory = async (studentId) => {
         html += '</div>';
 
         // آخر السجلات
-        html += '<h3 class="font-black text-lg dark:text-white mb-4"><i class="fas fa-history text-indigo-500"></i> آخر السجلات</h3>';
+        html += '<h3 class="font-black text-lg dark:text-white mb-4"><i class="fas fa-history text-primary-500"></i> آخر السجلات</h3>';
         html += '<div class="space-y-2">';
 
         recentRecords.forEach(record => {
@@ -1632,15 +1632,15 @@ const loadStudentAttendanceHistory = async (studentId) => {
             const isAbsent = record.status === 'absent';
 
             html += `
-                <div class="flex items-center gap-3 p-3 rounded-xl ${isAbsent ? 'bg-red-50 dark:bg-red-900/20' : 'bg-green-50 dark:bg-green-900/20'}">
-                    <div class="w-10 h-10 rounded-full ${isAbsent ? 'bg-red-500' : 'bg-green-500'} text-white flex items-center justify-center">
+                <div class="flex items-center gap-3 p-3 rounded-xl ${isAbsent ? 'bg-red-50 dark:bg-red-900/20' : 'bg-accent-50 dark:bg-accent-900/20'}">
+                    <div class="w-10 h-10 rounded-full ${isAbsent ? 'bg-red-500' : 'bg-accent-500'} text-white flex items-center justify-center">
                         <i class="fas ${isAbsent ? 'fa-times' : 'fa-check'}"></i>
                     </div>
                     <div class="flex-1">
                         <p class="font-bold dark:text-white">${record.subjectName || 'بدون مادة'}</p>
-                        <p class="text-xs text-gray-500">${date.toLocaleDateString('ar-EG')} - ${date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</p>
+                        <p class="text-xs text-surface-500">${date.toLocaleDateString('ar-EG')} - ${date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
-                    <span class="text-sm font-bold ${isAbsent ? 'text-red-500' : 'text-green-500'}">
+                    <span class="text-sm font-bold ${isAbsent ? 'text-red-500' : 'text-accent-500'}">
                         ${isAbsent ? 'غائب' : 'حاضر'}
                     </span>
                 </div>
@@ -1707,8 +1707,8 @@ window.openAttendanceDashboard = async () => {
     modal.id = 'attendance-dashboard';
     modal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in overflow-y-auto';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden">
-            <div class="bg-gradient-to-r from-indigo-500 to-blue-600 p-6 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden">
+            <div class="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white flex justify-between items-center">
                 <h2 class="text-2xl font-black"><i class="fas fa-chart-pie"></i> لوحة إحصائيات الحضور</h2>
                 <button onclick="document.getElementById('attendance-dashboard').remove()" 
                     class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition flex items-center justify-center">
@@ -1716,7 +1716,7 @@ window.openAttendanceDashboard = async () => {
                 </button>
             </div>
             <div id="dashboard-content" class="p-6 overflow-y-auto max-h-[75vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-gray-400"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-surface-400"></i></div>
             </div>
         </div>
     `;
@@ -1787,11 +1787,11 @@ const loadDashboardData = async () => {
         let html = `
             <!-- البطاقات الرئيسية -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-2xl text-center">
                     <p class="text-3xl font-black">${totalSessions}</p>
                     <p class="text-sm opacity-80">جلسة</p>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-accent-500 to-accent-600 text-white p-4 rounded-2xl text-center">
                     <p class="text-3xl font-black">${totalAttendees}</p>
                     <p class="text-sm opacity-80">حاضر</p>
                 </div>
@@ -1799,15 +1799,15 @@ const loadDashboardData = async () => {
                     <p class="text-3xl font-black">${totalAbsentees}</p>
                     <p class="text-sm opacity-80">غائب</p>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-500 to-pink-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-pink-600 text-white p-4 rounded-2xl text-center">
                     <p class="text-3xl font-black">${overallRate}%</p>
                     <p class="text-sm opacity-80">نسبة الحضور</p>
                 </div>
             </div>
 
             <!-- رسم بياني بسيط -->
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-4 mb-6">
-                <h3 class="font-bold dark:text-white mb-4"><i class="fas fa-chart-bar text-blue-500"></i> نسبة الحضور لكل مادة</h3>
+            <div class="bg-surface-50 dark:bg-surface-700 rounded-2xl p-4 mb-6">
+                <h3 class="font-bold dark:text-white mb-4"><i class="fas fa-chart-bar text-primary-500"></i> نسبة الحضور لكل مادة</h3>
                 <div class="space-y-3">
                     ${Object.entries(subjectStats).map(([name, stats]) => {
             const rate = (stats.attendees + stats.absentees) > 0
@@ -1816,10 +1816,10 @@ const loadDashboardData = async () => {
                             <div>
                                 <div class="flex justify-between text-sm mb-1">
                                     <span class="font-bold dark:text-white">${name}</span>
-                                    <span class="text-gray-500">${rate}% (${stats.sessions} جلسة)</span>
+                                    <span class="text-surface-500">${rate}% (${stats.sessions} جلسة)</span>
                                 </div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                                    <div class="h-full ${rate >= 75 ? 'bg-green-500' : 'bg-red-500'} rounded-full transition-all" style="width: ${rate}%"></div>
+                                <div class="h-4 bg-surface-200 dark:bg-surface-600 rounded-full overflow-hidden">
+                                    <div class="h-full ${rate >= 75 ? 'bg-accent-500' : 'bg-red-500'} rounded-full transition-all" style="width: ${rate}%"></div>
                                 </div>
                             </div>
                         `;
@@ -1829,13 +1829,13 @@ const loadDashboardData = async () => {
 
             <!-- أزرار التقارير -->
             <div class="flex flex-wrap gap-3">
-                <button onclick="window.generateWeeklyReport()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-bold transition">
+                <button onclick="window.generateWeeklyReport()" class="flex-1 bg-primary-500 hover:bg-primary-600 text-white py-3 rounded-xl font-bold transition">
                     <i class="fas fa-calendar-week"></i> تقرير أسبوعي
                 </button>
-                <button onclick="window.generateMonthlyReport()" class="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl font-bold transition">
+                <button onclick="window.generateMonthlyReport()" class="flex-1 bg-primary-500 hover:bg-primary-600 text-white py-3 rounded-xl font-bold transition">
                     <i class="fas fa-calendar-alt"></i> تقرير شهري
                 </button>
-                <button onclick="window.printAttendanceReport()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-xl font-bold transition">
+                <button onclick="window.printAttendanceReport()" class="flex-1 bg-surface-500 hover:bg-surface-600 text-white py-3 rounded-xl font-bold transition">
                     <i class="fas fa-print"></i> طباعة
                 </button>
             </div>

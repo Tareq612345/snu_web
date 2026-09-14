@@ -43,9 +43,9 @@ window.openDMPanel = () => {
     panel.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-[400] flex items-center justify-center p-4 animate-fade-in';
 
     panel.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 w-full max-w-2xl h-[80vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+        <div class="bg-white dark:bg-surface-800 w-full max-w-2xl h-[80vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
             <!-- Header -->
-            <div class="bg-gradient-to-r from-indigo-600 to-pink-600 p-4 text-white flex justify-between items-center">
+            <div class="bg-gradient-to-r from-primary-600 to-pink-600 p-4 text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-comments text-2xl"></i>
                     <div>
@@ -66,15 +66,15 @@ window.openDMPanel = () => {
             <!-- Content -->
             <div class="flex-1 flex overflow-hidden">
                 <!-- Conversations List -->
-                <div id="dm-list" class="w-1/3 border-l dark:border-gray-700 overflow-y-auto bg-gray-50 dark:bg-gray-900">
-                    <div class="p-4 text-center text-gray-400">
+                <div id="dm-list" class="w-1/3 border-l dark:border-surface-700 overflow-y-auto bg-surface-50 dark:bg-surface-900">
+                    <div class="p-4 text-center text-surface-400">
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>
                 </div>
                 
                 <!-- Chat Area -->
                 <div id="dm-chat-area" class="flex-1 flex flex-col">
-                    <div class="flex-1 flex items-center justify-center text-gray-400">
+                    <div class="flex-1 flex items-center justify-center text-surface-400">
                         <div class="text-center">
                             <i class="fas fa-inbox text-5xl mb-4 opacity-40"></i>
                             <p>اختر محادثة للبدء</p>
@@ -112,10 +112,10 @@ const loadDMConversations = async () => {
     dmListUnsubscribe = onSnapshot(q, async (snap) => {
         if (snap.empty) {
             list.innerHTML = `
-                <div class="p-8 text-center text-gray-400">
+                <div class="p-8 text-center text-surface-400">
                     <i class="fas fa-comments text-4xl mb-3 opacity-40"></i>
                     <p class="text-sm">لا توجد محادثات بعد</p>
-                    <button onclick="window.openNewDM()" class="mt-4 text-indigo-600 font-bold text-sm hover:underline">
+                    <button onclick="window.openNewDM()" class="mt-4 text-primary-600 font-bold text-sm hover:underline">
                         ابدأ محادثة جديدة
                     </button>
                 </div>
@@ -145,18 +145,18 @@ const loadDMConversations = async () => {
             ) : '';
 
             list.innerHTML += `
-                <div onclick="window.openDMChat('${d.id}', '${otherId}')" class="p-3 border-b dark:border-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition ${currentDMUserId === otherId ? 'bg-blue-50 dark:bg-indigo-900/20' : ''}">
+                <div onclick="window.openDMChat('${d.id}', '${otherId}')" class="p-3 border-b dark:border-surface-700 cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-700 transition ${currentDMUserId === otherId ? 'bg-primary-50 dark:bg-primary-900/20' : ''}">
                     <div class="flex items-center gap-3">
                         <div class="relative">
                             <img src="${otherUser.photoURL || `https://ui-avatars.com/api/?name=${otherUser.displayName}&background=random`}" class="w-10 h-10 rounded-full object-cover">
-                            ${hasUnread ? '<span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>' : ''}
+                            ${hasUnread ? '<span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-surface-900"></span>' : ''}
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-center">
                                 <span class="font-bold text-sm dark:text-white truncate">${otherUser.displayName || 'مستخدم'}</span>
-                                <span class="text-[10px] text-gray-400">${timeStr}</span>
+                                <span class="text-[10px] text-surface-400">${timeStr}</span>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate ${hasUnread ? 'font-bold' : ''}">${chat.lastMessage || '...'}</p>
+                            <p class="text-xs text-surface-500 dark:text-surface-400 truncate ${hasUnread ? 'font-bold' : ''}">${chat.lastMessage || '...'}</p>
                         </div>
                     </div>
                 </div>
@@ -184,111 +184,111 @@ window.openDMChat = async (chatId, otherId) => {
     const area = document.getElementById('dm-chat-area');
     area.innerHTML = `
         <!-- Header -->
-        <div class="p-3 border-b dark:border-gray-700 flex items-center gap-3 bg-gradient-to-r from-blue-50 to-pink-50 dark:from-indigo-900/20 dark:to-pink-900/20">
+        <div class="p-3 border-b dark:border-surface-700 flex items-center gap-3 bg-gradient-to-r from-primary-50 to-pink-50 dark:from-primary-900/20 dark:to-pink-900/20">
             <img src="${otherUser.photoURL || `https://ui-avatars.com/api/?name=${otherUser.displayName}&background=random`}" 
                  onclick="window.openUserProfile('${otherId}')" 
-                 class="w-12 h-12 rounded-full object-cover ring-2 ring-blue-300 dark:ring-indigo-700 cursor-pointer hover:scale-105 transition">
+                 class="w-12 h-12 rounded-full object-cover ring-2 ring-primary-300 dark:ring-primary-700 cursor-pointer hover:scale-105 transition">
             <div class="flex-1 cursor-pointer" onclick="window.openUserProfile('${otherId}')">
-                <h4 class="font-bold dark:text-white flex items-center gap-2 hover:text-indigo-600 transition">
+                <h4 class="font-bold dark:text-white flex items-center gap-2 hover:text-primary-600 transition">
                     ${otherUser.displayName || 'مستخدم'}
-                    ${otherUser.isVerified ? '<i class="fas fa-check-circle text-blue-500 text-sm"></i>' : ''}
+                    ${otherUser.isVerified ? '<i class="fas fa-check-circle text-primary-500 text-sm"></i>' : ''}
                 </h4>
-                <span class="text-xs text-gray-500 dark:text-gray-400">اضغط لعرض البروفايل</span>
+                <span class="text-xs text-surface-500 dark:text-surface-400">اضغط لعرض البروفايل</span>
             </div>
             <div class="flex items-center gap-2">
                 <button onclick="window.deleteDMConversation('${chatId}')" class="w-9 h-9 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 flex items-center justify-center transition text-red-500" title="حذف المحادثة">
                     <i class="fas fa-trash"></i>
                 </button>
-                <button onclick="document.getElementById('dm-chat-area').innerHTML='<div class=\\'text-center p-10 text-gray-400\\'><i class=\\'fas fa-comments text-4xl mb-3\\'></i><br>اختر محادثة لعرضها</div>'" class="w-9 h-9 rounded-full hover:bg-white/50 dark:hover:bg-gray-700 flex items-center justify-center transition text-gray-500">
+                <button onclick="document.getElementById('dm-chat-area').innerHTML='<div class=\\'text-center p-10 text-surface-400\\'><i class=\\'fas fa-comments text-4xl mb-3\\'></i><br>اختر محادثة لعرضها</div>'" class="w-9 h-9 rounded-full hover:bg-white/50 dark:hover:bg-surface-700 flex items-center justify-center transition text-surface-500">
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
         
         <!-- Messages -->
-        <div id="dm-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
-            <div class="text-center text-gray-400"><i class="fas fa-spinner fa-spin"></i></div>
+        <div id="dm-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-surface-50 to-white dark:from-surface-900 dark:to-surface-900">
+            <div class="text-center text-surface-400"><i class="fas fa-spinner fa-spin"></i></div>
         </div>
         
         <!-- Reply Preview Bar -->
-        <div id="dm-reply-bar" class="hidden px-4 py-2 bg-blue-50 dark:bg-indigo-900/30 border-t dark:border-gray-700 flex items-center gap-3">
+        <div id="dm-reply-bar" class="hidden px-4 py-2 bg-primary-50 dark:bg-primary-900/30 border-t dark:border-surface-700 flex items-center gap-3">
             <div class="flex-1">
-                <span class="text-xs text-indigo-600 dark:text-indigo-400 font-bold"><i class="fas fa-reply"></i> رد على:</span>
-                <p id="dm-reply-text" class="text-sm text-gray-700 dark:text-gray-300 truncate"></p>
+                <span class="text-xs text-primary-600 dark:text-primary-400 font-bold"><i class="fas fa-reply"></i> رد على:</span>
+                <p id="dm-reply-text" class="text-sm text-surface-700 dark:text-surface-300 truncate"></p>
             </div>
-            <button onclick="window.cancelDMReply()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
-                <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+            <button onclick="window.cancelDMReply()" class="w-8 h-8 rounded-full bg-surface-200 dark:bg-surface-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
+                <i class="fas fa-times text-surface-500 dark:text-surface-400"></i>
             </button>
         </div>
         
         <!-- Image Preview -->
-        <div id="dm-image-preview" class="hidden px-4 py-2 bg-blue-50 dark:bg-blue-900/30 border-t dark:border-gray-700">
+        <div id="dm-image-preview" class="hidden px-4 py-2 bg-primary-50 dark:bg-primary-900/30 border-t dark:border-surface-700">
             <div class="flex items-center gap-3">
                 <img id="dm-preview-img" src="" class="w-16 h-16 rounded-lg object-cover">
-                <div class="flex-1 text-sm text-gray-600 dark:text-gray-300">صورة جاهزة للإرسال</div>
-                <button onclick="window.cancelDMImage()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
-                    <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+                <div class="flex-1 text-sm text-surface-600 dark:text-surface-300">صورة جاهزة للإرسال</div>
+                <button onclick="window.cancelDMImage()" class="w-8 h-8 rounded-full bg-surface-200 dark:bg-surface-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
+                    <i class="fas fa-times text-surface-500 dark:text-surface-400"></i>
                 </button>
             </div>
         </div>
         
         <!-- Voice Recording Preview -->
-        <div id="dm-voice-preview" class="hidden px-4 py-2 bg-red-50 dark:bg-red-900/30 border-t dark:border-gray-700">
+        <div id="dm-voice-preview" class="hidden px-4 py-2 bg-red-50 dark:bg-red-900/30 border-t dark:border-surface-700">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
                     <i class="fas fa-microphone text-white"></i>
                 </div>
                 <div class="flex-1">
                     <p class="text-sm font-bold text-red-600 dark:text-red-400">جاري التسجيل...</p>
-                    <p id="dm-recording-time" class="text-xs text-gray-500">0:00</p>
+                    <p id="dm-recording-time" class="text-xs text-surface-500">0:00</p>
                 </div>
-                <button onclick="window.cancelVoiceRecording()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
-                    <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+                <button onclick="window.cancelVoiceRecording()" class="w-8 h-8 rounded-full bg-surface-200 dark:bg-surface-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/30 transition">
+                    <i class="fas fa-times text-surface-500 dark:text-surface-400"></i>
                 </button>
-                <button onclick="window.sendVoiceMessage('${chatId}')" class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600 transition">
+                <button onclick="window.sendVoiceMessage('${chatId}')" class="w-8 h-8 rounded-full bg-accent-500 flex items-center justify-center hover:bg-accent-600 transition">
                     <i class="fas fa-paper-plane text-white text-xs"></i>
                 </button>
             </div>
         </div>
         
         <!-- Input -->
-        <div class="p-3 border-t dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div class="p-3 border-t dark:border-surface-700 bg-white dark:bg-surface-800">
             <div class="flex gap-2 items-center">
                 <!-- Image Upload Button -->
-                <label class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition text-gray-500 dark:text-gray-400">
+                <label class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-600 transition text-surface-500 dark:text-surface-400">
                     <i class="fas fa-image"></i>
                     <input type="file" id="dm-image-input" accept="image/*" class="hidden" onchange="window.handleDMImage(this)">
                 </label>
                 
                 <!-- Voice Message Button -->
-                <button id="dm-voice-btn" onclick="window.toggleVoiceRecording('${chatId}')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/50 transition text-gray-500 dark:text-gray-400">
+                <button id="dm-voice-btn" onclick="window.toggleVoiceRecording('${chatId}')" class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/50 transition text-surface-500 dark:text-surface-400">
                     <i class="fas fa-microphone"></i>
                 </button>
                 
                 <!-- Video Call Button (Jitsi) -->
-                <button onclick="window.startVideoCall('${chatId}', '${otherId}')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/50 transition text-blue-500" title="مكالمة فيديو">
+                <button onclick="window.startVideoCall('${chatId}', '${otherId}')" class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center hover:bg-primary-100 dark:hover:bg-primary-900/50 transition text-primary-500" title="مكالمة فيديو">
                     <i class="fas fa-video"></i>
                 </button>
                 
                 <!-- Emoji Picker Button -->
                 <div class="relative">
-                    <button onclick="document.getElementById('dm-emoji-picker').classList.toggle('hidden')" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition text-yellow-500">
+                    <button onclick="document.getElementById('dm-emoji-picker').classList.toggle('hidden')" class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center hover:bg-surface-200 dark:hover:bg-surface-600 transition text-yellow-500">
                         😊
                     </button>
-                    <div id="dm-emoji-picker" class="hidden absolute bottom-12 right-0 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-3 z-50 border dark:border-gray-700 min-w-[220px]">
+                    <div id="dm-emoji-picker" class="hidden absolute bottom-12 right-0 bg-white dark:bg-surface-800 rounded-2xl shadow-2xl p-3 z-50 border dark:border-surface-700 min-w-[220px]">
                         <div class="grid grid-cols-6 gap-1">
                             ${['❤️', '😂', '😍', '👍', '🔥', '😮', '😢', '👏', '🙏', '💯', '🎉', '😊'].map(e =>
-        `<button onclick="window.insertDMEmoji('${e}')" class="w-8 h-8 text-xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition flex items-center justify-center">${e}</button>`
+        `<button onclick="window.insertDMEmoji('${e}')" class="w-8 h-8 text-xl hover:bg-surface-100 dark:hover:bg-surface-700 rounded-lg transition flex items-center justify-center">${e}</button>`
     ).join('')}
                         </div>
                     </div>
                 </div>
                 
                 <!-- Text Input -->
-                <input type="text" id="dm-input" placeholder="اكتب رسالتك..." class="flex-1 p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm focus:outline-none dark:text-white focus:ring-2 focus:ring-indigo-500 transition">
+                <input type="text" id="dm-input" placeholder="اكتب رسالتك..." class="flex-1 p-3 bg-surface-100 dark:bg-surface-700 rounded-xl text-sm focus:outline-none dark:text-white focus:ring-2 focus:ring-primary-500 transition">
                 
                 <!-- Send Button -->
-                <button onclick="window.sendDM('${chatId}')" class="bg-gradient-to-r from-indigo-600 to-pink-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:shadow-lg hover:scale-105 transition shadow-indigo-500/30">
+                <button onclick="window.sendDM('${chatId}')" class="bg-gradient-to-r from-primary-600 to-pink-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:shadow-lg hover:scale-105 transition shadow-primary-500/30">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -325,7 +325,7 @@ const loadDMMessages = (chatId) => {
         container.innerHTML = '';
 
         if (snap.empty) {
-            container.innerHTML = '<div class="text-center text-gray-400 text-sm">ابدأ المحادثة...</div>';
+            container.innerHTML = '<div class="text-center text-surface-400 text-sm">ابدأ المحادثة...</div>';
             return;
         }
 
@@ -337,7 +337,7 @@ const loadDMMessages = (chatId) => {
             // Reply reference
             let replyHtml = '';
             if (msg.replyTo) {
-                replyHtml = `<div class="text-xs opacity-70 border-r-2 border-blue-300 pr-2 mb-1 truncate">رد على: ${window.sanitizeHTML?.(msg.replyToText) || '...'}</div>`;
+                replyHtml = `<div class="text-xs opacity-70 border-r-2 border-primary-300 pr-2 mb-1 truncate">رد على: ${window.sanitizeHTML?.(msg.replyToText) || '...'}</div>`;
             }
 
             // Reactions display
@@ -347,31 +347,31 @@ const loadDMMessages = (chatId) => {
                 for (const [emoji, users] of Object.entries(msg.reactions)) {
                     const count = users.length;
                     const isMine = users.includes(user.uid);
-                    reactionsHtml += `<button onclick="window.addDMReaction('${chatId}', '${msg.id}', '${emoji}')" class="text-xs px-1 py-0.5 rounded-full ${isMine ? 'bg-blue-200 dark:bg-indigo-800' : 'bg-gray-200 dark:bg-gray-600'} hover:scale-110 transition">${emoji} ${count}</button>`;
+                    reactionsHtml += `<button onclick="window.addDMReaction('${chatId}', '${msg.id}', '${emoji}')" class="text-xs px-1 py-0.5 rounded-full ${isMine ? 'bg-primary-200 dark:bg-primary-800' : 'bg-surface-200 dark:bg-surface-600'} hover:scale-110 transition">${emoji} ${count}</button>`;
                 }
                 reactionsHtml += '</div>';
             }
 
             // Message controls
             const controlsHtml = `
-                <div class="hidden group-hover:flex items-center gap-1 absolute ${isMe ? 'left-0 -translate-x-full pl-2' : 'right-0 translate-x-full pr-2'} top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 rounded-full shadow-lg p-1 border dark:border-gray-700">
-                    <button onclick="window.replyToDM('${msg.id}', '${(msg.text || '').substring(0, 30).replace(/'/g, '')}')" class="text-xs bg-gray-100 dark:bg-gray-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-indigo-900/50 transition" title="رد"><i class="fas fa-reply text-[10px] text-indigo-500"></i></button>
+                <div class="hidden group-hover:flex items-center gap-1 absolute ${isMe ? 'left-0 -translate-x-full pl-2' : 'right-0 translate-x-full pr-2'} top-1/2 -translate-y-1/2 bg-white dark:bg-surface-800 rounded-full shadow-lg p-1 border dark:border-surface-700">
+                    <button onclick="window.replyToDM('${msg.id}', '${(msg.text || '').substring(0, 30).replace(/'/g, '')}')" class="text-xs bg-surface-100 dark:bg-surface-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-primary-100 dark:hover:bg-primary-900/50 transition" title="رد"><i class="fas fa-reply text-[10px] text-primary-500"></i></button>
                     <div class="relative reaction-picker-wrapper">
-                        <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="text-xs bg-gray-100 dark:bg-gray-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition" title="تفاعل">😊</button>
-                        <div class="hidden absolute bottom-8 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-2 z-50 border dark:border-gray-700 flex gap-1">
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="text-xs bg-surface-100 dark:bg-surface-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition" title="تفاعل">😊</button>
+                        <div class="hidden absolute bottom-8 left-1/2 -translate-x-1/2 bg-white dark:bg-surface-800 rounded-2xl shadow-xl p-2 z-50 border dark:border-surface-700 flex gap-1">
                             ${['❤️', '😂', '😍', '👍', '🔥', '😮'].map(e =>
                 `<button onclick="window.addDMReaction('${chatId}', '${msg.id}', '${e}'); this.closest('.reaction-picker-wrapper').querySelector('div').classList.add('hidden')" class="w-7 h-7 text-lg hover:scale-125 transition">${e}</button>`
             ).join('')}
                         </div>
                     </div>
-                    ${isMe ? `<button onclick="window.editDMMessage('${chatId}', '${msg.id}', '${(msg.text || '').replace(/'/g, "\\'")}')" class="text-xs bg-gray-100 dark:bg-gray-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/50 transition" title="تعديل"><i class="fas fa-pen text-[10px] text-blue-500"></i></button>` : ''}
-                    ${isMe ? `<button onclick="window.deleteDMMessage('${chatId}', '${msg.id}')" class="text-xs bg-gray-100 dark:bg-gray-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/50 transition" title="حذف"><i class="fas fa-trash text-[10px] text-red-500"></i></button>` : ''}
+                    ${isMe ? `<button onclick="window.editDMMessage('${chatId}', '${msg.id}', '${(msg.text || '').replace(/'/g, "\\'")}')" class="text-xs bg-surface-100 dark:bg-surface-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-primary-100 dark:hover:bg-primary-900/50 transition" title="تعديل"><i class="fas fa-pen text-[10px] text-primary-500"></i></button>` : ''}
+                    ${isMe ? `<button onclick="window.deleteDMMessage('${chatId}', '${msg.id}')" class="text-xs bg-surface-100 dark:bg-surface-700 rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/50 transition" title="حذف"><i class="fas fa-trash text-[10px] text-red-500"></i></button>` : ''}
                 </div>
             `;
 
             container.innerHTML += `
                 <div class="flex ${isMe ? 'justify-end' : 'justify-start'} animate-fade-in group relative mb-3">
-                    <div class="max-w-[70%] px-4 py-2 rounded-2xl text-sm relative ${isMe ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-gray-100 dark:bg-gray-700 dark:text-white rounded-bl-none'}">
+                    <div class="max-w-[70%] px-4 py-2 rounded-2xl text-sm relative ${isMe ? 'bg-primary-600 text-white rounded-br-none' : 'bg-surface-100 dark:bg-surface-700 dark:text-white rounded-bl-none'}">
                         ${replyHtml}
                         ${msg.imageUrl ? `<img src="${msg.imageUrl}" loading="lazy" class="max-w-[200px] rounded-lg mb-2 cursor-pointer" onclick="window.open('${msg.imageUrl}')">` : ''}
                         ${msg.voiceUrl ? `
@@ -389,7 +389,7 @@ const loadDMMessages = (chatId) => {
                             </div>
                         ` : ''}
                         ${msg.text ? `<p class="whitespace-pre-wrap">${window.sanitizeHTML?.(msg.text) || msg.text}</p>` : ''}
-                        <div class="text-[9px] ${isMe ? 'text-blue-200' : 'text-gray-400'} text-right mt-1">
+                        <div class="text-[9px] ${isMe ? 'text-primary-200' : 'text-surface-400'} text-right mt-1">
                             ${msg.createdAt?.toDate?.().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || '...'}
                             ${msg.edited ? ' (معدل)' : ''}
                         </div>
@@ -629,7 +629,7 @@ window.deleteDMConversation = async (chatId) => {
         window.showToast?.('✅ تم حذف المحادثة بنجاح', 'success');
 
         // إعادة تحميل القائمة
-        document.getElementById('dm-chat-area').innerHTML = '<div class="flex-1 flex items-center justify-center text-gray-400"><div class="text-center"><i class="fas fa-inbox text-5xl mb-4 opacity-40"></i><p>تم حذف المحادثة</p></div></div>';
+        document.getElementById('dm-chat-area').innerHTML = '<div class="flex-1 flex items-center justify-center text-surface-400"><div class="text-center"><i class="fas fa-inbox text-5xl mb-4 opacity-40"></i><p>تم حذف المحادثة</p></div></div>';
         loadDMConversations();
     } catch (e) {
         console.error('Delete DM error:', e);
@@ -812,7 +812,7 @@ window.toggleVoiceRecording = async (chatId) => {
             if (voiceBtn) {
                 voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
                 voiceBtn.classList.remove('bg-red-500', 'text-white');
-                voiceBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-500');
+                voiceBtn.classList.add('bg-surface-100', 'dark:bg-surface-700', 'text-surface-500');
             }
 
             // إرسال الرسالة الصوتية تلقائياً
@@ -870,7 +870,7 @@ window.toggleVoiceRecording = async (chatId) => {
         const voiceBtn = document.getElementById('dm-voice-btn');
         if (voiceBtn) {
             voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
-            voiceBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-500');
+            voiceBtn.classList.remove('bg-surface-100', 'dark:bg-surface-700', 'text-surface-500');
             voiceBtn.classList.add('bg-red-500', 'text-white');
         }
 

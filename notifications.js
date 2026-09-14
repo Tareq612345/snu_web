@@ -99,16 +99,16 @@ const showInAppNotification = (payload) => {
     const notification = document.createElement('div');
     notification.className = 'fixed top-4 right-4 z-[10000] animate-slide-in-right';
     notification.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border dark:border-gray-700 p-4 max-w-sm cursor-pointer hover:scale-105 transition" onclick="this.parentElement.remove()">
+        <div class="bg-white dark:bg-surface-800 rounded-2xl shadow-2xl border dark:border-surface-700 p-4 max-w-sm cursor-pointer hover:scale-105 transition" onclick="this.parentElement.remove()">
             <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
-                    <i class="fas ${getNotificationIcon(type)} text-blue-600"></i>
+                <div class="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fas ${getNotificationIcon(type)} text-primary-600"></i>
                 </div>
                 <div class="flex-1">
                     <p class="font-bold dark:text-white text-sm">${title}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${body}</p>
+                    <p class="text-xs text-surface-500 dark:text-surface-400 mt-1">${body}</p>
                 </div>
-                <button onclick="event.stopPropagation(); this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="event.stopPropagation(); this.closest('.fixed').remove()" class="text-surface-400 hover:text-surface-600">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -156,11 +156,11 @@ window.askNotificationPermission = async () => {
     if (btn) {
         if (token) {
             btn.innerHTML = '<i class="fas fa-check"></i> الإشعارات مفعلة';
-            btn.classList.remove('bg-blue-600');
-            btn.classList.add('bg-green-600');
+            btn.classList.remove('bg-primary-600');
+            btn.classList.add('bg-accent-600');
         } else {
             btn.innerHTML = '<i class="fas fa-bell-slash"></i> تم رفض الإذن';
-            btn.classList.remove('bg-blue-600');
+            btn.classList.remove('bg-primary-600');
             btn.classList.add('bg-red-600');
         }
         btn.disabled = true;

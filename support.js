@@ -49,37 +49,37 @@ const createStudentUI = () => {
 
     const win = document.createElement('div');
     win.id = 'support-window';
-    win.className = "hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 h-[500px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col z-[350] border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300";
+    win.className = "hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 h-[500px] bg-white dark:bg-surface-800 rounded-2xl shadow-2xl flex flex-col z-[350] border border-surface-200 dark:border-surface-700 overflow-hidden transition-all duration-300";
 
     win.innerHTML = `
-        <div class="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
+        <div class="bg-primary-600 p-4 text-white flex justify-between items-center shadow-md">
             <div>
                 <h3 class="font-bold text-lg">${window.t?.('technical-support') || 'الدعم الفني'} 🛠️</h3>
-                <p class="text-xs text-blue-100 opacity-90">${window.t?.('we-are-here-to-help') || 'نحن هنا لمساعدتك'}</p>
+                <p class="text-xs text-primary-100 opacity-90">${window.t?.('we-are-here-to-help') || 'نحن هنا لمساعدتك'}</p>
             </div>
-            <button onclick="window.toggleSupportChat()" class="hover:bg-blue-700 p-2 rounded-full transition"><i class="fas fa-times"></i></button>
+            <button onclick="window.toggleSupportChat()" class="hover:bg-primary-700 p-2 rounded-full transition"><i class="fas fa-times"></i></button>
         </div>
         
-        <div id="support-msgs" class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 space-y-3 custom-scrollbar">
-            <div class="text-center text-gray-400 mt-10 text-sm">
+        <div id="support-msgs" class="flex-1 p-4 overflow-y-auto bg-surface-50 dark:bg-surface-900 space-y-3 custom-scrollbar">
+            <div class="text-center text-surface-400 mt-10 text-sm">
                 <i class="fas fa-comments text-4xl mb-2 opacity-50"></i>
                 <p>${window.t?.('describe-issue') || 'مرحباً بك. صف مشكلتك وسنقوم بالرد عليك.'}</p>
             </div>
         </div>
         
-        <div class="p-3 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
-            <div id="preview-box" class="hidden mb-2 relative w-fit p-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                <img id="img-preview" class="h-16 rounded border border-gray-300">
+        <div class="p-3 bg-white dark:bg-surface-800 border-t dark:border-surface-700">
+            <div id="preview-box" class="hidden mb-2 relative w-fit p-1 bg-surface-100 dark:bg-surface-700 rounded-lg">
+                <img id="img-preview" class="h-16 rounded border border-surface-300">
                 <button onclick="window.clearImg()" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs shadow-sm hover:bg-red-600"><i class="fas fa-times"></i></button>
             </div>
 
             <div class="flex gap-2 items-center">
                 <input type="file" id="support-file" class="hidden" accept="image/*" onchange="window.previewImg(this)">
-                <button onclick="document.getElementById('support-file').click()" class="text-gray-400 hover:text-blue-600 transition p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="${window.t?.('attach-image') || 'إرفاق صورة'}"><i class="fas fa-image text-xl"></i></button>
+                <button onclick="document.getElementById('support-file').click()" class="text-surface-400 hover:text-primary-600 transition p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-700" title="${window.t?.('attach-image') || 'إرفاق صورة'}"><i class="fas fa-image text-xl"></i></button>
                 
-                <input type="text" id="support-input" placeholder="${window.t?.('write-message') || 'اكتب رسالتك...'}" class="flex-grow p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <input type="text" id="support-input" placeholder="${window.t?.('write-message') || 'اكتب رسالتك...'}" class="flex-grow p-2.5 rounded-xl bg-surface-100 dark:bg-surface-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition">
                 
-                <button id="send-support" class="bg-blue-600 text-white p-2.5 rounded-xl w-10 h-10 flex items-center justify-center hover:bg-blue-700 shadow-md transition transform active:scale-95"><i class="fas fa-paper-plane"></i></button>
+                <button id="send-support" class="bg-primary-600 text-white p-2.5 rounded-xl w-10 h-10 flex items-center justify-center hover:bg-primary-700 shadow-md transition transform active:scale-95"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     `;
@@ -234,48 +234,48 @@ export const openAdminSupportDashboard = async () => {
 
     const content = document.getElementById('admin-view-content');
     content.innerHTML = `
-        <div class="flex flex-col lg:flex-row h-[600px] gap-6 bg-gray-100 dark:bg-gray-900 rounded-3xl p-4 shadow-inner border dark:border-gray-700">
-            <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 rounded-2xl shadow-lg flex flex-col overflow-hidden border dark:border-gray-700">
-                <div class="p-4 border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+        <div class="flex flex-col lg:flex-row h-[600px] gap-6 bg-surface-100 dark:bg-surface-900 rounded-3xl p-4 shadow-inner border dark:border-surface-700">
+            <div class="w-full lg:w-1/3 bg-white dark:bg-surface-800 rounded-2xl shadow-lg flex flex-col overflow-hidden border dark:border-surface-700">
+                <div class="p-4 border-b dark:border-surface-700 bg-surface-50 dark:bg-surface-700/50">
                     <h3 class="font-bold dark:text-white">${window.t?.('active-tickets') || 'التذاكر النشطة'}</h3>
                 </div>
                 <div id="tickets-list" class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
-                    <div class="text-center p-10 text-gray-400"><i class="fas fa-spinner fa-spin"></i> ${window.t?.('loading') || 'جاري التحميل...'}</div>
+                    <div class="text-center p-10 text-surface-400"><i class="fas fa-spinner fa-spin"></i> ${window.t?.('loading') || 'جاري التحميل...'}</div>
                 </div>
             </div>
 
-            <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 rounded-2xl shadow-lg flex flex-col relative overflow-hidden border dark:border-gray-700">
-                <div class="p-4 border-b dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20 flex justify-between items-center">
+            <div class="w-full lg:w-2/3 bg-white dark:bg-surface-800 rounded-2xl shadow-lg flex flex-col relative overflow-hidden border dark:border-surface-700">
+                <div class="p-4 border-b dark:border-surface-700 bg-primary-50 dark:bg-primary-900/20 flex justify-between items-center">
                     <div>
                         <div class="font-bold dark:text-white text-lg" id="chat-header">اختر محادثة</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400" id="chat-subheader">...</div>
+                        <div class="text-xs text-surface-500 dark:text-surface-400" id="chat-subheader">...</div>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="window.openSupportUserProfile()" id="view-profile-btn" class="hidden text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition" title="عرض البروفايل"><i class="fas fa-user"></i></button>
+                        <button onclick="window.openSupportUserProfile()" id="view-profile-btn" class="hidden text-primary-600 hover:bg-primary-100 dark:hover:bg-primary-900/30 p-2 rounded-lg transition" title="عرض البروفايل"><i class="fas fa-user"></i></button>
                         <button onclick="window.deleteEntireChat()" id="del-chat-btn" class="hidden text-red-500 hover:bg-red-50 p-2 rounded-lg transition" title="حذف المحادثة"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
 
-                <div id="admin-chat-msgs" class="flex-1 p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900 space-y-3 custom-scrollbar">
-                    <div class="h-full flex flex-col items-center justify-center text-gray-400 opacity-60">
+                <div id="admin-chat-msgs" class="flex-1 p-6 overflow-y-auto bg-surface-50 dark:bg-surface-900 space-y-3 custom-scrollbar">
+                    <div class="h-full flex flex-col items-center justify-center text-surface-400 opacity-60">
                         <i class="fas fa-inbox text-6xl mb-4"></i>
                         <p>${window.t?.('select-student') || 'حدد طالباً من القائمة لعرض المشكلة والرد عليها'}</p>
                     </div>
                 </div>
 
-                <div class="p-4 border-t dark:border-gray-700 bg-white dark:bg-gray-800 hidden" id="admin-input-area">
+                <div class="p-4 border-t dark:border-surface-700 bg-white dark:bg-surface-800 hidden" id="admin-input-area">
                     <!-- صورة معاينة -->
                     <div id="admin-img-preview-wrap" class="hidden mb-2 relative inline-block">
                         <img id="admin-img-preview" class="h-20 rounded-xl border">
                         <button onclick="window.clearAdminSupportImg()" class="absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 rounded-full text-xs">&times;</button>
                     </div>
                     <div class="flex gap-3">
-                        <label class="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition text-gray-500">
+                        <label class="flex items-center justify-center w-10 h-10 bg-surface-100 dark:bg-surface-700 rounded-xl cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-600 transition text-surface-500">
                             <i class="fas fa-image"></i>
                             <input type="file" id="admin-support-img" accept="image/*" class="hidden" onchange="window.previewAdminSupportImg(this)">
                         </label>
-                        <input type="text" id="admin-support-input" class="flex-grow p-3 rounded-xl border bg-gray-100 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold" placeholder="${window.t?.('write-reply') || 'اكتب الرد هنا...'}">
-                        <button id="admin-send-btn" class="bg-blue-600 text-white px-6 rounded-xl font-bold hover:bg-blue-700 shadow-lg transition">${window.t?.('btn-send') || 'إرسال'}</button>
+                        <input type="text" id="admin-support-input" class="flex-grow p-3 rounded-xl border bg-surface-100 dark:bg-surface-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 font-bold" placeholder="${window.t?.('write-reply') || 'اكتب الرد هنا...'}">
+                        <button id="admin-send-btn" class="bg-primary-600 text-white px-6 rounded-xl font-bold hover:bg-primary-700 shadow-lg transition">${window.t?.('btn-send') || 'إرسال'}</button>
                     </div>
                 </div>
             </div>
@@ -287,7 +287,7 @@ export const openAdminSupportDashboard = async () => {
         list.innerHTML = '';
 
         if (snap.empty) {
-            list.innerHTML = `<div class="text-center p-10 text-gray-400">${window.t?.('no-tickets') || 'لا توجد تذاكر حالياً.'}</div>`;
+            list.innerHTML = `<div class="text-center p-10 text-surface-400">${window.t?.('no-tickets') || 'لا توجد تذاكر حالياً.'}</div>`;
             return;
         }
 
@@ -305,7 +305,7 @@ export const openAdminSupportDashboard = async () => {
             }
 
             list.innerHTML += `
-                <div onclick="window.loadAdminChat('${d.id}', '${t.userName}', '${fullInfo}')" class="p-3 rounded-xl border border-transparent cursor-pointer transition flex items-center gap-3 ${activeAdminTargetId === d.id ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700 border-b dark:border-b-gray-700'}">
+                <div onclick="window.loadAdminChat('${d.id}', '${t.userName}', '${fullInfo}')" class="p-3 rounded-xl border border-transparent cursor-pointer transition flex items-center gap-3 ${activeAdminTargetId === d.id ? 'bg-primary-50 dark:bg-primary-900/30 border-primary-200 dark:border-primary-700' : 'hover:bg-surface-50 dark:hover:bg-surface-700 border-b dark:border-b-surface-700'}">
                     <div class="relative">
                         <img src="${t.userPhoto || 'https://ui-avatars.com/api/?background=random&name=' + t.userName}" class="w-10 h-10 rounded-full object-cover shadow-sm">
                         ${t.hasUnreadAdmin ? '<span class="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-white rounded-full animate-pulse"></span>' : ''}
@@ -313,10 +313,10 @@ export const openAdminSupportDashboard = async () => {
                     <div class="flex-grow min-w-0">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold dark:text-white text-sm truncate">${t.userName || 'مستخدم'}</h4>
-                            <span class="text-[10px] text-gray-400">${timeStr}</span>
+                            <span class="text-[10px] text-surface-400">${timeStr}</span>
                         </div>
-                        <div class="text-[10px] text-blue-500 font-bold truncate mb-0.5">${fullInfo}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate">${t.lastMessage || '...'}</div>
+                        <div class="text-[10px] text-primary-500 font-bold truncate mb-0.5">${fullInfo}</div>
+                        <div class="text-xs text-surface-500 dark:text-surface-400 truncate">${t.lastMessage || '...'}</div>
                     </div>
                 </div>`;
         });
@@ -383,7 +383,7 @@ const loadMessages = (uid, containerId) => {
         box.innerHTML = '';
 
         if (snap.empty) {
-            box.innerHTML = `<div class="text-center p-10 text-gray-400 text-sm">${window.t?.('chat-start') || 'بداية المحادثة.'}</div>`;
+            box.innerHTML = `<div class="text-center p-10 text-surface-400 text-sm">${window.t?.('chat-start') || 'بداية المحادثة.'}</div>`;
             return;
         }
 
@@ -405,8 +405,8 @@ const loadMessages = (uid, containerId) => {
             const time = m.createdAt ? m.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '...';
 
             const bubbleClass = isMe
-                ? 'bg-blue-600 text-white rounded-br-none'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none';
+                ? 'bg-primary-600 text-white rounded-br-none'
+                : 'bg-surface-200 dark:bg-surface-700 text-surface-800 dark:text-white rounded-bl-none';
 
             const alignment = isMe ? 'justify-end' : 'justify-start';
 
@@ -414,7 +414,7 @@ const loadMessages = (uid, containerId) => {
             if (isAdminView && !isMe) {
                 senderLabel = '';
             } else if (!isAdminView && !isMe) {
-                senderLabel = `<span class="block text-[10px] text-blue-600 font-bold mb-1">${window.t?.('technical-support') || 'الدعم الفني'} 🎧</span>`;
+                senderLabel = `<span class="block text-[10px] text-primary-600 font-bold mb-1">${window.t?.('technical-support') || 'الدعم الفني'} 🎧</span>`;
             }
 
             box.innerHTML += `
@@ -423,7 +423,7 @@ const loadMessages = (uid, containerId) => {
                         ${senderLabel}
                         ${imgHtml}
                         <p class="whitespace-pre-wrap leading-relaxed">${window.sanitizeHTML?.(m.text) || ''}</p>
-                        <span class="text-[9px] block mt-1 opacity-60 text-right ${isMe ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'}">${time}</span>
+                        <span class="text-[9px] block mt-1 opacity-60 text-right ${isMe ? 'text-primary-100' : 'text-surface-500 dark:text-surface-400'}">${time}</span>
                     </div>
                 </div>`;
         });

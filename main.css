@@ -42,11 +42,11 @@
   background: linear-gradient(180deg, #0f172a 0%, #1a1f35 100%);
 }
 
-.dark .bg-gray-800 {
+.dark .bg-surface-800 {
   background: linear-gradient(135deg, #1e293b 0%, #1a1f35 100%) !important;
 }
 
-.dark .bg-gray-900 {
+.dark .bg-surface-900 {
   background: #0f172a !important;
 }
 
@@ -66,11 +66,11 @@
 }
 
 /* Better dark mode gradients for header/hero sections */
-.dark .from-blue-600 {
+.dark .from-primary-600 {
   --tw-gradient-from: #2563eb !important;
 }
 
-.dark .to-indigo-600 {
+.dark .to-primary-600 {
   --tw-gradient-to: #0891b2 !important;
 }
 
@@ -1076,11 +1076,11 @@
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .dark .bg-gray-800 {
+  .dark .bg-surface-800 {
     background: #000 !important;
   }
 
-  .dark .text-gray-400 {
+  .dark .text-surface-400 {
     color: #fff !important;
   }
 

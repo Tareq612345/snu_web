@@ -93,7 +93,7 @@ export const renderStreakWidget = async (containerId, userId) => {
 
         if (streak >= 30) {
             fireIcon = '💎';
-            bgColor = 'from-indigo-500 to-pink-500';
+            bgColor = 'from-primary-500 to-pink-500';
         } else if (streak >= 7) {
             fireIcon = '⚡';
             bgColor = 'from-yellow-500 to-orange-500';
@@ -343,8 +343,8 @@ window.openNotesPanel = async () => {
     modal.id = 'notes-modal';
     modal.className = 'fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
-            <div class="bg-gradient-to-r from-indigo-600 to-pink-600 p-5 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
+            <div class="bg-gradient-to-r from-primary-600 to-pink-600 p-5 text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-sticky-note text-2xl"></i>
                     <div>
@@ -355,16 +355,16 @@ window.openNotesPanel = async () => {
                 <button onclick="this.closest('#notes-modal').remove()" class="hover:bg-white/20 p-2 rounded-full transition"><i class="fas fa-times"></i></button>
             </div>
             
-            <div class="p-4 bg-gray-50 dark:bg-gray-700/50 border-b dark:border-gray-700">
+            <div class="p-4 bg-surface-50 dark:bg-surface-700/50 border-b dark:border-surface-700">
                 <div class="flex gap-2">
-                    <input type="text" id="note-lesson-id" placeholder="${window.t?.('lesson-id-optional') || 'معرف الدرس (اختياري)'}" class="flex-1 p-2 rounded-lg bg-white dark:bg-gray-700 text-sm border dark:border-gray-600 dark:text-white">
-                    <button onclick="document.getElementById('new-note-area').classList.toggle('hidden')" class="bg-indigo-600 text-white px-4 rounded-lg font-bold text-sm hover:bg-indigo-700 transition">
+                    <input type="text" id="note-lesson-id" placeholder="${window.t?.('lesson-id-optional') || 'معرف الدرس (اختياري)'}" class="flex-1 p-2 rounded-lg bg-white dark:bg-surface-700 text-sm border dark:border-surface-600 dark:text-white">
+                    <button onclick="document.getElementById('new-note-area').classList.toggle('hidden')" class="bg-primary-600 text-white px-4 rounded-lg font-bold text-sm hover:bg-primary-700 transition">
                         <i class="fas fa-plus"></i> ${window.t?.('new') || 'جديد'}
                     </button>
                 </div>
                 <div id="new-note-area" class="hidden mt-3">
-                    <textarea id="new-note-text" class="w-full p-3 border rounded-xl dark:bg-gray-700 dark:text-white dark:border-gray-600 text-sm" rows="3" placeholder="${window.t?.('write-note-here') || 'اكتب ملاحظتك هنا...'}"></textarea>
-                    <button onclick="window.saveNewNote()" class="mt-2 w-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white py-2 rounded-xl font-bold text-sm hover:shadow-lg transition">
+                    <textarea id="new-note-text" class="w-full p-3 border rounded-xl dark:bg-surface-700 dark:text-white dark:border-surface-600 text-sm" rows="3" placeholder="${window.t?.('write-note-here') || 'اكتب ملاحظتك هنا...'}"></textarea>
+                    <button onclick="window.saveNewNote()" class="mt-2 w-full bg-gradient-to-r from-primary-600 to-pink-600 text-white py-2 rounded-xl font-bold text-sm hover:shadow-lg transition">
                         <i class="fas fa-save"></i> ${window.t?.('save-note') || 'حفظ الملاحظة'}
                     </button>
                 </div>
@@ -372,19 +372,19 @@ window.openNotesPanel = async () => {
             
             <div class="p-4 overflow-y-auto max-h-96">
                 ${notes.length === 0 ? `
-                    <div class="text-center py-10 text-gray-400">
+                    <div class="text-center py-10 text-surface-400">
                         <i class="fas fa-sticky-note text-4xl mb-2 opacity-30"></i>
                         <p>${window.t?.('no-notes-yet') || 'لا توجد ملاحظات بعد'}</p>
                     </div>
                 ` : notes.map(n => `
-                    <div class="bg-white dark:bg-gray-700 p-3 rounded-xl mb-2 border dark:border-gray-600 shadow-sm group">
+                    <div class="bg-white dark:bg-surface-700 p-3 rounded-xl mb-2 border dark:border-surface-600 shadow-sm group">
                         <div class="flex justify-between items-start">
                             <p class="text-sm dark:text-white">${n.content}</p>
-                            <button onclick="window.deleteNote('${n.id}')" class="text-gray-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100">
+                            <button onclick="window.deleteNote('${n.id}')" class="text-surface-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100">
                                 <i class="fas fa-trash text-xs"></i>
                             </button>
                         </div>
-                        <p class="text-[10px] text-gray-400 mt-1">${n.lessonId || (window.t?.('general-note') || 'ملاحظة عامة')} • ${new Date(n.createdAt?.toDate?.() || n.createdAt).toLocaleDateString(window.t?.('locale') || 'ar-EG')}</p>
+                        <p class="text-[10px] text-surface-400 mt-1">${n.lessonId || (window.t?.('general-note') || 'ملاحظة عامة')} • ${new Date(n.createdAt?.toDate?.() || n.createdAt).toLocaleDateString(window.t?.('locale') || 'ar-EG')}</p>
                     </div>
                 `).join('')}
             </div>
@@ -418,8 +418,8 @@ window.openGoalsPanel = async () => {
     modal.id = 'goals-modal';
     modal.className = 'fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-scale-in">
-            <div class="bg-gradient-to-r from-green-600 to-emerald-600 p-5 text-white">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-scale-in">
+            <div class="bg-gradient-to-r from-accent-600 to-accent-600 p-5 text-white">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-bold text-xl">🎯 ${window.t?.('weekly-goal') || 'هدف الأسبوع'}</h3>
@@ -448,10 +448,10 @@ window.openGoalsPanel = async () => {
             <div class="p-5">
                 <p class="text-sm font-bold dark:text-white mb-3">${window.t?.('change-goal') || 'تغيير الهدف'}:</p>
                 <div class="flex gap-2">
-                    <input type="number" id="goal-target" value="${goalData.target}" min="10" max="1000" class="flex-1 p-2 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 text-center font-bold">
-                    <input type="text" id="goal-label" value="${goalData.label}" class="flex-1 p-2 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 text-sm">
+                    <input type="number" id="goal-target" value="${goalData.target}" min="10" max="1000" class="flex-1 p-2 border rounded-lg dark:bg-surface-700 dark:text-white dark:border-surface-600 text-center font-bold">
+                    <input type="text" id="goal-label" value="${goalData.label}" class="flex-1 p-2 border rounded-lg dark:bg-surface-700 dark:text-white dark:border-surface-600 text-sm">
                 </div>
-                <button onclick="window.saveNewGoal()" class="mt-3 w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">
+                <button onclick="window.saveNewGoal()" class="mt-3 w-full bg-accent-600 text-white py-3 rounded-xl font-bold hover:bg-accent-700 transition">
                     <i class="fas fa-save"></i> ${window.t?.('btn-save') || 'حفظ'}
                 </button>
             </div>
@@ -480,7 +480,7 @@ window.openBookmarksPanel = async () => {
     modal.id = 'bookmarks-modal';
     modal.className = 'fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
             <div class="bg-gradient-to-r from-pink-600 to-rose-600 p-5 text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-heart text-2xl"></i>
@@ -494,21 +494,21 @@ window.openBookmarksPanel = async () => {
             
             <div class="p-4 overflow-y-auto max-h-96">
                 ${bookmarks.length === 0 ? `
-                    <div class="text-center py-10 text-gray-400">
+                    <div class="text-center py-10 text-surface-400">
                         <i class="fas fa-heart text-4xl mb-2 opacity-30"></i>
                         <p>${window.t?.('no-favorites') || 'لا توجد عناصر في المفضلة'}</p>
                         <p class="text-xs mt-1">${window.t?.('tap-heart-to-add') || 'اضغط على قلب ❤️ لإضافة محتوى'}</p>
                     </div>
                 ` : bookmarks.map(b => `
-                    <div class="bg-white dark:bg-gray-700 p-4 rounded-xl mb-2 border dark:border-gray-600 shadow-sm flex items-center gap-3 group hover:shadow-lg transition cursor-pointer">
+                    <div class="bg-white dark:bg-surface-700 p-4 rounded-xl mb-2 border dark:border-surface-600 shadow-sm flex items-center gap-3 group hover:shadow-lg transition cursor-pointer">
                         <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center text-white text-lg">
                             ${b.itemType === 'lesson' ? '📖' : b.itemType === 'quiz' ? '📝' : '📁'}
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="font-bold dark:text-white truncate">${b.title || b.itemId}</p>
-                            <p class="text-xs text-gray-400">${b.itemType} • ${new Date(b.addedAt?.toDate?.() || b.addedAt).toLocaleDateString(window.t?.('locale') || 'ar-EG')}</p>
+                            <p class="text-xs text-surface-400">${b.itemType} • ${new Date(b.addedAt?.toDate?.() || b.addedAt).toLocaleDateString(window.t?.('locale') || 'ar-EG')}</p>
                         </div>
-                        <button onclick="window.removeBookmark('${b.id}')" class="text-gray-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100">
+                        <button onclick="window.removeBookmark('${b.id}')" class="text-surface-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -621,7 +621,7 @@ window.loadFavoritesWidget = () => {
     const favorites = window.getFavorites();
 
     if (favorites.length === 0) {
-        container.innerHTML = `<p class="text-center text-gray-400 text-sm py-4">${window.t?.('no-favorites') || 'لا توجد مفضلات'}</p>`;
+        container.innerHTML = `<p class="text-center text-surface-400 text-sm py-4">${window.t?.('no-favorites') || 'لا توجد مفضلات'}</p>`;
         return;
     }
 
@@ -629,7 +629,7 @@ window.loadFavoritesWidget = () => {
         const icon = fav.type === 'section' ? 'fa-book' : 'fa-file-alt';
         const link = fav.type === 'section' ? `#section/${fav.id}` : `#lesson/${fav.id}`;
         return `
-            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl mb-2 group">
+            <div class="flex items-center justify-between p-3 bg-surface-50 dark:bg-surface-700 rounded-xl mb-2 group">
                 <a href="${link}" class="flex items-center gap-3 flex-1 truncate">
                     <i class="fas ${icon} text-red-400"></i>
                     <span class="text-sm font-bold dark:text-white truncate">${fav.title}</span>
@@ -652,7 +652,7 @@ export const renderStatsWidget = async (containerId) => {
 
     const user = auth.currentUser;
     if (!user) {
-        container.innerHTML = `<p class="text-gray-400 text-center text-sm">${window.t?.('login-to-view-stats') || 'سجل دخولك لعرض الإحصائيات'}</p>`;
+        container.innerHTML = `<p class="text-surface-400 text-center text-sm">${window.t?.('login-to-view-stats') || 'سجل دخولك لعرض الإحصائيات'}</p>`;
         return;
     }
 
@@ -676,11 +676,11 @@ export const renderStatsWidget = async (containerId) => {
 
         container.innerHTML = `
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-2xl text-center">
                     <div class="text-3xl font-black">${quizzesTaken}</div>
                     <div class="text-xs opacity-80 mt-1">📝 ${window.t?.('completed-quizzes') || 'كويز مكتمل'}</div>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-accent-500 to-accent-600 text-white p-4 rounded-2xl text-center">
                     <div class="text-3xl font-black">${avgScore}%</div>
                     <div class="text-xs opacity-80 mt-1">📊 ${window.t?.('average-score') || 'متوسط الدرجات'}</div>
                 </div>
@@ -688,12 +688,12 @@ export const renderStatsWidget = async (containerId) => {
                     <div class="text-3xl font-black">${userData.totalXp || 0}</div>
                     <div class="text-xs opacity-80 mt-1">⭐ ${window.t?.('xp-points') || 'نقاط XP'}</div>
                 </div>
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-500 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-500 text-white p-4 rounded-2xl text-center">
                     <div class="text-3xl font-black">${daysOnPlatform}</div>
                     <div class="text-xs opacity-80 mt-1">📅 ${window.t?.('days-on-platform') || 'يوم على المنصة'}</div>
                 </div>
             </div>
-            <div class="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-between">
+            <div class="mt-3 p-3 bg-surface-50 dark:bg-surface-700 rounded-xl flex items-center justify-between">
                 <span class="text-sm font-bold dark:text-white">🔥 ${window.t?.('current-streak') || 'Streak الحالي'}</span>
                 <span class="text-lg font-black text-orange-500">${userData.currentStreak || 0} ${window.t?.('days') || 'أيام'}</span>
             </div>
@@ -719,19 +719,19 @@ window.openStatsPanel = async () => {
     modal.id = 'stats-panel-modal';
     modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-y-auto custom-scrollbar">
-            <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center z-10">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-y-auto custom-scrollbar">
+            <div class="sticky top-0 bg-white dark:bg-surface-800 p-4 border-b dark:border-surface-700 flex justify-between items-center z-10">
                 <h3 class="font-black text-xl dark:text-white flex items-center gap-2">
-                    <i class="fas fa-chart-bar text-blue-500"></i> ${window.t?.('my-stats') || 'إحصائياتي'}
+                    <i class="fas fa-chart-bar text-primary-500"></i> ${window.t?.('my-stats') || 'إحصائياتي'}
                 </h3>
-                <button onclick="document.getElementById('stats-panel-modal').remove()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-red-100 hover:text-red-500 transition flex items-center justify-center">
+                <button onclick="document.getElementById('stats-panel-modal').remove()" class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 hover:bg-red-100 hover:text-red-500 transition flex items-center justify-center">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="stats-panel-content" class="p-4">
                 <div class="text-center py-10">
-                    <i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i>
-                    <p class="text-gray-400 mt-2">جاري التحميل...</p>
+                    <i class="fas fa-spinner fa-spin text-3xl text-primary-500"></i>
+                    <p class="text-surface-400 mt-2">جاري التحميل...</p>
                 </div>
             </div>
         </div>
@@ -753,7 +753,7 @@ export const renderCalendarWidget = async (containerId) => {
 
     const user = auth.currentUser;
     if (!user) {
-        container.innerHTML = '<p class="text-gray-400 text-center text-sm">سجل دخولك لعرض التقويم</p>';
+        container.innerHTML = '<p class="text-surface-400 text-center text-sm">سجل دخولك لعرض التقويم</p>';
         return;
     }
 
@@ -802,7 +802,7 @@ export const renderCalendarWidget = async (containerId) => {
 
         if (upcomingEvents.length === 0) {
             container.innerHTML = `
-                <div class="text-center py-6 text-gray-400">
+                <div class="text-center py-6 text-surface-400">
                     <i class="fas fa-calendar-check text-3xl mb-2 opacity-30"></i>
                     <p class="text-sm">لا توجد مهام قادمة</p>
                 </div>
@@ -814,13 +814,13 @@ export const renderCalendarWidget = async (containerId) => {
             const daysLeft = Math.ceil((event.date - now) / (1000 * 60 * 60 * 24));
             const urgencyClass = daysLeft <= 1 ? 'bg-red-100 text-red-600 dark:bg-red-900/30' :
                 daysLeft <= 3 ? 'bg-orange-100 text-orange-600 dark:bg-orange-900/30' :
-                    'bg-gray-100 text-gray-600 dark:bg-gray-700';
+                    'bg-surface-100 text-surface-600 dark:bg-surface-700';
             return `
-                <div class="flex items-center gap-3 p-3 bg-white dark:bg-gray-700 rounded-xl mb-2 shadow-sm border-r-4 border-${event.color}-500 hover:shadow-md transition group">
+                <div class="flex items-center gap-3 p-3 bg-white dark:bg-surface-700 rounded-xl mb-2 shadow-sm border-r-4 border-${event.color}-500 hover:shadow-md transition group">
                     <span class="text-2xl">${event.icon}</span>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-bold dark:text-white truncate">${event.title}</p>
-                        <p class="text-[10px] text-gray-400">${event.date.toLocaleDateString('ar-EG')}</p>
+                        <p class="text-[10px] text-surface-400">${event.date.toLocaleDateString('ar-EG')}</p>
                     </div>
                     <span class="${urgencyClass} px-2 py-1 rounded-full text-[10px] font-bold">
                         ${daysLeft === 0 ? 'اليوم!' : daysLeft === 1 ? 'غداً' : `${daysLeft} أيام`}
@@ -841,8 +841,8 @@ window.openCalendarPanel = async () => {
     modal.id = 'calendar-modal';
     modal.className = 'fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl animate-scale-in">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-600 p-5 text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-calendar-alt text-2xl"></i>
                     <div>
@@ -853,7 +853,7 @@ window.openCalendarPanel = async () => {
                 <button onclick="this.closest('#calendar-modal').remove()" class="hover:bg-white/20 p-2 rounded-full transition"><i class="fas fa-times"></i></button>
             </div>
             <div id="calendar-full-content" class="p-4 overflow-y-auto max-h-96">
-                <div class="text-center py-6"><i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i></div>
+                <div class="text-center py-6"><i class="fas fa-spinner fa-spin text-2xl text-primary-500"></i></div>
             </div>
         </div>
     `;
@@ -970,19 +970,19 @@ window.openSearchPanel = async () => {
     modal.id = 'search-modal';
     modal.className = 'fixed inset-0 bg-black/70 z-[9999] flex items-start justify-center pt-20 p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-xl shadow-2xl animate-scale-in overflow-hidden">
-            <div class="p-5 border-b dark:border-gray-700">
-                <div class="flex items-center gap-3 bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3">
-                    <i class="fas fa-search text-gray-400"></i>
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-xl shadow-2xl animate-scale-in overflow-hidden">
+            <div class="p-5 border-b dark:border-surface-700">
+                <div class="flex items-center gap-3 bg-surface-100 dark:bg-surface-700 rounded-2xl px-4 py-3">
+                    <i class="fas fa-search text-surface-400"></i>
                     <input type="text" id="search-input" placeholder="ابحث في المواد، الدروس، الكويزات..." 
                         class="flex-1 bg-transparent border-none outline-none dark:text-white text-lg" autofocus>
-                    <button onclick="this.closest('#search-modal').remove()" class="text-gray-400 hover:text-red-500">
+                    <button onclick="this.closest('#search-modal').remove()" class="text-surface-400 hover:text-red-500">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
             <div id="search-results" class="p-4 max-h-96 overflow-y-auto">
-                <p class="text-center text-gray-400 py-8"><i class="fas fa-lightbulb text-2xl mb-2 opacity-30"></i><br>ابدأ الكتابة للبحث...</p>
+                <p class="text-center text-surface-400 py-8"><i class="fas fa-lightbulb text-2xl mb-2 opacity-30"></i><br>ابدأ الكتابة للبحث...</p>
             </div>
         </div>
     `;
@@ -998,11 +998,11 @@ window.openSearchPanel = async () => {
         const query = input.value.trim().toLowerCase();
 
         if (query.length < 2) {
-            results.innerHTML = '<p class="text-center text-gray-400 py-8">اكتب حرفين على الأقل للبحث...</p>';
+            results.innerHTML = '<p class="text-center text-surface-400 py-8">اكتب حرفين على الأقل للبحث...</p>';
             return;
         }
 
-        results.innerHTML = '<p class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i></p>';
+        results.innerHTML = '<p class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-primary-500"></i></p>';
 
         searchTimeout = setTimeout(async () => {
             try {
@@ -1028,7 +1028,7 @@ window.openSearchPanel = async () => {
 
                 if (items.length === 0) {
                     results.innerHTML = `
-                        <div class="text-center py-8 text-gray-400">
+                        <div class="text-center py-8 text-surface-400">
                             <i class="fas fa-search text-3xl mb-2 opacity-30"></i>
                             <p>لا توجد نتائج لـ "${query}"</p>
                         </div>
@@ -1038,13 +1038,13 @@ window.openSearchPanel = async () => {
 
                 results.innerHTML = items.map(item => `
                     <a href="${item.link}" onclick="document.getElementById('search-modal').remove()" 
-                        class="flex items-center gap-3 p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition mb-2">
+                        class="flex items-center gap-3 p-3 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-xl transition mb-2">
                         <span class="text-2xl">${item.icon}</span>
                         <div class="flex-1">
                             <p class="font-bold dark:text-white">${item.title}</p>
-                            <p class="text-xs text-gray-400">${item.type === 'section' ? 'مادة دراسية' : 'اختبار'}</p>
+                            <p class="text-xs text-surface-400">${item.type === 'section' ? 'مادة دراسية' : 'اختبار'}</p>
                         </div>
-                        <i class="fas fa-arrow-left text-gray-300"></i>
+                        <i class="fas fa-arrow-left text-surface-300"></i>
                     </a>
                 `).join('');
 
@@ -1077,15 +1077,15 @@ window.openMyGradesPanel = async () => {
     const panel = document.createElement('div');
     panel.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[500] flex items-center justify-center p-4';
     panel.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
-            <div class="p-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
+            <div class="p-6 bg-gradient-to-r from-accent-500 to-accent-600 text-white">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-black"><i class="fas fa-chart-line ml-2"></i>درجاتي</h2>
                     <button onclick="this.closest('.fixed').remove()" class="w-10 h-10 bg-white/20 rounded-full hover:bg-white/30 transition"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             <div id="my-grades-content" class="p-6 overflow-y-auto max-h-[60vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-green-500"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-accent-500"></i></div>
             </div>
         </div>
     `;
@@ -1098,7 +1098,7 @@ window.openMyGradesPanel = async () => {
 
         if (gradesSnap.empty) {
             content.innerHTML = `
-                <div class="text-center py-10 text-gray-500">
+                <div class="text-center py-10 text-surface-500">
                     <i class="fas fa-inbox text-5xl mb-4 opacity-50"></i>
                     <p class="font-bold">لا توجد درجات مسجلة بعد</p>
                     <p class="text-sm mt-2">سيتم عرض درجاتك هنا بمجرد رفعها من الإدارة</p>
@@ -1114,12 +1114,12 @@ window.openMyGradesPanel = async () => {
             totalScore += g.score;
             totalMax += g.maxScore;
             const percent = Math.round((g.score / g.maxScore) * 100);
-            const color = percent >= 85 ? 'text-green-600' : percent >= 60 ? 'text-yellow-600' : 'text-red-600';
+            const color = percent >= 85 ? 'text-accent-600' : percent >= 60 ? 'text-yellow-600' : 'text-red-600';
             rows += `
-                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <tr class="border-b dark:border-surface-700 hover:bg-surface-50 dark:hover:bg-surface-700/50">
                     <td class="p-4 font-bold">${g.subject}</td>
                     <td class="p-4 text-center font-mono ${color}">${g.score}</td>
-                    <td class="p-4 text-center text-gray-500">${g.maxScore}</td>
+                    <td class="p-4 text-center text-surface-500">${g.maxScore}</td>
                     <td class="p-4 text-center font-bold ${color}">${percent}%</td>
                 </tr>
             `;
@@ -1127,13 +1127,13 @@ window.openMyGradesPanel = async () => {
 
         const totalPercent = Math.round((totalScore / totalMax) * 100);
         content.innerHTML = `
-            <div class="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-6 rounded-2xl mb-6 text-center">
-                <div class="text-5xl font-black text-green-600 mb-2">${totalPercent}%</div>
-                <div class="text-gray-600 dark:text-gray-300">المعدل التراكمي</div>
-                <div class="text-sm text-gray-500 mt-2">${totalScore} من ${totalMax} درجة</div>
+            <div class="bg-gradient-to-r from-accent-100 to-accent-100 dark:from-accent-900/30 dark:to-accent-900/30 p-6 rounded-2xl mb-6 text-center">
+                <div class="text-5xl font-black text-accent-600 mb-2">${totalPercent}%</div>
+                <div class="text-surface-600 dark:text-surface-300">المعدل التراكمي</div>
+                <div class="text-sm text-surface-500 mt-2">${totalScore} من ${totalMax} درجة</div>
             </div>
             <table class="w-full text-sm">
-                <thead class="bg-gray-100 dark:bg-gray-700">
+                <thead class="bg-surface-100 dark:bg-surface-700">
                     <tr>
                         <th class="p-4 text-right font-bold">المادة</th>
                         <th class="p-4 text-center font-bold">الدرجة</th>
@@ -1160,7 +1160,7 @@ window.openCollegeRankingPanel = async () => {
     const panel = document.createElement('div');
     panel.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[500] flex items-center justify-center p-4';
     panel.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
             <div class="p-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-black"><i class="fas fa-trophy ml-2"></i>ترتيب الكلية</h2>
@@ -1182,7 +1182,7 @@ window.openCollegeRankingPanel = async () => {
         const myCollegeId = myData.collegeId;
 
         if (!myCollegeId) {
-            document.getElementById('ranking-content').innerHTML = '<p class="text-center text-gray-500">لم يتم تحديد الكلية</p>';
+            document.getElementById('ranking-content').innerHTML = '<p class="text-center text-surface-500">لم يتم تحديد الكلية</p>';
             return;
         }
 
@@ -1217,13 +1217,13 @@ window.openCollegeRankingPanel = async () => {
             if (s.isMe) myRank = i + 1;
             const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`;
             return `
-                <div class="flex items-center gap-4 p-4 ${s.isMe ? 'bg-yellow-100 dark:bg-yellow-900/30 rounded-xl' : 'border-b dark:border-gray-700'}">
+                <div class="flex items-center gap-4 p-4 ${s.isMe ? 'bg-yellow-100 dark:bg-yellow-900/30 rounded-xl' : 'border-b dark:border-surface-700'}">
                     <div class="text-2xl font-black w-12 text-center">${medal}</div>
                     <img src="${s.photo || 'https://ui-avatars.com/api/?name=' + s.name}" class="w-12 h-12 rounded-full object-cover">
                     <div class="flex-1">
                         <div class="font-bold dark:text-white ${s.isMe ? 'text-yellow-700' : ''}">${s.name} ${s.isMe ? '(أنت)' : ''}</div>
                     </div>
-                    <div class="text-xl font-black ${s.percent >= 85 ? 'text-green-600' : s.percent >= 60 ? 'text-yellow-600' : 'text-red-600'}">${s.percent}%</div>
+                    <div class="text-xl font-black ${s.percent >= 85 ? 'text-accent-600' : s.percent >= 60 ? 'text-yellow-600' : 'text-red-600'}">${s.percent}%</div>
                 </div>
             `;
         }).join('');
@@ -1231,7 +1231,7 @@ window.openCollegeRankingPanel = async () => {
         document.getElementById('ranking-content').innerHTML = `
             <div class="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 p-6 rounded-2xl mb-6 text-center">
                 <div class="text-5xl font-black text-yellow-600 mb-2">#${myRank}</div>
-                <div class="text-gray-600 dark:text-gray-300">ترتيبك من ${students.length} طالب</div>
+                <div class="text-surface-600 dark:text-surface-300">ترتيبك من ${students.length} طالب</div>
             </div>
             <div class="space-y-2">${rows}</div>
         `;
@@ -1251,15 +1251,15 @@ window.openExamCalendarPanel = async () => {
     const panel = document.createElement('div');
     panel.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[500] flex items-center justify-center p-4';
     panel.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
-            <div class="p-6 bg-gradient-to-r from-indigo-500 to-pink-500 text-white">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl animate-slide-up">
+            <div class="p-6 bg-gradient-to-r from-primary-500 to-pink-500 text-white">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-black"><i class="fas fa-calendar-alt ml-2"></i>تقويم الامتحانات</h2>
                     <button onclick="this.closest('.fixed').remove()" class="w-10 h-10 bg-white/20 rounded-full hover:bg-white/30 transition"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             <div id="exam-calendar-content" class="p-6 overflow-y-auto max-h-[60vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-indigo-500"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-primary-500"></i></div>
             </div>
         </div>
     `;
@@ -1272,7 +1272,7 @@ window.openExamCalendarPanel = async () => {
 
         if (examsSnap.empty) {
             content.innerHTML = `
-                <div class="text-center py-10 text-gray-500">
+                <div class="text-center py-10 text-surface-500">
                     <i class="fas fa-calendar-times text-5xl mb-4 opacity-50"></i>
                     <p class="font-bold">لا توجد امتحانات مجدولة</p>
                 </div>
@@ -1290,20 +1290,20 @@ window.openExamCalendarPanel = async () => {
             const daysLeft = Math.ceil((examDate - now) / (1000 * 60 * 60 * 24));
 
             rows += `
-                <div class="p-4 rounded-xl mb-3 ${isToday ? 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500' : isPast ? 'bg-gray-100 dark:bg-gray-700 opacity-60' : 'bg-blue-50 dark:bg-indigo-900/20'}">
+                <div class="p-4 rounded-xl mb-3 ${isToday ? 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500' : isPast ? 'bg-surface-100 dark:bg-surface-700 opacity-60' : 'bg-primary-50 dark:bg-primary-900/20'}">
                     <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 bg-white dark:bg-gray-800 rounded-xl flex flex-col items-center justify-center shadow">
-                            <span class="text-2xl font-black text-indigo-600">${examDate.getDate()}</span>
-                            <span class="text-xs text-gray-500">${examDate.toLocaleDateString('ar-EG', { month: 'short' })}</span>
+                        <div class="w-16 h-16 bg-white dark:bg-surface-800 rounded-xl flex flex-col items-center justify-center shadow">
+                            <span class="text-2xl font-black text-primary-600">${examDate.getDate()}</span>
+                            <span class="text-xs text-surface-500">${examDate.toLocaleDateString('ar-EG', { month: 'short' })}</span>
                         </div>
                         <div class="flex-1">
                             <h4 class="font-bold dark:text-white text-lg">${exam.title}</h4>
-                            <p class="text-sm text-gray-500">${exam.subject || ''} ${exam.location ? '• ' + exam.location : ''}</p>
+                            <p class="text-sm text-surface-500">${exam.subject || ''} ${exam.location ? '• ' + exam.location : ''}</p>
                         </div>
                         <div class="text-right">
                             ${isToday ? '<span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">اليوم!</span>' :
-                    isPast ? '<span class="text-gray-400 text-sm">انتهى</span>' :
-                        `<span class="text-indigo-600 font-bold">بعد ${daysLeft} يوم</span>`}
+                    isPast ? '<span class="text-surface-400 text-sm">انتهى</span>' :
+                        `<span class="text-primary-600 font-bold">بعد ${daysLeft} يوم</span>`}
                         </div>
                     </div>
                 </div>
@@ -1327,8 +1327,8 @@ window.openStudentDashboard = async () => {
     const panel = document.createElement('div');
     panel.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[500] flex items-center justify-center p-4';
     panel.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl animate-slide-up">
-            <div class="p-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-600 text-white">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl animate-slide-up">
+            <div class="p-6 bg-gradient-to-r from-primary-600 via-primary-600 to-pink-600 text-white">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-black flex items-center gap-2">
                         <i class="fas fa-chart-pie"></i> لوحة المعلومات
@@ -1339,7 +1339,7 @@ window.openStudentDashboard = async () => {
                 </div>
             </div>
             <div id="dashboard-content" class="p-6 overflow-y-auto max-h-[70vh]">
-                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>
+                <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-primary-600"></i></div>
             </div>
         </div>
     `;
@@ -1370,15 +1370,15 @@ window.openStudentDashboard = async () => {
         content.innerHTML = `
             <!-- الإحصائيات السريعة -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-gradient-to-br from-green-400 to-green-600 text-white p-4 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-accent-400 to-accent-600 text-white p-4 rounded-2xl text-center shadow-lg">
                     <div class="text-3xl font-black">${userData.currentStreak || 0}</div>
                     <div class="text-xs opacity-80 mt-1">🔥 أيام متتالية</div>
                 </div>
-                <div class="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-primary-400 to-primary-600 text-white p-4 rounded-2xl text-center shadow-lg">
                     <div class="text-3xl font-black">${xp}</div>
                     <div class="text-xs opacity-80 mt-1">⭐ نقاط XP</div>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-400 to-indigo-600 text-white p-4 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-primary-400 to-primary-600 text-white p-4 rounded-2xl text-center shadow-lg">
                     <div class="text-3xl font-black">${gradeCount}</div>
                     <div class="text-xs opacity-80 mt-1">📊 مواد</div>
                 </div>
@@ -1389,15 +1389,15 @@ window.openStudentDashboard = async () => {
             </div>
             
             <!-- أزرار سريعة -->
-            <h3 class="font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
+            <h3 class="font-bold text-surface-800 dark:text-white mb-3 flex items-center gap-2">
                 <i class="fas fa-bolt text-yellow-500"></i> وصول سريع
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                <button onclick="this.closest('.fixed').remove(); window.openMyGradesPanel?.()" class="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
+                <button onclick="this.closest('.fixed').remove(); window.openMyGradesPanel?.()" class="bg-accent-50 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
                     <i class="fas fa-chart-line text-2xl"></i>
                     درجاتي
                 </button>
-                <button onclick="this.closest('.fixed').remove(); window.openExamCalendar?.()" class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
+                <button onclick="this.closest('.fixed').remove(); window.openExamCalendar?.()" class="bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
                     <i class="fas fa-calendar-alt text-2xl"></i>
                     تقويم الامتحانات
                 </button>
@@ -1405,18 +1405,18 @@ window.openStudentDashboard = async () => {
                     <i class="fas fa-bookmark text-2xl"></i>
                     المحفوظات
                 </button>
-                <button onclick="this.closest('.fixed').remove(); window.openNotesPanel?.()" class="bg-blue-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-blue-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
+                <button onclick="this.closest('.fixed').remove(); window.openNotesPanel?.()" class="bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 p-4 rounded-xl font-bold text-sm hover:scale-105 transition flex flex-col items-center gap-2">
                     <i class="fas fa-sticky-note text-2xl"></i>
                     ملاحظاتي
                 </button>
             </div>
             
             <!-- نصائح -->
-            <div class="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
-                <h4 class="font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
+            <div class="bg-gradient-to-r from-primary-50 to-primary-50 dark:from-primary-900/20 dark:to-primary-900/20 p-4 rounded-2xl border border-primary-200 dark:border-primary-800">
+                <h4 class="font-bold text-primary-800 dark:text-primary-300 mb-2 flex items-center gap-2">
                     <i class="fas fa-lightbulb"></i> نصيحة اليوم
                 </h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
+                <p class="text-sm text-surface-600 dark:text-surface-400">
                     ${getRandomTip()}
                 </p>
             </div>

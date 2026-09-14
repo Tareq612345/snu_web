@@ -90,37 +90,37 @@ export const setupChatWidget = async () => {
     chatContainer.className = "fixed bottom-20 left-4 md:bottom-10 md:left-10 z-[250] font-sans transition-all duration-300";
 
     chatContainer.innerHTML = `
-        <button id="chat-toggle-btn" class="w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 border-2 border-white animate-bounce-slow">
+        <button id="chat-toggle-btn" class="w-14 h-14 bg-gradient-to-r from-primary-600 to-primary-600 text-white rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 border-2 border-white animate-bounce-slow">
             <i class="fas fa-robot text-2xl"></i>
         </button>
 
-        <div id="chat-window" class="hidden absolute bottom-20 left-0 w-[320px] md:w-[380px] h-[500px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700 transform origin-bottom-left transition-all duration-300 scale-95 opacity-0">
+        <div id="chat-window" class="hidden absolute bottom-20 left-0 w-[320px] md:w-[380px] h-[500px] bg-white dark:bg-surface-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-surface-200 dark:border-surface-700 transform origin-bottom-left transition-all duration-300 scale-95 opacity-0">
             
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white flex justify-between items-center shadow-md">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-600 p-4 text-white flex justify-between items-center shadow-md">
                 <div class="flex items-center gap-3">
                     <div class="bg-white/20 p-2 rounded-full backdrop-blur-sm"><i class="fas fa-brain"></i></div>
                     <div>
                         <h3 class="font-bold text-sm">مسار AI ✨</h3>
-                        <p class="text-[10px] text-blue-100 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Gemma 3 🧠
+                        <p class="text-[10px] text-primary-100 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-accent-400 rounded-full animate-pulse"></span> Gemma 3 🧠
                         </p>
                     </div>
                 </div>
                 <button id="close-chat-btn" class="hover:bg-white/20 p-2 rounded-full transition"><i class="fas fa-times"></i></button>
             </div>
 
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 custom-scrollbar space-y-4">
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-surface-50 dark:bg-surface-900 custom-scrollbar space-y-4">
                 <div class="flex justify-start animate-fade-in">
-                    <div class="bg-white dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none text-gray-800 dark:text-white text-sm shadow-sm max-w-[85%] border border-gray-100 dark:border-gray-600">
+                    <div class="bg-white dark:bg-surface-700 p-3 rounded-2xl rounded-tl-none text-surface-800 dark:text-white text-sm shadow-sm max-w-[85%] border border-surface-100 dark:border-surface-600">
                         أهلاً! 👋 أنا مسار AI.<br>اسألني أي سؤال في أي مادة وهشرحلك! 🎓
                     </div>
                 </div>
             </div>
 
-            <div class="p-3 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
+            <div class="p-3 bg-white dark:bg-surface-800 border-t dark:border-surface-700">
                 <div class="flex gap-2 items-center">
-                    <input type="text" id="user-input" placeholder="اكتب سؤالك..." class="flex-1 p-3 bg-gray-100 dark:bg-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white text-sm transition font-bold">
-                    <button id="send-btn" class="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-blue-700 transition shadow-lg transform active:scale-95">
+                    <input type="text" id="user-input" placeholder="اكتب سؤالك..." class="flex-1 p-3 bg-surface-100 dark:bg-surface-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-white text-sm transition font-bold">
+                    <button id="send-btn" class="bg-primary-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-primary-700 transition shadow-lg transform active:scale-95">
                         <i class="fas fa-paper-plane text-sm"></i>
                     </button>
                 </div>
@@ -288,13 +288,13 @@ const appendMessage = (sender, text) => {
 
     let formattedText = text
         .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-        .replace(/`([^`]+)`/g, '<code class="bg-gray-800 text-yellow-300 px-1 rounded font-mono text-xs" dir="ltr">$1</code>')
+        .replace(/`([^`]+)`/g, '<code class="bg-surface-800 text-yellow-300 px-1 rounded font-mono text-xs" dir="ltr">$1</code>')
         .replace(/\n/g, '<br>');
 
     // إضافة زر القلب لرسائل الـ AI
     const heartBtn = sender === 'ai'
         ? `<div class="mt-1 flex gap-2">
-             <button onclick="this.classList.toggle('text-red-500')" class="text-gray-400 hover:text-red-500 transition text-xs flex items-center gap-1">
+             <button onclick="this.classList.toggle('text-red-500')" class="text-surface-400 hover:text-red-500 transition text-xs flex items-center gap-1">
                 <i class="fas fa-heart"></i> مفيد
              </button>
            </div>`
@@ -303,8 +303,8 @@ const appendMessage = (sender, text) => {
     div.innerHTML = `
         <div class="flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'} max-w-[85%]">
             <div class="${sender === 'user'
-            ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-tr-none'
-            : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-tl-none'} 
+            ? 'bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-tr-none'
+            : 'bg-white dark:bg-surface-700 text-surface-800 dark:text-surface-100 border border-surface-200 dark:border-surface-600 rounded-tl-none'} 
                 p-3 rounded-2xl text-sm shadow-sm break-words leading-relaxed">
                 ${formattedText}
             </div>
@@ -323,10 +323,10 @@ const addLoadingIndicator = () => {
     div.id = id;
     div.className = "flex justify-start animate-fade-in";
     div.innerHTML = `
-        <div class="bg-white dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none text-gray-500 text-xs shadow-sm flex gap-1 items-center border border-gray-200 dark:border-gray-600">
-            <span class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></span>
-            <span class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
-            <span class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+        <div class="bg-white dark:bg-surface-700 p-3 rounded-2xl rounded-tl-none text-surface-500 text-xs shadow-sm flex gap-1 items-center border border-surface-200 dark:border-surface-600">
+            <span class="w-2 h-2 bg-primary-400 rounded-full animate-bounce"></span>
+            <span class="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+            <span class="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
         </div>
     `;
     messagesArea.appendChild(div);

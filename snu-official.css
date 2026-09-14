@@ -1,0 +1,59 @@
+/* SNU official visual layer: light gray + navy, restrained institutional UI. */
+:root {
+  --snu-navy: #17324d;
+  --snu-navy-dark: #10263b;
+  --snu-gray-50: #f7f8fa;
+  --snu-gray-100: #eef1f4;
+  --snu-gray-200: #dfe5eb;
+  --snu-gray-600: #526170;
+  --snu-text: #1f2933;
+}
+
+body {
+  background: var(--snu-gray-50) !important;
+  color: var(--snu-text);
+}
+
+/* Disable optional UI without deleting its source code. */
+.feature-disabled { display: none !important; }
+
+/* Replace the old neon/AI-first landing treatment with a restrained institutional surface. */
+#auth-screen { background: var(--snu-navy-dark) !important; }
+#auth-screen .backdrop-blur-xl,
+#auth-screen .backdrop-blur-lg { backdrop-filter: none !important; }
+#auth-screen [class*="bg-gradient-to-"] { background-image: none !important; }
+#auth-screen .from-blue-600,
+#auth-screen .bg-blue-600 { background-color: var(--snu-navy) !important; }
+#auth-screen .text-blue-400,
+#auth-screen .text-indigo-400,
+#auth-screen .text-purple-400,
+#auth-screen .text-pink-400 { color: #cbd5df !important; }
+#auth-screen .border-white\/5,
+#auth-screen .border-white\/10 { border-color: rgba(255,255,255,.14) !important; }
+
+/* Production shell: neutral surfaces, navy actions, no decorative gradients. */
+#app-content main { background: var(--snu-gray-50) !important; }
+#app-content header { background: rgba(255,255,255,.98) !important; backdrop-filter: none !important; }
+#app-content [class*="bg-gradient-to-"] { background-image: none !important; }
+#app-content .from-blue-600,
+#app-content .bg-blue-600,
+#app-content .bg-indigo-600 { background-color: var(--snu-navy) !important; }
+#app-content .text-blue-600,
+#app-content .text-indigo-600,
+#app-content .text-blue-700,
+#app-content .text-indigo-700 { color: var(--snu-navy) !important; }
+#app-content .border-blue-500,
+#app-content .border-indigo-500 { border-color: var(--snu-navy) !important; }
+#app-content .shadow-lg,
+#app-content .shadow-xl,
+#app-content .shadow-2xl { box-shadow: 0 8px 24px rgba(23,50,77,.10) !important; }
+
+/* Formal typography and restrained motion. */
+#app-content .animate-bounce,
+#app-content .animate-pulse,
+#app-content .animate-ping { animation: none !important; }
+#app-content .rounded-3xl { border-radius: 1rem !important; }
+#app-content .rounded-2xl { border-radius: .85rem !important; }
+
+/* The logo is intentionally left as the current placeholder until the official SNU logo is supplied. */
+[data-platform-profile="snu-official"] { --brand-profile: "SNU"; }

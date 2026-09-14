@@ -127,33 +127,33 @@ const checkIdCard = async (user) => {
                 <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
                 <span class="font-bold text-red-600 dark:text-red-400">تم رفض الطلب السابق</span>
             </div>
-            <div class="bg-white dark:bg-gray-800 px-4 py-2 rounded-xl text-red-700 dark:text-red-300 font-bold text-sm border border-red-200 dark:border-red-600 mb-4 text-center">
+            <div class="bg-white dark:bg-surface-800 px-4 py-2 rounded-xl text-red-700 dark:text-red-300 font-bold text-sm border border-red-200 dark:border-red-600 mb-4 text-center">
                 ${userData.idCardRejectionReason || 'يرجى تصحيح البيانات ورفع صورة أوضح'}
             </div>
             
-            <p class="text-gray-600 dark:text-gray-400 text-sm mb-3 text-center">يمكنك تعديل بياناتك قبل إعادة الإرسال:</p>
+            <p class="text-surface-600 dark:text-surface-400 text-sm mb-3 text-center">يمكنك تعديل بياناتك قبل إعادة الإرسال:</p>
             
             <div class="space-y-3 mb-4">
                 <div>
-                    <label class="block text-sm font-bold mb-1 text-gray-700 dark:text-gray-300">الاسم الرباعي</label>
+                    <label class="block text-sm font-bold mb-1 text-surface-700 dark:text-surface-300">الاسم الرباعي</label>
                     <input type="text" id="reject-fullname" value="${userData.fullName || userData.displayName || ''}" 
-                           class="w-full p-3 border rounded-xl dark:bg-gray-700 dark:text-white text-right" placeholder="الاسم الرباعي كما في البطاقة">
+                           class="w-full p-3 border rounded-xl dark:bg-surface-700 dark:text-white text-right" placeholder="الاسم الرباعي كما في البطاقة">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold mb-1 text-gray-700 dark:text-gray-300">الرقم القومي</label>
+                    <label class="block text-sm font-bold mb-1 text-surface-700 dark:text-surface-300">الرقم القومي</label>
                     <input type="text" id="reject-nationalid" value="${userData.nationalId || ''}" maxlength="14"
-                           class="w-full p-3 border rounded-xl dark:bg-gray-700 dark:text-white font-mono text-center" placeholder="14 رقم"
+                           class="w-full p-3 border rounded-xl dark:bg-surface-700 dark:text-white font-mono text-center" placeholder="14 رقم"
                            oninput="this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g, '')">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold mb-1 text-gray-700 dark:text-gray-300">الرقم الجامعي</label>
+                    <label class="block text-sm font-bold mb-1 text-surface-700 dark:text-surface-300">الرقم الجامعي</label>
                     <input type="text" id="reject-studentid" value="${userData.studentId || ''}" maxlength="9"
-                           class="w-full p-3 border rounded-xl dark:bg-gray-700 dark:text-white font-mono text-center" placeholder="9 أرقام"
+                           class="w-full p-3 border rounded-xl dark:bg-surface-700 dark:text-white font-mono text-center" placeholder="9 أرقام"
                            oninput="this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g, '')">
                 </div>
             </div>
             
-            <p class="text-gray-500 text-xs text-center">ارفع صورة جديدة واضحة للكارنيه</p>
+            <p class="text-surface-500 text-xs text-center">ارفع صورة جديدة واضحة للكارنيه</p>
         `;
 
         // إضافة في بداية محتوى الـ modal
@@ -411,7 +411,7 @@ export const loadUserProfile = async (targetUserId) => {
 
     document.getElementById('profile-section').classList.remove('hidden');
     const container = document.getElementById('profile-section');
-    container.innerHTML = '<div class="text-center p-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-600"></i></div>';
+    container.innerHTML = '<div class="text-center p-10"><i class="fas fa-spinner fa-spin text-3xl text-primary-600"></i></div>';
 
     const currentUser = auth.currentUser;
     const isOwner = currentUser && currentUser.uid === targetUserId;
@@ -437,12 +437,12 @@ export const loadUserProfile = async (targetUserId) => {
 
         // الألوان المتاحة للثيم
         const themeColors = [
-            { id: 'indigo', gradient: 'from-blue-500 to-indigo-600', color: '#14b8a6' },
-            { id: 'blue', gradient: 'from-blue-500 to-indigo-500', color: '#3b82f6' },
-            { id: 'green', gradient: 'from-green-500 to-emerald-500', color: '#22c55e' },
+            { id: 'indigo', gradient: 'from-primary-500 to-primary-600', color: '#14b8a6' },
+            { id: 'blue', gradient: 'from-primary-500 to-primary-500', color: '#3b82f6' },
+            { id: 'green', gradient: 'from-accent-500 to-accent-500', color: '#22c55e' },
             { id: 'pink', gradient: 'from-pink-500 to-rose-500', color: '#ec4899' },
             { id: 'orange', gradient: 'from-orange-500 to-red-500', color: '#f97316' },
-            { id: 'purple', gradient: 'from-indigo-600 to-pink-500', color: '#9333ea' }
+            { id: 'purple', gradient: 'from-primary-600 to-pink-500', color: '#9333ea' }
         ];
         const userTheme = themeColors.find(t => t.id === userData.profileTheme) || themeColors[0];
         const coverImage = userData.coverPhoto || '';
@@ -514,7 +514,7 @@ export const loadUserProfile = async (targetUserId) => {
                     <div class="absolute bottom-0 right-6 md:right-10">
                         <div class="relative group/avatar">
                             <img src="${userData.photoURL || 'https://ui-avatars.com/api/?name=' + userData.displayName}" 
-                                class="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-white dark:border-gray-800 shadow-2xl bg-white object-cover">
+                                class="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-white dark:border-surface-800 shadow-2xl bg-white object-cover">
                             ${isOwner ? `
                             <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition cursor-pointer" onclick="document.getElementById('profile-upload').click()">
                                 <i class="fas fa-camera text-white text-2xl"></i>
@@ -522,7 +522,7 @@ export const loadUserProfile = async (targetUserId) => {
                             <input type="file" id="profile-upload" class="hidden" accept="image/*">
                             ` : ''}
                             ${isVerified ? `
-                            <div class="absolute bottom-1 right-1 bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center border-2 border-white shadow">
+                            <div class="absolute bottom-1 right-1 bg-primary-500 text-white w-7 h-7 rounded-full flex items-center justify-center border-2 border-white shadow">
                                 <i class="fas fa-check text-xs"></i>
                             </div>
                             ` : ''}
@@ -536,28 +536,28 @@ export const loadUserProfile = async (targetUserId) => {
                             ${userData.email === SUPER_ADMIN_EMAIL ? '<i class="fas fa-crown text-yellow-400"></i>' : ''}
                         </h2>
                         ${(isOwner || (currentUser && currentUser.email === SUPER_ADMIN_EMAIL)) ? `<p class="text-white/70 text-sm font-mono">${userData.email}</p>` : ''}
-                        ${userData.isOnline ? '<p class="text-green-300 text-xs font-bold flex items-center gap-1 mt-1"><span class="w-2 h-2 bg-green-400 rounded-full inline-block animate-pulse"></span> متصل الآن</p>' : (userData.lastSeen ? `<p class="text-white/50 text-xs mt-1">آخر ظهور: ${timeAgo(userData.lastSeen)}</p>` : '')}
+                        ${userData.isOnline ? '<p class="text-accent-300 text-xs font-bold flex items-center gap-1 mt-1"><span class="w-2 h-2 bg-accent-400 rounded-full inline-block animate-pulse"></span> متصل الآن</p>' : (userData.lastSeen ? `<p class="text-white/50 text-xs mt-1">آخر ظهور: ${timeAgo(userData.lastSeen)}</p>` : '')}
                     </div>
                 </div>
                 
                 <!-- Main Profile Content -->
-                <div class="bg-white dark:bg-gray-800 rounded-b-3xl shadow-xl pt-20 md:pt-8 md:pr-56 px-6 pb-8">
-                    <div class="mt-2 mb-6 inline-block bg-blue-50 dark:bg-gray-700 px-6 py-3 rounded-xl">
-                        <div class="text-blue-800 dark:text-blue-300 font-bold mb-1">${structNames.colName}</div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400 border-t dark:border-gray-600 pt-1">${structNames.deptName}</div>
+                <div class="bg-white dark:bg-surface-800 rounded-b-3xl shadow-xl pt-20 md:pt-8 md:pr-56 px-6 pb-8">
+                    <div class="mt-2 mb-6 inline-block bg-primary-50 dark:bg-surface-700 px-6 py-3 rounded-xl">
+                        <div class="text-primary-800 dark:text-primary-300 font-bold mb-1">${structNames.colName}</div>
+                        <div class="text-sm text-surface-500 dark:text-surface-400 border-t dark:border-surface-600 pt-1">${structNames.deptName}</div>
                     </div>
                     <div class="flex justify-center mb-6">${badgesHTML}</div>
                     
                     <!-- Follow Stats & Button -->
-                    <div class="flex items-center justify-between flex-wrap gap-4 mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-2xl">
+                    <div class="flex items-center justify-between flex-wrap gap-4 mb-6 p-4 bg-gradient-to-r from-primary-50 to-primary-50 dark:from-primary-900/20 dark:to-primary-900/20 rounded-2xl">
                         <div class="flex gap-6">
                             <button onclick="window.showFollowList('${targetUserId}', 'followers')" class="text-center hover:scale-105 transition cursor-pointer">
-                                <div class="text-2xl font-black text-blue-600 dark:text-blue-400">${followersCount}</div>
-                                <div class="text-xs text-gray-500 font-bold">متابعين</div>
+                                <div class="text-2xl font-black text-primary-600 dark:text-primary-400">${followersCount}</div>
+                                <div class="text-xs text-surface-500 font-bold">متابعين</div>
                             </button>
                             <button onclick="window.showFollowList('${targetUserId}', 'following')" class="text-center hover:scale-105 transition cursor-pointer">
-                                <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400">${followingCount}</div>
-                                <div class="text-xs text-gray-500 font-bold">يتابع</div>
+                                <div class="text-2xl font-black text-primary-600 dark:text-primary-400">${followingCount}</div>
+                                <div class="text-xs text-surface-500 font-bold">يتابع</div>
                             </button>
                         </div>
                         
@@ -566,14 +566,14 @@ export const loadUserProfile = async (targetUserId) => {
                             ${isFollowedBack && !isFollowing ? '<span class="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 px-2 py-1 rounded-full font-bold">يتابعك</span>' : ''}
                             <button id="follow-btn" onclick="window.toggleFollow('${targetUserId}', ${isFollowing})" 
                                 class="${isFollowing
-                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600'
-                    : 'bg-gradient-to-r from-blue-600 to-blue-600 text-white hover:from-blue-700 hover:to-blue-700'} 
+                    ? 'bg-surface-200 dark:bg-surface-700 text-surface-700 dark:text-surface-300 hover:bg-red-100 hover:text-red-600'
+                    : 'bg-gradient-to-r from-primary-600 to-primary-600 text-white hover:from-primary-700 hover:to-primary-700'} 
                                 px-6 py-2 rounded-xl font-bold text-sm transition shadow-lg flex items-center gap-2">
                                 <i class="fas ${isFollowing ? 'fa-user-check' : 'fa-user-plus'}"></i>
                                 ${isFollowing ? 'تتابعه ✓' : (isFollowedBack ? 'تابعه' : 'متابعة')}
                             </button>
                             <button onclick="window.showReportUserModal('${targetUserId}', '${userData.displayName?.replace(/'/g, "\\'") || 'مستخدم'}')" 
-                                class="w-10 h-10 bg-gray-100 dark:bg-gray-700 text-gray-500 hover:bg-red-100 hover:text-red-600 rounded-xl transition flex items-center justify-center" title="إبلاغ">
+                                class="w-10 h-10 bg-surface-100 dark:bg-surface-700 text-surface-500 hover:bg-red-100 hover:text-red-600 rounded-xl transition flex items-center justify-center" title="إبلاغ">
                                 <i class="fas fa-flag"></i>
                             </button>
                         </div>
@@ -581,42 +581,42 @@ export const loadUserProfile = async (targetUserId) => {
                     </div>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
-                            <div class="text-3xl font-bold text-blue-600">${totalScore}</div>
-                            <div class="text-xs text-gray-500 font-bold mt-1">النقاط</div>
+                        <div class="bg-surface-50 dark:bg-surface-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-primary-600">${totalScore}</div>
+                            <div class="text-xs text-surface-500 font-bold mt-1">النقاط</div>
                         </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                        <div class="bg-surface-50 dark:bg-surface-700 p-4 rounded-xl">
                             <div class="text-3xl font-bold text-orange-500">${userData.currentStreak || 0}</div>
-                            <div class="text-xs text-gray-500 font-bold mt-1">🔥 Streak</div>
+                            <div class="text-xs text-surface-500 font-bold mt-1">🔥 Streak</div>
                         </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
-                            <div class="text-3xl font-bold text-green-500">${userData.bestStreak || 0}</div>
-                            <div class="text-xs text-gray-500 font-bold mt-1">أفضل Streak</div>
+                        <div class="bg-surface-50 dark:bg-surface-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-accent-500">${userData.bestStreak || 0}</div>
+                            <div class="text-xs text-surface-500 font-bold mt-1">أفضل Streak</div>
                         </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
-                            <div class="text-3xl font-bold text-indigo-500">${userData.totalXp || 0}</div>
-                            <div class="text-xs text-gray-500 font-bold mt-1">XP</div>
+                        <div class="bg-surface-50 dark:bg-surface-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold text-primary-500">${userData.totalXp || 0}</div>
+                            <div class="text-xs text-surface-500 font-bold mt-1">XP</div>
                         </div>
                     </div>
                     
                     ${(isOwner || (currentUser && currentUser.email === SUPER_ADMIN_EMAIL)) && (userData.fullName || userData.nationalId || userData.studentId) ? `
                     <!-- بيانات الطالب الرسمية -->
-                    <div class="mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
-                        <h3 class="font-bold text-blue-800 dark:text-blue-300 mb-4 flex items-center gap-2 text-lg">
+                    <div class="mb-8 bg-gradient-to-br from-primary-50 to-primary-50 dark:from-primary-900/20 dark:to-primary-900/20 p-6 rounded-2xl border border-primary-200 dark:border-primary-800">
+                        <h3 class="font-bold text-primary-800 dark:text-primary-300 mb-4 flex items-center gap-2 text-lg">
                             <i class="fas fa-id-card"></i> البيانات الرسمية
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-blue-100 dark:border-blue-700">
-                                <div class="text-xs text-gray-500 mb-1 font-bold">الاسم الرباعي</div>
-                                <div class="text-lg font-black text-blue-700 dark:text-blue-400">${userData.fullName || '-'}</div>
+                            <div class="bg-white dark:bg-surface-800 p-4 rounded-xl border border-primary-100 dark:border-primary-700">
+                                <div class="text-xs text-surface-500 mb-1 font-bold">الاسم الرباعي</div>
+                                <div class="text-lg font-black text-primary-700 dark:text-primary-400">${userData.fullName || '-'}</div>
                             </div>
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-blue-100 dark:border-blue-700">
-                                <div class="text-xs text-gray-500 mb-1 font-bold">الرقم القومي</div>
-                                <div class="text-lg font-mono font-black text-blue-700 dark:text-blue-400 direction-ltr">${userData.nationalId || '-'}</div>
+                            <div class="bg-white dark:bg-surface-800 p-4 rounded-xl border border-primary-100 dark:border-primary-700">
+                                <div class="text-xs text-surface-500 mb-1 font-bold">الرقم القومي</div>
+                                <div class="text-lg font-mono font-black text-primary-700 dark:text-primary-400 direction-ltr">${userData.nationalId || '-'}</div>
                             </div>
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-blue-100 dark:border-blue-700">
-                                <div class="text-xs text-gray-500 mb-1 font-bold">الرقم الجامعي</div>
-                                <div class="text-lg font-mono font-black text-blue-700 dark:text-blue-400">${userData.studentId || '-'}</div>
+                            <div class="bg-white dark:bg-surface-800 p-4 rounded-xl border border-primary-100 dark:border-primary-700">
+                                <div class="text-xs text-surface-500 mb-1 font-bold">الرقم الجامعي</div>
+                                <div class="text-lg font-mono font-black text-primary-700 dark:text-primary-400">${userData.studentId || '-'}</div>
                             </div>
                         </div>
                     </div>
@@ -624,36 +624,36 @@ export const loadUserProfile = async (targetUserId) => {
                     
                     ${(isOwner || (currentUser && currentUser.email === SUPER_ADMIN_EMAIL)) ? `
                     <!-- سجل الدرجات -->
-                    <div class="mb-8 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-2xl border border-green-200 dark:border-green-800">
-                        <h3 class="font-bold text-green-800 dark:text-green-300 mb-4 flex items-center gap-2 text-lg">
+                    <div class="mb-8 bg-gradient-to-br from-accent-50 to-accent-50 dark:from-accent-900/20 dark:to-accent-900/20 p-6 rounded-2xl border border-accent-200 dark:border-accent-800">
+                        <h3 class="font-bold text-accent-800 dark:text-accent-300 mb-4 flex items-center gap-2 text-lg">
                             <i class="fas fa-graduation-cap"></i> ${isOwner ? 'سجل درجاتي' : 'سجل درجات الطالب'}
                         </h3>
                         
                         <!-- تبويبات -->
                         <div class="flex gap-2 mb-4 flex-wrap">
-                            <button id="grades-tab-final" class="py-2 px-4 rounded-xl font-bold text-sm bg-green-600 text-white shadow-lg transition">الفاينل 📊</button>
-                            <button id="grades-tab-quizzes" class="py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition">الاختبارات</button>
-                            <button id="grades-tab-assignments" class="py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition">الواجبات</button>
+                            <button id="grades-tab-final" class="py-2 px-4 rounded-xl font-bold text-sm bg-accent-600 text-white shadow-lg transition">الفاينل 📊</button>
+                            <button id="grades-tab-quizzes" class="py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition">الاختبارات</button>
+                            <button id="grades-tab-assignments" class="py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition">الواجبات</button>
                         </div>
                         
                         <!-- محتوى الفاينل -->
                         <div id="grades-content-final">
                             <div class="space-y-2 max-h-64 overflow-y-auto" id="grades-final-list">
-                                <p class="text-center text-gray-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
+                                <p class="text-center text-surface-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
                             </div>
                         </div>
                         
                         <!-- محتوى الاختبارات -->
                         <div id="grades-content-quizzes" class="hidden">
                             <div class="space-y-2 max-h-64 overflow-y-auto" id="grades-quizzes-list">
-                                <p class="text-center text-gray-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
+                                <p class="text-center text-surface-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
                             </div>
                         </div>
                         
                         <!-- محتوى الواجبات -->
                         <div id="grades-content-assignments" class="hidden">
                             <div class="space-y-2 max-h-64 overflow-y-auto" id="grades-assignments-list">
-                                <p class="text-center text-gray-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
+                                <p class="text-center text-surface-500 py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
                             </div>
                         </div>
                     </div>
@@ -661,22 +661,22 @@ export const loadUserProfile = async (targetUserId) => {
                     
                     ${isOwner ? `
                     <!-- طلاب قد تعرفهم -->
-                    <div class="mb-8 bg-gradient-to-br from-blue-50 to-pink-50 dark:from-indigo-900/20 dark:to-pink-900/20 p-6 rounded-2xl border border-blue-200 dark:border-indigo-800">
-                        <h3 class="font-bold text-indigo-800 dark:text-blue-300 mb-4 flex items-center gap-2 text-lg">
+                    <div class="mb-8 bg-gradient-to-br from-primary-50 to-pink-50 dark:from-primary-900/20 dark:to-pink-900/20 p-6 rounded-2xl border border-primary-200 dark:border-primary-800">
+                        <h3 class="font-bold text-primary-800 dark:text-primary-300 mb-4 flex items-center gap-2 text-lg">
                             <i class="fas fa-user-friends"></i> طلاب قد تعرفهم
                         </h3>
                         <div id="suggested-users-list" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <p class="col-span-full text-center text-gray-400 py-4"><i class="fas fa-spinner fa-spin"></i> جاري البحث...</p>
+                            <p class="col-span-full text-center text-surface-400 py-4"><i class="fas fa-spinner fa-spin"></i> جاري البحث...</p>
                         </div>
                     </div>
                     ` : ''}
                     ${isAdmin && !isOwner ? `
-                    <div class="mb-6 bg-gradient-to-br from-blue-50 to-pink-50 dark:from-indigo-900/20 dark:to-pink-900/20 p-5 rounded-2xl border border-blue-200 dark:border-indigo-800">
-                        <h3 class="font-bold text-indigo-800 dark:text-blue-300 mb-4 flex items-center gap-2">
+                    <div class="mb-6 bg-gradient-to-br from-primary-50 to-pink-50 dark:from-primary-900/20 dark:to-pink-900/20 p-5 rounded-2xl border border-primary-200 dark:border-primary-800">
+                        <h3 class="font-bold text-primary-800 dark:text-primary-300 mb-4 flex items-center gap-2">
                             <i class="fas fa-user-shield"></i> أدوات الأدمن
                         </h3>
                         <div class="flex flex-wrap items-center gap-3">
-                            <span class="${isVerified ? 'text-green-600 bg-green-100 dark:bg-green-900/30' : 'text-orange-500 bg-orange-100 dark:bg-orange-900/30'} font-bold text-sm flex items-center gap-2 px-4 py-2 rounded-full">
+                            <span class="${isVerified ? 'text-accent-600 bg-accent-100 dark:bg-accent-900/30' : 'text-orange-500 bg-orange-100 dark:bg-orange-900/30'} font-bold text-sm flex items-center gap-2 px-4 py-2 rounded-full">
                                 <i class="fas ${isVerified ? 'fa-check-circle' : 'fa-clock'}"></i>
                                 ${isVerified ? 'موثق ✓' : 'غير موثق'}
                             </span>
@@ -685,7 +685,7 @@ export const loadUserProfile = async (targetUserId) => {
                                     <i class="fas fa-times-circle"></i> إلغاء التوثيق
                                 </button>
                             ` : `
-                                <button onclick="window.verifyUser('${targetUserId}', true)" class="bg-green-500 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-green-600 transition shadow-lg flex items-center gap-2">
+                                <button onclick="window.verifyUser('${targetUserId}', true)" class="bg-accent-500 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-accent-600 transition shadow-lg flex items-center gap-2">
                                     <i class="fas fa-check-circle"></i> توثيق الآن
                                 </button>
                                 ${userData.idCardImage ? `
@@ -697,7 +697,7 @@ export const loadUserProfile = async (targetUserId) => {
                             <button onclick="window.adminMessageUser('${targetUserId}', '${userData.displayName}')" class="bg-pink-500 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-pink-600 transition shadow-lg flex items-center gap-2">
                                 <i class="fas fa-envelope"></i> مراسلة
                             </button>
-                            <button onclick="window.adminRemoveUserPhoto('${targetUserId}', '${userData.displayName?.replace(/'/g, "\\\\'")}')" class="bg-gray-500 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-gray-600 transition shadow-lg flex items-center gap-2">
+                            <button onclick="window.adminRemoveUserPhoto('${targetUserId}', '${userData.displayName?.replace(/'/g, "\\\\'")}')" class="bg-surface-500 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-surface-600 transition shadow-lg flex items-center gap-2">
                                 <i class="fas fa-user-slash"></i> إخفاء صورة البروفايل
                             </button>
                         </div>
@@ -706,12 +706,12 @@ export const loadUserProfile = async (targetUserId) => {
                     
                     ${/* قسم الكارنيه - للأدمن فقط */ ''}
                     ${isAdmin && userData.idCardImage ? `
-                    <div class="mb-8 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
-                        <h3 class="font-bold text-blue-800 dark:text-blue-300 mb-4 flex items-center gap-2">
+                    <div class="mb-8 bg-gradient-to-br from-primary-50 to-primary-50 dark:from-primary-900/20 dark:to-primary-900/20 p-6 rounded-2xl border border-primary-200 dark:border-primary-800">
+                        <h3 class="font-bold text-primary-800 dark:text-primary-300 mb-4 flex items-center gap-2">
                             <i class="fas fa-id-card"></i> صورة الكارنيه
                         </h3>
                         <div class="relative group cursor-pointer" onclick="window.open('${userData.idCardImage}', '_blank')">
-                            <img src="${userData.idCardImage}" class="w-full max-h-64 object-contain rounded-xl border dark:border-gray-700">
+                            <img src="${userData.idCardImage}" class="w-full max-h-64 object-contain rounded-xl border dark:border-surface-700">
                             <div class="absolute inset-0 bg-black/30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                                 <span class="bg-white/90 px-4 py-2 rounded-full font-bold text-sm"><i class="fas fa-expand-alt"></i> تكبير</span>
                             </div>
@@ -720,44 +720,44 @@ export const loadUserProfile = async (targetUserId) => {
                     ` : ''}
                     
                     ${isOwner ? `
-                        <div class="border-t dark:border-gray-700 pt-6 text-right bg-gray-50 dark:bg-gray-700/30 p-6 rounded-2xl">
-                            <h3 class="font-bold text-gray-700 dark:text-white mb-6 text-lg"><i class="fas fa-palette"></i> تخصيص البروفايل</h3>
+                        <div class="border-t dark:border-surface-700 pt-6 text-right bg-surface-50 dark:bg-surface-700/30 p-6 rounded-2xl">
+                            <h3 class="font-bold text-surface-700 dark:text-white mb-6 text-lg"><i class="fas fa-palette"></i> تخصيص البروفايل</h3>
                             
                             <!-- اختيار لون الثيم -->
                             <div class="mb-6">
-                                <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-3 block">لون الغلاف:</label>
+                                <label class="text-xs font-bold text-surface-500 dark:text-surface-400 mb-3 block">لون الغلاف:</label>
                                 <div id="theme-picker" class="flex flex-wrap gap-3">
                                     ${themeColors.map(t => `
                                         <button onclick="window.setProfileTheme('${t.id}')" 
-                                            class="w-10 h-10 rounded-full bg-gradient-to-r ${t.gradient} ${userData.profileTheme === t.id ? 'ring-4 ring-offset-2 ring-gray-400 dark:ring-offset-gray-800' : ''} hover:scale-110 transition shadow-lg" 
+                                            class="w-10 h-10 rounded-full bg-gradient-to-r ${t.gradient} ${userData.profileTheme === t.id ? 'ring-4 ring-offset-2 ring-surface-400 dark:ring-offset-surface-800' : ''} hover:scale-110 transition shadow-lg" 
                                             title="${t.id}">
                                         </button>
                                     `).join('')}
                                 </div>
                             </div>
                             
-                            <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">الاسم الظاهر:</label>
-                            <input type="text" id="edit-name" value="${userData.displayName}" class="w-full p-3 mb-4 border rounded-xl dark:bg-gray-800 dark:text-white font-bold outline-none focus:ring-2 focus:ring-blue-500">
+                            <label class="text-xs font-bold text-surface-500 dark:text-surface-400 mb-1 block">الاسم الظاهر:</label>
+                            <input type="text" id="edit-name" value="${userData.displayName}" class="w-full p-3 mb-4 border rounded-xl dark:bg-surface-800 dark:text-white font-bold outline-none focus:ring-2 focus:ring-primary-500">
                             
-                            <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">نبذة شخصية:</label>
-                            <textarea id="edit-bio" class="w-full p-3 border rounded-xl dark:bg-gray-800 dark:text-white outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="اكتب شيئاً عن نفسك...">${userData.bio || ''}</textarea>
+                            <label class="text-xs font-bold text-surface-500 dark:text-surface-400 mb-1 block">نبذة شخصية:</label>
+                            <textarea id="edit-bio" class="w-full p-3 border rounded-xl dark:bg-surface-800 dark:text-white outline-none focus:ring-2 focus:ring-primary-500" rows="3" placeholder="اكتب شيئاً عن نفسك...">${userData.bio || ''}</textarea>
                             
-                            <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-between">
-                                <span class="text-xs font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2">
+                            <div class="mt-4 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-between">
+                                <span class="text-xs font-bold text-primary-800 dark:text-primary-300 flex items-center gap-2">
                                     <i class="fas fa-id-card"></i> حالة التوثيق
                                 </span>
                                 ${isVerified
-                    ? '<span class="text-green-600 font-bold text-sm flex items-center gap-1 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full"><i class="fas fa-check-circle"></i> موثق</span>'
+                    ? '<span class="text-accent-600 font-bold text-sm flex items-center gap-1 bg-accent-100 dark:bg-accent-900/30 px-3 py-1 rounded-full"><i class="fas fa-check-circle"></i> موثق</span>'
                     : '<span class="text-orange-500 font-bold text-sm flex items-center gap-1 bg-orange-100 dark:bg-orange-900/30 px-3 py-1 rounded-full"><i class="fas fa-clock"></i> قيد المراجعة</span>'}
                             </div>
 
-                            <button id="save-profile-btn" class="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-4 rounded-2xl font-bold hover:shadow-xl hover:shadow-blue-500/30 transition text-lg flex items-center justify-center gap-2">
+                            <button id="save-profile-btn" class="mt-6 w-full bg-gradient-to-r from-primary-600 to-primary-600 text-white px-6 py-4 rounded-2xl font-bold hover:shadow-xl hover:shadow-primary-500/30 transition text-lg flex items-center justify-center gap-2">
                                 <i class="fas fa-save"></i> حفظ التغييرات
                             </button>
                         </div>
                     ` : `
-                        <div class="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
-                            <p class="text-gray-600 dark:text-gray-300 italic">"${userData.bio || 'لا توجد نبذة شخصية.'}"</p>
+                        <div class="bg-surface-50 dark:bg-surface-700/30 p-4 rounded-xl">
+                            <p class="text-surface-600 dark:text-surface-300 italic">"${userData.bio || 'لا توجد نبذة شخصية.'}"</p>
                         </div>
                     `}
                 </div>
@@ -834,7 +834,7 @@ export const loadUserProfile = async (targetUserId) => {
                 try {
                     const quizzesSnap = await getDocs(query(collection(db, "user_scores"), where("userId", "==", targetUserId)));
                     if (quizzesSnap.empty) {
-                        quizzesList.innerHTML = '<p class="text-center text-gray-400 py-4"><i class="fas fa-clipboard-list"></i> لا توجد اختبارات بعد</p>';
+                        quizzesList.innerHTML = '<p class="text-center text-surface-400 py-4"><i class="fas fa-clipboard-list"></i> لا توجد اختبارات بعد</p>';
                     } else {
                         const quizData = [];
                         quizzesSnap.forEach(d => quizData.push({ id: d.id, ...d.data() }));
@@ -842,16 +842,16 @@ export const loadUserProfile = async (targetUserId) => {
 
                         quizzesList.innerHTML = quizData.map(q => {
                             const dateStr = q.date?.toDate ? q.date.toDate().toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' }) : '';
-                            const scoreColor = q.score >= 80 ? 'text-green-600 bg-green-100' : q.score >= 50 ? 'text-yellow-600 bg-yellow-100' : 'text-red-600 bg-red-100';
+                            const scoreColor = q.score >= 80 ? 'text-accent-600 bg-accent-100' : q.score >= 50 ? 'text-yellow-600 bg-yellow-100' : 'text-red-600 bg-red-100';
                             const hasDetails = q.examDetails && q.examDetails.length > 0;
                             return `
-                                <div class="flex items-center justify-between bg-white dark:bg-gray-700 p-3 rounded-xl shadow-sm">
+                                <div class="flex items-center justify-between bg-white dark:bg-surface-700 p-3 rounded-xl shadow-sm">
                                     <div class="flex-1">
-                                        <p class="font-bold text-gray-800 dark:text-white text-sm">${q.quizTitle || 'اختبار'}</p>
-                                        <p class="text-xs text-gray-400">${dateStr} • ${q.correct || 0}/${q.questionsCount || '?'} صحيح</p>
+                                        <p class="font-bold text-surface-800 dark:text-white text-sm">${q.quizTitle || 'اختبار'}</p>
+                                        <p class="text-xs text-surface-400">${dateStr} • ${q.correct || 0}/${q.questionsCount || '?'} صحيح</p>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        ${hasDetails ? `<button onclick="window.showExamReview('${q.id}')" class="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-lg font-bold hover:bg-blue-200 transition"><i class="fas fa-eye"></i> مراجعة</button>` : ''}
+                                        ${hasDetails ? `<button onclick="window.showExamReview('${q.id}')" class="text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-2 py-1 rounded-lg font-bold hover:bg-primary-200 transition"><i class="fas fa-eye"></i> مراجعة</button>` : ''}
                                         <span class="font-black text-lg ${scoreColor} px-3 py-1 rounded-full">${q.score}%</span>
                                     </div>
                                 </div>
@@ -871,7 +871,7 @@ export const loadUserProfile = async (targetUserId) => {
                 try {
                     const assignSnap = await getDocs(query(collection(db, "submissions"), where("userId", "==", targetUserId)));
                     if (assignSnap.empty) {
-                        assignmentsList.innerHTML = '<p class="text-center text-gray-400 py-4"><i class="fas fa-file-alt"></i> لا توجد واجبات مسلمة بعد</p>';
+                        assignmentsList.innerHTML = '<p class="text-center text-surface-400 py-4"><i class="fas fa-file-alt"></i> لا توجد واجبات مسلمة بعد</p>';
                     } else {
                         const assignData = [];
                         assignSnap.forEach(d => assignData.push({ id: d.id, ...d.data() }));
@@ -880,13 +880,13 @@ export const loadUserProfile = async (targetUserId) => {
                         assignmentsList.innerHTML = assignData.map(a => {
                             const dateStr = a.submittedAt?.toDate ? a.submittedAt.toDate().toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' }) : '';
                             const hasGrade = a.grade !== undefined && a.grade !== null;
-                            const gradeColor = hasGrade ? (a.grade >= 80 ? 'text-green-600 bg-green-100' : a.grade >= 50 ? 'text-yellow-600 bg-yellow-100' : 'text-red-600 bg-red-100') : 'text-gray-500 bg-gray-100';
+                            const gradeColor = hasGrade ? (a.grade >= 80 ? 'text-accent-600 bg-accent-100' : a.grade >= 50 ? 'text-yellow-600 bg-yellow-100' : 'text-red-600 bg-red-100') : 'text-surface-500 bg-surface-100';
                             const gradeText = hasGrade ? `${a.grade}%` : 'قيد التصحيح';
                             return `
-                                <div class="flex items-center justify-between bg-white dark:bg-gray-700 p-3 rounded-xl shadow-sm">
+                                <div class="flex items-center justify-between bg-white dark:bg-surface-700 p-3 rounded-xl shadow-sm">
                                     <div class="flex-1">
-                                        <p class="font-bold text-gray-800 dark:text-white text-sm">${a.assignmentTitle || 'واجب'}</p>
-                                        <p class="text-xs text-gray-400">${dateStr}</p>
+                                        <p class="font-bold text-surface-800 dark:text-white text-sm">${a.assignmentTitle || 'واجب'}</p>
+                                        <p class="text-xs text-surface-400">${dateStr}</p>
                                     </div>
                                     <div class="text-left">
                                         <span class="font-black text-sm ${gradeColor} px-3 py-1 rounded-full">${gradeText}</span>
@@ -914,7 +914,7 @@ export const loadUserProfile = async (targetUserId) => {
                     const gradesSnap = await getDocs(query(collection(db, "final_grades"), where("userId", "==", targetUserId)));
 
                     if (gradesSnap.empty) {
-                        finalList.innerHTML = '<p class="text-center text-gray-500 py-4"><i class="fas fa-inbox opacity-50"></i> لا توجد درجات فاينل مسجلة</p>';
+                        finalList.innerHTML = '<p class="text-center text-surface-500 py-4"><i class="fas fa-inbox opacity-50"></i> لا توجد درجات فاينل مسجلة</p>';
                         return;
                     }
 
@@ -922,14 +922,14 @@ export const loadUserProfile = async (targetUserId) => {
                     gradesSnap.forEach(d => {
                         const g = d.data();
                         const percent = Math.round((g.score / g.maxScore) * 100);
-                        const color = percent >= 85 ? 'bg-green-100 border-green-300' : percent >= 60 ? 'bg-yellow-100 border-yellow-300' : 'bg-red-100 border-red-300';
-                        const textColor = percent >= 85 ? 'text-green-700' : percent >= 60 ? 'text-yellow-700' : 'text-red-700';
+                        const color = percent >= 85 ? 'bg-accent-100 border-accent-300' : percent >= 60 ? 'bg-yellow-100 border-yellow-300' : 'bg-red-100 border-red-300';
+                        const textColor = percent >= 85 ? 'text-accent-700' : percent >= 60 ? 'text-yellow-700' : 'text-red-700';
 
                         // التقدير
                         const getLetterGrade = (p) => {
-                            if (p >= 90) return { grade: 'ممتاز', icon: '🌟', bg: 'bg-green-600' };
-                            if (p >= 80) return { grade: 'جيد جداً', icon: '⭐', bg: 'bg-blue-600' };
-                            if (p >= 70) return { grade: 'جيد', icon: '👍', bg: 'bg-indigo-600' };
+                            if (p >= 90) return { grade: 'ممتاز', icon: '🌟', bg: 'bg-accent-600' };
+                            if (p >= 80) return { grade: 'جيد جداً', icon: '⭐', bg: 'bg-primary-600' };
+                            if (p >= 70) return { grade: 'جيد', icon: '👍', bg: 'bg-primary-600' };
                             if (p >= 60) return { grade: 'مقبول', icon: '✓', bg: 'bg-yellow-600' };
                             return { grade: 'راسب', icon: '✗', bg: 'bg-red-600' };
                         };
@@ -937,7 +937,7 @@ export const loadUserProfile = async (targetUserId) => {
 
                         html += `
                             <div class="flex justify-between items-center p-3 ${color} border rounded-xl">
-                                <div class="font-bold text-gray-800">${g.subject}</div>
+                                <div class="font-bold text-surface-800">${g.subject}</div>
                                 <div class="flex items-center gap-2">
                                     <span class="${letterGrade.bg} text-white px-2 py-1 rounded-lg text-xs font-bold">${letterGrade.icon} ${letterGrade.grade}</span>
                                     <span class="font-mono font-bold ${textColor}">${g.score}/${g.maxScore}</span>
@@ -956,9 +956,9 @@ export const loadUserProfile = async (targetUserId) => {
 
             // تبويبات سجل الدرجات - Final
             document.getElementById('grades-tab-final')?.addEventListener('click', () => {
-                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-green-600 text-white shadow-lg transition';
-                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
-                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
+                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-accent-600 text-white shadow-lg transition';
+                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
+                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
                 document.getElementById('grades-content-final').classList.remove('hidden');
                 document.getElementById('grades-content-quizzes').classList.add('hidden');
                 document.getElementById('grades-content-assignments').classList.add('hidden');
@@ -966,9 +966,9 @@ export const loadUserProfile = async (targetUserId) => {
 
             // تبويبات Quizzes
             document.getElementById('grades-tab-quizzes')?.addEventListener('click', () => {
-                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-green-600 text-white shadow-lg transition';
-                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
-                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
+                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-accent-600 text-white shadow-lg transition';
+                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
+                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
                 document.getElementById('grades-content-quizzes').classList.remove('hidden');
                 document.getElementById('grades-content-final').classList.add('hidden');
                 document.getElementById('grades-content-assignments').classList.add('hidden');
@@ -976,9 +976,9 @@ export const loadUserProfile = async (targetUserId) => {
 
             // تبويبات Assignments
             document.getElementById('grades-tab-assignments')?.addEventListener('click', () => {
-                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-green-600 text-white shadow-lg transition';
-                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
-                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 transition';
+                document.getElementById('grades-tab-assignments').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-accent-600 text-white shadow-lg transition';
+                document.getElementById('grades-tab-final').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
+                document.getElementById('grades-tab-quizzes').className = 'py-2 px-4 rounded-xl font-bold text-sm bg-white dark:bg-surface-700 text-surface-600 dark:text-surface-300 hover:bg-surface-100 transition';
                 document.getElementById('grades-content-assignments').classList.remove('hidden');
                 document.getElementById('grades-content-final').classList.add('hidden');
                 document.getElementById('grades-content-quizzes').classList.add('hidden');
@@ -1025,16 +1025,16 @@ export const loadUserProfile = async (targetUserId) => {
                     const suggestions = candidates.slice(0, 5);
 
                     if (suggestions.length === 0) {
-                        suggestList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-4"><i class="fas fa-check-circle text-green-500"></i> أنت متابع للجميع!</p>';
+                        suggestList.innerHTML = '<p class="col-span-full text-center text-surface-400 py-4"><i class="fas fa-check-circle text-accent-500"></i> أنت متابع للجميع!</p>';
                         return;
                     }
 
                     suggestList.innerHTML = suggestions.map(u => `
-                        <div class="bg-white dark:bg-gray-700 p-3 rounded-xl shadow-sm text-center hover:shadow-lg transition">
-                            <img src="${u.photoURL || 'https://ui-avatars.com/api/?background=random&name=' + (u.displayName || 'U')}" class="w-14 h-14 rounded-full mx-auto mb-2 border-2 border-blue-200 dark:border-indigo-700 cursor-pointer" onclick="window.location.hash='profile/${u.uid}'">
+                        <div class="bg-white dark:bg-surface-700 p-3 rounded-xl shadow-sm text-center hover:shadow-lg transition">
+                            <img src="${u.photoURL || 'https://ui-avatars.com/api/?background=random&name=' + (u.displayName || 'U')}" class="w-14 h-14 rounded-full mx-auto mb-2 border-2 border-primary-200 dark:border-primary-700 cursor-pointer" onclick="window.location.hash='profile/${u.uid}'">
                             <p class="font-bold text-sm dark:text-white truncate">${u.displayName || 'مستخدم'}</p>
-                            <p class="text-xs text-gray-400 mb-2">${u.collegeId || ''}</p>
-                            <button onclick="window.quickFollow('${u.uid}', this)" class="w-full bg-blue-600 text-white text-xs py-1.5 rounded-lg font-bold hover:bg-blue-700 transition">
+                            <p class="text-xs text-surface-400 mb-2">${u.collegeId || ''}</p>
+                            <button onclick="window.quickFollow('${u.uid}', this)" class="w-full bg-primary-600 text-white text-xs py-1.5 rounded-lg font-bold hover:bg-primary-700 transition">
                                 <i class="fas fa-user-plus"></i> متابعة
                             </button>
                         </div>
@@ -1064,7 +1064,7 @@ export const loadUserProfile = async (targetUserId) => {
                     });
 
                     btn.innerHTML = '<i class="fas fa-check"></i> تمت المتابعة';
-                    btn.className = 'w-full bg-green-600 text-white text-xs py-1.5 rounded-lg font-bold';
+                    btn.className = 'w-full bg-accent-600 text-white text-xs py-1.5 rounded-lg font-bold';
 
                     // إعادة تحميل الاقتراحات بعد 1.5 ثانية
                     setTimeout(() => loadSuggestedUsers(), 1500);
@@ -1089,40 +1089,40 @@ export const loadUserProfile = async (targetUserId) => {
 
             const questionsHtml = examData.examDetails.map((q, idx) => {
                 const isCorrect = q.isCorrect;
-                const bgColor = isCorrect ? 'bg-green-50 dark:bg-green-900/20 border-green-500' : 'bg-red-50 dark:bg-red-900/20 border-red-500';
+                const bgColor = isCorrect ? 'bg-accent-50 dark:bg-accent-900/20 border-accent-500' : 'bg-red-50 dark:bg-red-900/20 border-red-500';
                 const icon = isCorrect ? '✅' : '❌';
 
                 return `
                     <div class="p-4 rounded-xl border-r-4 ${bgColor} mb-3">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="text-xl">${icon}</span>
-                            <span class="font-bold text-gray-700 dark:text-white">س${idx + 1}</span>
+                            <span class="font-bold text-surface-700 dark:text-white">س${idx + 1}</span>
                         </div>
-                        <p class="text-gray-800 dark:text-gray-200 mb-3 font-medium">${q.questionText}</p>
+                        <p class="text-surface-800 dark:text-surface-200 mb-3 font-medium">${q.questionText}</p>
                         
                         <div class="space-y-2">
                             ${q.options?.map(opt => {
-                    let optClass = 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300';
+                    let optClass = 'bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-surface-300';
                     let label = '';
                     if (opt === q.correctAnswer) {
-                        optClass = 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-bold';
-                        label = '<i class="fas fa-check-circle text-green-500 mr-1"></i>';
+                        optClass = 'bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 font-bold';
+                        label = '<i class="fas fa-check-circle text-accent-500 mr-1"></i>';
                     }
                     if (opt === q.userAnswer && !q.isCorrect) {
                         optClass = 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 line-through';
                         label = '<i class="fas fa-times-circle text-red-500 mr-1"></i>';
                     }
                     if (opt === q.userAnswer && q.isCorrect) {
-                        label = '<i class="fas fa-check-circle text-green-500 mr-1"></i>';
+                        label = '<i class="fas fa-check-circle text-accent-500 mr-1"></i>';
                     }
                     return `<div class="p-2 rounded-lg text-sm ${optClass}">${label}${opt}</div>`;
                 }).join('') || ''}
                         </div>
                         
                         ${!isCorrect ? `
-                            <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                            <div class="mt-3 text-xs text-surface-500 dark:text-surface-400">
                                 <span class="text-red-500">إجابتك: ${q.userAnswer || 'لم تجب'}</span>
-                                <span class="text-green-500 mr-3">الصحيحة: ${q.correctAnswer}</span>
+                                <span class="text-accent-500 mr-3">الصحيحة: ${q.correctAnswer}</span>
                             </div>
                         ` : ''}
                     </div>
@@ -1133,11 +1133,11 @@ export const loadUserProfile = async (targetUserId) => {
             modal.id = 'exam-review-modal';
             modal.className = 'fixed inset-0 bg-black/80 z-[300] flex items-center justify-center p-4 backdrop-blur-sm';
             modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 w-full max-w-2xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl">
-                    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-5 flex justify-between items-center">
+                <div class="bg-white dark:bg-surface-800 w-full max-w-2xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="bg-gradient-to-r from-primary-600 to-primary-600 text-white p-5 flex justify-between items-center">
                         <div>
                             <h2 class="text-xl font-black">${examData.quizTitle || 'مراجعة الامتحان'}</h2>
-                            <p class="text-blue-200 text-sm">${examData.correct || 0} / ${examData.questionsCount || '?'} صحيح • ${examData.score}%</p>
+                            <p class="text-primary-200 text-sm">${examData.correct || 0} / ${examData.questionsCount || '?'} صحيح • ${examData.score}%</p>
                         </div>
                         <button onclick="document.getElementById('exam-review-modal').remove()" class="w-10 h-10 bg-white/20 rounded-full hover:bg-white/30 transition flex items-center justify-center">
                             <i class="fas fa-times"></i>
@@ -1146,8 +1146,8 @@ export const loadUserProfile = async (targetUserId) => {
                     <div class="p-5 overflow-y-auto max-h-[60vh] custom-scrollbar">
                         ${questionsHtml}
                     </div>
-                    <div class="p-4 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700">
-                        <button onclick="document.getElementById('exam-review-modal').remove()" class="w-full bg-gray-600 text-white py-3 rounded-xl font-bold hover:bg-gray-700 transition">
+                    <div class="p-4 bg-surface-50 dark:bg-surface-900 border-t dark:border-surface-700">
+                        <button onclick="document.getElementById('exam-review-modal').remove()" class="w-full bg-surface-600 text-white py-3 rounded-xl font-bold hover:bg-surface-700 transition">
                             إغلاق
                         </button>
                     </div>
@@ -1210,15 +1210,15 @@ export const loadUserProfile = async (targetUserId) => {
             modal.id = 'follow-list-modal';
             modal.className = 'fixed inset-0 bg-black/80 z-[300] flex items-center justify-center p-4 backdrop-blur-sm';
             modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 w-full max-w-md max-h-[80vh] rounded-2xl overflow-hidden shadow-2xl">
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-600 text-white p-4 flex justify-between items-center">
+                <div class="bg-white dark:bg-surface-800 w-full max-w-md max-h-[80vh] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="bg-gradient-to-r from-primary-600 to-primary-600 text-white p-4 flex justify-between items-center">
                         <h2 class="text-lg font-black">${title}</h2>
                         <button onclick="document.getElementById('follow-list-modal').remove()" class="w-8 h-8 bg-white/20 rounded-full hover:bg-white/30 transition flex items-center justify-center">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <div class="p-4 overflow-y-auto max-h-[60vh]" id="follow-list-content">
-                        <p class="text-center text-gray-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
+                        <p class="text-center text-surface-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</p>
                     </div>
                 </div>
             `;
@@ -1238,7 +1238,7 @@ export const loadUserProfile = async (targetUserId) => {
                 const content = document.getElementById('follow-list-content');
 
                 if (snap.empty) {
-                    content.innerHTML = '<p class="text-center text-gray-400 py-8"><i class="fas fa-users"></i> لا يوجد ${title} بعد</p>';
+                    content.innerHTML = '<p class="text-center text-surface-400 py-8"><i class="fas fa-users"></i> لا يوجد ${title} بعد</p>';
                     return;
                 }
 
@@ -1259,15 +1259,15 @@ export const loadUserProfile = async (targetUserId) => {
                 }
 
                 content.innerHTML = usersList.map(u => `
-                    <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition cursor-pointer" onclick="document.getElementById('follow-list-modal').remove(); window.location.hash='profile/${u.uid}';">
+                    <div class="flex items-center justify-between p-3 hover:bg-surface-50 dark:hover:bg-surface-700 rounded-xl transition cursor-pointer" onclick="document.getElementById('follow-list-modal').remove(); window.location.hash='profile/${u.uid}';">
                         <div class="flex items-center gap-3">
                             <img src="${u.photoURL || 'https://ui-avatars.com/api/?background=random&name=' + (u.displayName || 'User')}" class="w-12 h-12 rounded-full border-2 border-white shadow">
                             <div>
                                 <p class="font-bold dark:text-white">${u.displayName || 'مستخدم'}</p>
-                                <p class="text-xs text-gray-400">${u.collegeId || ''}</p>
+                                <p class="text-xs text-surface-400">${u.collegeId || ''}</p>
                             </div>
                         </div>
-                        <i class="fas fa-chevron-left text-gray-300"></i>
+                        <i class="fas fa-chevron-left text-surface-300"></i>
                     </div>
                 `).join('');
 

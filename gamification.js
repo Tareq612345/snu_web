@@ -154,14 +154,14 @@ const showLevelUpModal = (level) => {
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[500] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-gradient-to-br from-blue-500 to-indigo-700 text-white p-8 rounded-3xl text-center max-w-sm w-full shadow-2xl animate-slide-up">
+        <div class="bg-gradient-to-br from-primary-500 to-primary-700 text-white p-8 rounded-3xl text-center max-w-sm w-full shadow-2xl animate-slide-up">
             <div class="text-6xl mb-4 animate-bounce">${level.badge}</div>
             <h2 class="text-3xl font-black mb-2">مبروك! 🎉</h2>
             <p class="text-xl mb-4">وصلت للمستوى ${level.level}</p>
             <div class="bg-white/20 rounded-2xl p-4 mb-6">
                 <p class="text-2xl font-bold">${level.name}</p>
             </div>
-            <button onclick="this.closest('div.fixed').remove()" class="bg-white text-blue-600 font-bold px-8 py-3 rounded-xl hover:scale-105 transition">
+            <button onclick="this.closest('div.fixed').remove()" class="bg-white text-primary-600 font-bold px-8 py-3 rounded-xl hover:scale-105 transition">
                 رائع! 🚀
             </button>
         </div>
@@ -234,22 +234,22 @@ export const renderLevelWidget = async (containerId) => {
         const level = getLevelInfo(xp);
 
         container.innerHTML = `
-            <div class="bg-gradient-to-br from-blue-500/10 to-indigo-600/10 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
+            <div class="bg-gradient-to-br from-primary-500/10 to-primary-600/10 p-4 rounded-2xl border border-primary-200 dark:border-primary-800">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="text-4xl">${level.badge}</div>
                     <div>
                         <p class="font-black text-lg dark:text-white">المستوى ${level.level}</p>
-                        <p class="text-sm text-blue-600 dark:text-blue-400 font-bold">${level.name}</p>
+                        <p class="text-sm text-primary-600 dark:text-primary-400 font-bold">${level.name}</p>
                     </div>
                     <div class="mr-auto text-right">
-                        <p class="text-2xl font-black text-blue-600">${xp}</p>
-                        <p class="text-[10px] text-gray-500">XP</p>
+                        <p class="text-2xl font-black text-primary-600">${xp}</p>
+                        <p class="text-[10px] text-surface-500">XP</p>
                     </div>
                 </div>
-                <div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-500" style="width: ${level.progress}%"></div>
+                <div class="bg-surface-200 dark:bg-surface-700 rounded-full h-3 overflow-hidden">
+                    <div class="bg-gradient-to-r from-primary-500 to-primary-600 h-full rounded-full transition-all duration-500" style="width: ${level.progress}%"></div>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-1 text-center">${level.xpToNext > 0 ? `${level.xpToNext} XP للمستوى التالي` : 'أعلى مستوى! 🔥'}</p>
+                <p class="text-[10px] text-surface-500 mt-1 text-center">${level.xpToNext > 0 ? `${level.xpToNext} XP للمستوى التالي` : 'أعلى مستوى! 🔥'}</p>
             </div>
         `;
 
@@ -279,11 +279,11 @@ export const renderAchievementsPage = async (containerId) => {
             return `
                         <div class="p-4 rounded-2xl text-center transition hover:scale-105 ${unlocked
                     ? 'bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 border-2 border-yellow-400'
-                    : 'bg-gray-100 dark:bg-gray-800 opacity-60'}">
+                    : 'bg-surface-100 dark:bg-surface-800 opacity-60'}">
                             <div class="text-4xl mb-2 ${unlocked ? '' : 'grayscale'}">${a.badge}</div>
                             <p class="font-bold text-sm dark:text-white">${a.name}</p>
-                            <p class="text-[10px] text-gray-500 mt-1">${a.desc}</p>
-                            <p class="text-xs font-bold mt-2 ${unlocked ? 'text-green-600' : 'text-gray-400'}">${unlocked ? '✅ مفتوح' : `🔒 ${a.xp} XP`}</p>
+                            <p class="text-[10px] text-surface-500 mt-1">${a.desc}</p>
+                            <p class="text-xs font-bold mt-2 ${unlocked ? 'text-accent-600' : 'text-surface-400'}">${unlocked ? '✅ مفتوح' : `🔒 ${a.xp} XP`}</p>
                         </div>
                     `;
         }).join('')}
@@ -511,7 +511,7 @@ const showDailyGoalCompleteToast = () => {
     const toast = document.createElement('div');
     toast.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] animate-bounce-in';
     toast.innerHTML = `
-        <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-6 rounded-3xl shadow-2xl text-center">
+        <div class="bg-gradient-to-r from-accent-500 to-accent-600 text-white px-8 py-6 rounded-3xl shadow-2xl text-center">
             <div class="text-6xl mb-3">🎯</div>
             <h3 class="text-2xl font-black mb-2">مبروك!</h3>
             <p class="text-lg opacity-90">حققت هدفك اليومي! 🎉</p>
@@ -541,7 +541,7 @@ window.renderDailyGoalWidget = async (containerId) => {
         const progress = Math.min((todayMinutes / dailyGoal) * 100, 100);
 
         container.innerHTML = `
-            <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-4 rounded-2xl shadow-lg">
+            <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-2xl shadow-lg">
                 <div class="flex justify-between items-center mb-3">
                     <h4 class="font-bold flex items-center gap-2"><i class="fas fa-bullseye"></i> هدف اليوم</h4>
                     <button onclick="window.openGoalSettingsModal()" class="text-white/70 hover:text-white transition text-sm">
@@ -574,18 +574,18 @@ window.openGoalSettingsModal = async () => {
     modal.id = 'goal-settings-modal';
     modal.className = 'fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl">
             <h3 class="text-xl font-black mb-4 dark:text-white text-center">🎯 حدد هدفك اليومي</h3>
-            <p class="text-gray-500 dark:text-gray-400 text-sm text-center mb-4">كم دقيقة تريد أن تذاكر يومياً؟</p>
+            <p class="text-surface-500 dark:text-surface-400 text-sm text-center mb-4">كم دقيقة تريد أن تذاكر يومياً؟</p>
             <div class="flex items-center justify-center gap-4 mb-6">
-                <button onclick="window.adjustGoal(-15)" class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl text-2xl font-bold hover:bg-gray-200">−</button>
-                <input type="number" id="goal-input" value="${currentGoal}" min="15" max="180" step="15" class="w-24 text-center text-3xl font-black bg-transparent border-b-4 border-blue-500 dark:text-white outline-none">
-                <button onclick="window.adjustGoal(15)" class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl text-2xl font-bold hover:bg-gray-200">+</button>
+                <button onclick="window.adjustGoal(-15)" class="w-12 h-12 bg-surface-100 dark:bg-surface-700 rounded-xl text-2xl font-bold hover:bg-surface-200">−</button>
+                <input type="number" id="goal-input" value="${currentGoal}" min="15" max="180" step="15" class="w-24 text-center text-3xl font-black bg-transparent border-b-4 border-primary-500 dark:text-white outline-none">
+                <button onclick="window.adjustGoal(15)" class="w-12 h-12 bg-surface-100 dark:bg-surface-700 rounded-xl text-2xl font-bold hover:bg-surface-200">+</button>
             </div>
-            <p class="text-center text-gray-400 text-xs mb-4">دقيقة</p>
+            <p class="text-center text-surface-400 text-xs mb-4">دقيقة</p>
             <div class="flex gap-3">
-                <button onclick="document.getElementById('goal-settings-modal').remove()" class="flex-1 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 font-bold dark:text-white">إلغاء</button>
-                <button onclick="window.saveGoalSettings()" class="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700">حفظ</button>
+                <button onclick="document.getElementById('goal-settings-modal').remove()" class="flex-1 py-3 rounded-xl bg-surface-100 dark:bg-surface-700 font-bold dark:text-white">إلغاء</button>
+                <button onclick="window.saveGoalSettings()" class="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold hover:bg-primary-700">حفظ</button>
             </div>
         </div>
     `;
@@ -619,7 +619,7 @@ window.renderDailyTasksWidget = async (containerId) => {
 
     const user = auth.currentUser;
     if (!user) {
-        container.innerHTML = '<p class="text-gray-400 text-center text-sm">سجل دخولك لعرض المهام</p>';
+        container.innerHTML = '<p class="text-surface-400 text-center text-sm">سجل دخولك لعرض المهام</p>';
         return;
     }
 
@@ -642,7 +642,7 @@ window.renderDailyTasksWidget = async (containerId) => {
         const maxXP = dailyTasks.reduce((sum, t) => sum + t.xp, 0);
 
         container.innerHTML = `
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border dark:border-gray-700 overflow-hidden">
+            <div class="bg-white dark:bg-surface-800 rounded-2xl shadow-lg border dark:border-surface-700 overflow-hidden">
                 <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-4 text-white">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold flex items-center gap-2"><i class="fas fa-tasks"></i> مهام اليوم</h3>
@@ -653,15 +653,15 @@ window.renderDailyTasksWidget = async (containerId) => {
                 </div>
                 <div class="p-4 space-y-3">
                     ${dailyTasks.map(task => `
-                        <div class="flex items-center gap-3 p-3 rounded-xl ${task.completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'} transition">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center ${task.completed ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-500'}">
+                        <div class="flex items-center gap-3 p-3 rounded-xl ${task.completed ? 'bg-accent-50 dark:bg-accent-900/20' : 'bg-surface-50 dark:bg-surface-700'} transition">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center ${task.completed ? 'bg-accent-500 text-white' : 'bg-surface-200 dark:bg-surface-600 text-surface-500'}">
                                 <i class="fas ${task.completed ? 'fa-check' : task.icon}"></i>
                             </div>
                             <div class="flex-1">
                                 <p class="font-bold text-sm dark:text-white ${task.completed ? 'line-through opacity-60' : ''}">${task.name}</p>
-                                <p class="text-xs ${task.completed ? 'text-green-500' : 'text-yellow-600'}">+${task.xp} XP</p>
+                                <p class="text-xs ${task.completed ? 'text-accent-500' : 'text-yellow-600'}">+${task.xp} XP</p>
                             </div>
-                            ${task.completed ? '<span class="text-green-500 text-lg">✓</span>' : ''}
+                            ${task.completed ? '<span class="text-accent-500 text-lg">✓</span>' : ''}
                         </div>
                     `).join('')}
                 </div>
@@ -679,18 +679,18 @@ window.openDailyTasksPanel = async () => {
     modal.id = 'daily-tasks-modal';
     modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-hidden">
-            <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-hidden">
+            <div class="sticky top-0 bg-white dark:bg-surface-800 p-4 border-b dark:border-surface-700 flex justify-between items-center">
                 <h3 class="font-black text-xl dark:text-white flex items-center gap-2">
                     <i class="fas fa-tasks text-yellow-500"></i> المهام والتحديات
                 </h3>
-                <button onclick="document.getElementById('daily-tasks-modal').remove()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-red-100 hover:text-red-500 transition flex items-center justify-center">
+                <button onclick="document.getElementById('daily-tasks-modal').remove()" class="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-700 hover:bg-red-100 hover:text-red-500 transition flex items-center justify-center">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="p-4 flex gap-2 border-b dark:border-gray-700">
+            <div class="p-4 flex gap-2 border-b dark:border-surface-700">
                 <button onclick="window.showTasksTab('daily')" id="tab-daily" class="flex-1 py-2 rounded-xl font-bold text-sm bg-yellow-500 text-white">اليومية</button>
-                <button onclick="window.showTasksTab('weekly')" id="tab-weekly" class="flex-1 py-2 rounded-xl font-bold text-sm bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">الأسبوعية</button>
+                <button onclick="window.showTasksTab('weekly')" id="tab-weekly" class="flex-1 py-2 rounded-xl font-bold text-sm bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-surface-300">الأسبوعية</button>
             </div>
             <div id="daily-tasks-content" class="overflow-y-auto max-h-[60vh]"></div>
             <div id="weekly-tasks-content" class="overflow-y-auto max-h-[60vh] hidden"></div>
@@ -714,12 +714,12 @@ window.showTasksTab = (tab) => {
         dailyContent.classList.remove('hidden');
         weeklyContent.classList.add('hidden');
         dailyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-yellow-500 text-white';
-        weeklyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300';
+        weeklyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-surface-300';
     } else {
         dailyContent.classList.add('hidden');
         weeklyContent.classList.remove('hidden');
-        weeklyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-indigo-500 text-white';
-        dailyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300';
+        weeklyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-primary-500 text-white';
+        dailyTab.className = 'flex-1 py-2 rounded-xl font-bold text-sm bg-surface-100 dark:bg-surface-700 text-surface-600 dark:text-surface-300';
     }
 };
 
@@ -732,7 +732,7 @@ window.renderWeeklyTasks = async (containerId) => {
 
     const user = auth.currentUser;
     if (!user) {
-        container.innerHTML = '<p class="text-center text-gray-400 p-4">سجل دخولك أولاً</p>';
+        container.innerHTML = '<p class="text-center text-surface-400 p-4">سجل دخولك أولاً</p>';
         return;
     }
 
@@ -759,7 +759,7 @@ window.renderWeeklyTasks = async (containerId) => {
 
         container.innerHTML = `
             <div class="p-4">
-                <div class="bg-gradient-to-r from-indigo-500 to-blue-600 rounded-2xl p-4 text-white mb-4">
+                <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-4 text-white mb-4">
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm opacity-80">تحديات هذا الأسبوع</p>
@@ -773,19 +773,19 @@ window.renderWeeklyTasks = async (containerId) => {
             const progress = Math.min((task.current / task.target) * 100, 100);
             const completed = task.current >= task.target;
             return `
-                            <div class="p-4 rounded-xl ${completed ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700'}">
+                            <div class="p-4 rounded-xl ${completed ? 'bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-accent-800' : 'bg-surface-50 dark:bg-surface-700'}">
                                 <div class="flex items-center gap-3 mb-2">
-                                    <div class="w-10 h-10 rounded-xl flex items-center justify-center ${completed ? 'bg-green-500 text-white' : 'bg-blue-100 dark:bg-indigo-900/50 text-indigo-600'}">
+                                    <div class="w-10 h-10 rounded-xl flex items-center justify-center ${completed ? 'bg-accent-500 text-white' : 'bg-primary-100 dark:bg-primary-900/50 text-primary-600'}">
                                         <i class="fas ${completed ? 'fa-check' : task.icon}"></i>
                                     </div>
                                     <div class="flex-1">
                                         <p class="font-bold text-sm dark:text-white ${completed ? 'line-through opacity-60' : ''}">${task.name}</p>
-                                        <p class="text-xs ${completed ? 'text-green-500' : 'text-indigo-600'}">+${task.xp} XP</p>
+                                        <p class="text-xs ${completed ? 'text-accent-500' : 'text-primary-600'}">+${task.xp} XP</p>
                                     </div>
-                                    <span class="text-sm font-bold ${completed ? 'text-green-500' : 'text-gray-500'}">${task.current}/${task.target}</span>
+                                    <span class="text-sm font-bold ${completed ? 'text-accent-500' : 'text-surface-500'}">${task.current}/${task.target}</span>
                                 </div>
-                                <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                                    <div class="h-full ${completed ? 'bg-green-500' : 'bg-indigo-500'} rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                                <div class="h-2 bg-surface-200 dark:bg-surface-600 rounded-full overflow-hidden">
+                                    <div class="h-full ${completed ? 'bg-accent-500' : 'bg-primary-500'} rounded-full transition-all duration-500" style="width: ${progress}%"></div>
                                 </div>
                             </div>
                         `;
