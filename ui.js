@@ -96,14 +96,14 @@ const createNotificationBell = () => {
     container.id = 'notification-bell-container';
     container.className = 'fixed top-4 left-16 z-[9997]';
     container.innerHTML = `
-        <button id="notification-bell" class="relative w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition border-2 border-gray-200 dark:border-gray-700 group">
-            <i class="fas fa-bell text-gray-600 dark:text-gray-300 text-lg group-hover:animate-wiggle"></i>
+        <button id="notification-bell" class="relative w-12 h-12 bg-white dark:bg-surface-800 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition border-2 border-surface-200 dark:border-surface-700 group">
+            <i class="fas fa-bell text-surface-600 dark:text-surface-300 text-lg group-hover:animate-wiggle"></i>
             <span id="notification-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-bounce">0</span>
         </button>
         
         <!-- Dropdown -->
-        <div id="notification-dropdown" class="hidden absolute top-14 left-0 w-80 max-h-96 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border dark:border-gray-700 overflow-hidden animate-fade-in">
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 flex items-center justify-between">
+        <div id="notification-dropdown" class="hidden absolute top-14 left-0 w-80 max-h-96 bg-white dark:bg-surface-800 rounded-2xl shadow-2xl border dark:border-surface-700 overflow-hidden animate-fade-in">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-600 text-white p-4 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <i class="fas fa-bell"></i>
                     <span class="font-bold">${window.t?.('notifications') || 'الإشعارات'}</span>
@@ -157,7 +157,7 @@ const renderNotifications = () => {
 
     if (notificationHistory.length === 0) {
         list.innerHTML = `
-            <div class="p-8 text-center text-gray-400">
+            <div class="p-8 text-center text-surface-400">
                 <i class="fas fa-bell-slash text-3xl mb-2 opacity-50"></i>
                 <p class="text-sm">${window.t?.('no-notifications') || 'لا توجد إشعارات'}</p>
             </div>
@@ -166,14 +166,14 @@ const renderNotifications = () => {
     }
 
     list.innerHTML = notificationHistory.slice(0, 20).map(n => {
-        const icons = { success: 'fa-check-circle text-green-500', error: 'fa-times-circle text-red-500', warning: 'fa-exclamation-triangle text-yellow-500', info: 'fa-info-circle text-blue-500' };
+        const icons = { success: 'fa-check-circle text-accent-500', error: 'fa-times-circle text-red-500', warning: 'fa-exclamation-triangle text-yellow-500', info: 'fa-info-circle text-primary-500' };
         const time = new Date(n.timestamp).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
         return `
-            <div class="p-3 border-b dark:border-gray-700 flex items-start gap-3 ${n.read ? 'opacity-60' : 'bg-blue-50 dark:bg-blue-900/20'}" onclick="this.classList.add('opacity-60')">
+            <div class="p-3 border-b dark:border-surface-700 flex items-start gap-3 ${n.read ? 'opacity-60' : 'bg-primary-50 dark:bg-primary-900/20'}" onclick="this.classList.add('opacity-60')">
                 <i class="fas ${icons[n.type] || icons.info} mt-1"></i>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm dark:text-white truncate">${n.message}</p>
-                    <p class="text-[10px] text-gray-400 mt-1">${time}</p>
+                    <p class="text-[10px] text-surface-400 mt-1">${time}</p>
                 </div>
             </div>
         `;
@@ -216,9 +216,9 @@ export const showToast = (message, type = 'success') => {
     // ألوان عصرية مع gradient
     const themes = {
         success: {
-            bg: 'from-emerald-500 to-blue-600',
+            bg: 'from-accent-500 to-primary-600',
             icon: 'fa-check-circle',
-            glow: 'shadow-emerald-500/30'
+            glow: 'shadow-accent-500/30'
         },
         error: {
             bg: 'from-red-500 to-rose-600',
@@ -231,9 +231,9 @@ export const showToast = (message, type = 'success') => {
             glow: 'shadow-amber-500/30'
         },
         info: {
-            bg: 'from-blue-500 to-blue-600',
+            bg: 'from-primary-500 to-primary-600',
             icon: 'fa-info-circle',
-            glow: 'shadow-blue-500/30'
+            glow: 'shadow-primary-500/30'
         }
     };
 
@@ -350,7 +350,7 @@ export const setupThemeToggle = () => {
     const html = document.documentElement;
 
     // Moon و Sun icons
-    const moonIcon = '<i class="fas fa-moon text-gray-600"></i>';
+    const moonIcon = '<i class="fas fa-moon text-surface-600"></i>';
     const sunIcon = '<i class="fas fa-sun text-yellow-400"></i>';
 
     // استرجاع الوضع المحفوظ
@@ -390,7 +390,7 @@ export const setupThemeToggle = () => {
 // دالة لتحويل الروابط في النص لروابط قابلة للنقر
 const linkifyText = (text) => {
     const urlRegex = /(https?:\/\/[^\s<]+)/g;
-    return text.replace(urlRegex, '<a href="$1" target="_blank" class="underline text-white font-bold hover:text-blue-200 transition">$1</a>');
+    return text.replace(urlRegex, '<a href="$1" target="_blank" class="underline text-white font-bold hover:text-primary-200 transition">$1</a>');
 };
 
 export const loadAnnouncementBar = () => {
@@ -459,9 +459,9 @@ export const loadAnnouncementBar = () => {
             // تحديد الألوان والأيقونات حسب النوع
             const themes = {
                 info: {
-                    bg: 'from-blue-600 via-indigo-600 to-pink-500',
+                    bg: 'from-primary-600 via-primary-600 to-pink-500',
                     icon: 'fa-bullhorn',
-                    glow: 'shadow-blue-500/20'
+                    glow: 'shadow-primary-500/20'
                 },
                 warning: {
                     bg: 'from-amber-500 via-orange-500 to-red-500',
@@ -469,9 +469,9 @@ export const loadAnnouncementBar = () => {
                     glow: 'shadow-amber-500/20'
                 },
                 success: {
-                    bg: 'from-emerald-500 via-green-500 to-blue-500',
+                    bg: 'from-accent-500 via-accent-500 to-primary-500',
                     icon: 'fa-check-circle',
-                    glow: 'shadow-emerald-500/20'
+                    glow: 'shadow-accent-500/20'
                 },
                 danger: {
                     bg: 'from-red-500 via-rose-500 to-pink-600',
@@ -561,8 +561,8 @@ export const showLoading = (containerId, message = null) => {
 
     container.innerHTML = `
         <div class="flex flex-col items-center justify-center py-12 animate-fade-in">
-            <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-            <p class="text-gray-500 dark:text-gray-400 font-bold">${loadingMsg}</p>
+            <div class="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-surface-500 dark:text-surface-400 font-bold">${loadingMsg}</p>
         </div>
     `;
 };
@@ -615,7 +615,7 @@ export const showModal = (content, options = {}) => {
     modal.innerHTML = `
         <div class="modal-content ${sizes[size] || sizes.md} w-full">
             ${title ? `
-                <div class="flex items-center justify-between mb-4 pb-4 border-b dark:border-gray-700">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b dark:border-surface-700">
                     <h2 class="text-xl font-bold dark:text-white">${title}</h2>
                     <button id="modal-close-btn" class="btn-icon btn-secondary">
                         <i class="fas fa-times"></i>
@@ -669,7 +669,7 @@ export const showConfirm = (message, onConfirm, onCancel = null) => {
             <div class="w-16 h-16 mx-auto mb-4 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
                 <i class="fas fa-exclamation-triangle text-3xl"></i>
             </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 font-bold">${message}</p>
+            <p class="text-surface-700 dark:text-surface-300 mb-6 font-bold">${message}</p>
             <div class="flex gap-3 justify-center">
                 <button id="confirm-yes" class="btn btn-danger">
                     <i class="fas fa-check"></i> ${window.t?.('confirm') || 'تأكيد'}
@@ -713,11 +713,11 @@ export const showEmptyState = (containerId, options = {}) => {
 
     container.innerHTML = `
         <div class="flex flex-col items-center justify-center py-16 text-center animate-fade-in">
-            <div class="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                <i class="${icon} text-3xl text-gray-400"></i>
+            <div class="w-20 h-20 bg-surface-100 dark:bg-surface-800 rounded-full flex items-center justify-center mb-4">
+                <i class="${icon} text-3xl text-surface-400"></i>
             </div>
-            <h3 class="text-lg font-bold text-gray-600 dark:text-gray-300 mb-2">${title}</h3>
-            ${message ? `<p class="text-gray-500 dark:text-gray-400 text-sm mb-4">${message}</p>` : ''}
+            <h3 class="text-lg font-bold text-surface-600 dark:text-surface-300 mb-2">${title}</h3>
+            ${message ? `<p class="text-surface-500 dark:text-surface-400 text-sm mb-4">${message}</p>` : ''}
             ${actionText && actionCallback ? `
                 <button onclick="(${actionCallback})()" class="btn btn-primary">
                     ${actionText}
@@ -751,7 +751,7 @@ const setupOfflineIndicator = () => {
         const banner = document.getElementById('offline-banner');
         if (banner) {
             banner.classList.remove('bg-red-500', 'animate-bounce');
-            banner.classList.add('bg-green-500');
+            banner.classList.add('bg-accent-500');
             banner.innerHTML = `
                 <i class="fas fa-wifi text-xl"></i>
                 <span class="font-bold">${window.t?.('connection-restored') || 'تم استعادة الاتصال'}</span>
@@ -828,18 +828,18 @@ window.startOnboardingTour = () => {
         const rect = target.getBoundingClientRect();
         tooltip = document.createElement('div');
         tooltip.id = 'tour-tooltip';
-        tooltip.className = 'fixed z-[1000] bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-2xl min-w-[280px] animate-slide-up';
+        tooltip.className = 'fixed z-[1000] bg-white dark:bg-surface-800 p-4 rounded-2xl shadow-2xl min-w-[280px] animate-slide-up';
         tooltip.style.top = `${rect.bottom + 10}px`;
         tooltip.style.left = `${Math.max(10, rect.left)}px`;
         tooltip.innerHTML = `
-            <h4 class="font-black text-lg text-blue-600 mb-2">${step.title}</h4>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">${step.text}</p>
+            <h4 class="font-black text-lg text-primary-600 mb-2">${step.title}</h4>
+            <p class="text-surface-600 dark:text-surface-300 mb-4">${step.text}</p>
             <div class="flex justify-between items-center">
-                <span class="text-xs text-gray-400">${index + 1} من ${steps.length}</span>
+                <span class="text-xs text-surface-400">${index + 1} من ${steps.length}</span>
                 <div class="flex gap-2">
                     <button onclick="localStorage.setItem('onboardingComplete','true'); document.getElementById('onboarding-overlay')?.remove(); this.closest('#tour-tooltip').remove(); document.querySelectorAll('.tour-highlight').forEach(el=>el.classList.remove('tour-highlight'));" 
-                            class="px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">تخطي</button>
-                    <button onclick="window.nextTourStep?.()" class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">التالي</button>
+                            class="px-3 py-2 text-sm text-surface-500 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-lg">تخطي</button>
+                    <button onclick="window.nextTourStep?.()" class="px-4 py-2 text-sm bg-primary-600 text-white rounded-lg font-bold hover:bg-primary-700">التالي</button>
                 </div>
             </div>
         `;

@@ -227,10 +227,10 @@ function setupBottomNavActiveState() {
 
             if (isActive) {
                 item.classList.add('active');
-                item.classList.remove('text-gray-400', 'dark:text-gray-500');
+                item.classList.remove('text-surface-400', 'dark:text-surface-500');
             } else {
                 item.classList.remove('active');
-                item.classList.add('text-gray-400', 'dark:text-gray-500');
+                item.classList.add('text-surface-400', 'dark:text-surface-500');
             }
         });
     };
@@ -324,7 +324,7 @@ window.showNotificationBanner = () => {
     if (Notification.permission !== 'default') return;
 
     const banner = document.createElement('div');
-    banner.className = 'fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-80 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[9999] animate-slide-up';
+    banner.className = 'fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-80 bg-gradient-to-r from-primary-600 to-primary-600 text-white p-4 rounded-2xl shadow-2xl z-[9999] animate-slide-up';
     banner.innerHTML = `
         <div class="flex items-start gap-3">
             <div class="text-3xl">🔔</div>
@@ -334,7 +334,7 @@ window.showNotificationBanner = () => {
             </div>
         </div>
         <div class="flex gap-2 mt-3">
-            <button onclick="window.requestNotificationPermission().then(() => this.closest('div').remove())" class="flex-1 bg-white text-blue-600 py-2 rounded-lg text-sm font-bold hover:bg-blue-50 transition">
+            <button onclick="window.requestNotificationPermission().then(() => this.closest('div').remove())" class="flex-1 bg-white text-primary-600 py-2 rounded-lg text-sm font-bold hover:bg-primary-50 transition">
                 ✅ تفعيل
             </button>
             <button onclick="this.closest('div').parentElement.remove()" class="px-4 py-2 text-white/70 hover:text-white text-sm transition">
@@ -365,8 +365,8 @@ window.showForcedNotificationModal = () => {
     modal.id = 'forced-notification-modal';
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden animate-slide-up">
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white text-center">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden animate-slide-up">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-600 p-6 text-white text-center">
                 <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-bell text-4xl"></i>
                 </div>
@@ -383,27 +383,27 @@ window.showForcedNotificationModal = () => {
                     </p>
                 </div>
                 
-                <ul class="space-y-3 text-gray-600 dark:text-gray-300 text-sm mb-6">
+                <ul class="space-y-3 text-surface-600 dark:text-surface-300 text-sm mb-6">
                     <li class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-green-500"></i>
+                        <i class="fas fa-check-circle text-accent-500"></i>
                         استقبال درجات الامتحانات فور ظهورها
                     </li>
                     <li class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-green-500"></i>
+                        <i class="fas fa-check-circle text-accent-500"></i>
                         التذكير بمواعيد الامتحانات
                     </li>
                     <li class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-green-500"></i>
+                        <i class="fas fa-check-circle text-accent-500"></i>
                         إشعارات الإعلانات الهامة
                     </li>
                 </ul>
                 
-                <button id="enable-notif-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-black text-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                <button id="enable-notif-btn" class="w-full bg-gradient-to-r from-primary-600 to-primary-600 text-white py-4 rounded-xl font-black text-lg hover:shadow-xl transition flex items-center justify-center gap-2">
                     <i class="fas fa-bell"></i>
                     تفعيل الإشعارات الآن
                 </button>
                 
-                <button id="skip-notif-btn" class="w-full mt-3 text-gray-400 hover:text-gray-600 text-sm py-2 transition">
+                <button id="skip-notif-btn" class="w-full mt-3 text-surface-400 hover:text-surface-600 text-sm py-2 transition">
                     تخطي (لن تستقبل الدرجات)
                 </button>
             </div>

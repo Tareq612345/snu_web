@@ -22,17 +22,17 @@ export const openAnalyticsDashboard = async () => {
         <div class="space-y-6">
             <!-- Stats Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats-cards">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-6 rounded-2xl">
                     <i class="fas fa-users text-3xl mb-2 opacity-80"></i>
                     <p class="text-3xl font-black" id="stat-total-users">...</p>
                     <p class="text-sm opacity-80">إجمالي المستخدمين</p>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-2xl">
+                <div class="bg-gradient-to-br from-accent-500 to-accent-600 text-white p-6 rounded-2xl">
                     <i class="fas fa-check-circle text-3xl mb-2 opacity-80"></i>
                     <p class="text-3xl font-black" id="stat-verified">...</p>
                     <p class="text-sm opacity-80">حسابات موثقة</p>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white p-6 rounded-2xl">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-6 rounded-2xl">
                     <i class="fas fa-fire text-3xl mb-2 opacity-80"></i>
                     <p class="text-3xl font-black" id="stat-active">...</p>
                     <p class="text-sm opacity-80">نشطين اليوم</p>
@@ -47,21 +47,21 @@ export const openAnalyticsDashboard = async () => {
             <!-- Charts Row -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- College Distribution -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border dark:border-gray-700">
-                    <h3 class="font-bold text-lg dark:text-white mb-4"><i class="fas fa-chart-pie text-blue-500 ml-2"></i>توزيع الكليات</h3>
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg border dark:border-surface-700">
+                    <h3 class="font-bold text-lg dark:text-white mb-4"><i class="fas fa-chart-pie text-primary-500 ml-2"></i>توزيع الكليات</h3>
                     <div id="college-chart" class="space-y-3"></div>
                 </div>
                 
                 <!-- Top Users -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border dark:border-gray-700">
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg border dark:border-surface-700">
                     <h3 class="font-bold text-lg dark:text-white mb-4"><i class="fas fa-trophy text-yellow-500 ml-2"></i>أعلى XP</h3>
                     <div id="top-users" class="space-y-2"></div>
                 </div>
             </div>
             
             <!-- Activity Timeline -->
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border dark:border-gray-700">
-                <h3 class="font-bold text-lg dark:text-white mb-4"><i class="fas fa-history text-green-500 ml-2"></i>آخر النشاطات</h3>
+            <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg border dark:border-surface-700">
+                <h3 class="font-bold text-lg dark:text-white mb-4"><i class="fas fa-history text-accent-500 ml-2"></i>آخر النشاطات</h3>
                 <div id="activity-timeline" class="space-y-3"></div>
             </div>
         </div>
@@ -142,9 +142,9 @@ const loadCollegeDistribution = async () => {
                     <div>
                         <div class="flex justify-between text-sm mb-1">
                             <span class="dark:text-white font-bold">${name}</span>
-                            <span class="text-gray-500">${count} (${percent}%)</span>
+                            <span class="text-surface-500">${count} (${percent}%)</span>
                         </div>
-                        <div class="bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                        <div class="bg-surface-200 dark:bg-surface-700 rounded-full h-2 overflow-hidden">
                             <div class="bg-${color}-500 h-full rounded-full" style="width: ${percent}%"></div>
                         </div>
                     </div>
@@ -167,7 +167,7 @@ const loadTopUsers = async () => {
         const snap = await getDocs(q);
 
         if (snap.empty) {
-            container.innerHTML = '<p class="text-gray-400 text-center">لا توجد بيانات</p>';
+            container.innerHTML = '<p class="text-surface-400 text-center">لا توجد بيانات</p>';
             return;
         }
 
@@ -183,7 +183,7 @@ const loadTopUsers = async () => {
                     <span class="text-lg font-bold w-8">${medal}</span>
                     <img src="${u.photoURL || `https://ui-avatars.com/api/?name=${u.displayName}&background=random`}" loading="lazy" class="w-8 h-8 rounded-full object-cover">
                     <span class="flex-1 font-bold text-sm dark:text-white truncate">${u.displayName || 'مستخدم'}</span>
-                    <span class="text-blue-600 font-black">${u.xp || 0} XP</span>
+                    <span class="text-primary-600 font-black">${u.xp || 0} XP</span>
                 </div>
             `;
             rank++;
@@ -205,7 +205,7 @@ const loadRecentActivity = async () => {
         const snap = await getDocs(q);
 
         if (snap.empty) {
-            container.innerHTML = '<p class="text-gray-400 text-center">لا توجد نشاطات</p>';
+            container.innerHTML = '<p class="text-surface-400 text-center">لا توجد نشاطات</p>';
             return;
         }
 
@@ -216,13 +216,13 @@ const loadRecentActivity = async () => {
             const timeStr = time ? time.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }) : '';
 
             container.innerHTML += `
-                <div class="flex items-center gap-3 p-2 border-r-4 border-blue-500 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <div class="flex items-center gap-3 p-2 border-r-4 border-primary-500 bg-surface-50 dark:bg-surface-700/50 rounded-lg">
                     <img src="${msg.userPhoto || 'https://ui-avatars.com/api/?name=User'}" loading="lazy" class="w-8 h-8 rounded-full">
                     <div class="flex-1 min-w-0">
                         <p class="text-sm dark:text-white"><span class="font-bold">${msg.userName || 'مستخدم'}</span> أرسل رسالة</p>
-                        <p class="text-xs text-gray-500 truncate">${msg.text || '📎 مرفق'}</p>
+                        <p class="text-xs text-surface-500 truncate">${msg.text || '📎 مرفق'}</p>
                     </div>
-                    <span class="text-xs text-gray-400">${timeStr}</span>
+                    <span class="text-xs text-surface-400">${timeStr}</span>
                 </div>
             `;
         });
@@ -244,8 +244,8 @@ export const openStudentAnalytics = async () => {
     modal.id = 'student-analytics-modal';
     modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-[500] flex items-center justify-center p-4 animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 w-full max-w-3xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white flex justify-between items-center flex-shrink-0">
+        <div class="bg-white dark:bg-surface-800 w-full max-w-3xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-600 p-5 text-white flex justify-between items-center flex-shrink-0">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-chart-line text-2xl"></i>
                     <div>
@@ -263,7 +263,7 @@ export const openStudentAnalytics = async () => {
                 </div>
             </div>
             <div id="student-analytics-content" class="flex-1 overflow-y-auto p-5">
-                <div class="text-center py-20"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i></div>
+                <div class="text-center py-20"><i class="fas fa-spinner fa-spin text-3xl text-primary-500"></i></div>
             </div>
         </div>
     `;
@@ -325,11 +325,11 @@ const loadStudentAnalyticsData = async (userId) => {
         container.innerHTML = `
             <!-- Stat Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-2xl text-center">
                     <p class="text-3xl font-black">${totalQuizzes}</p>
                     <p class="text-xs opacity-80 mt-1">اختبار</p>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white p-4 rounded-2xl text-center">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-2xl text-center">
                     <p class="text-3xl font-black">${avgScore}%</p>
                     <p class="text-xs opacity-80 mt-1">المتوسط</p>
                 </div>
@@ -346,15 +346,15 @@ const loadStudentAnalyticsData = async (userId) => {
             <!-- Charts Row -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <!-- Bar Chart: Recent Quizzes -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl">
-                    <h4 class="font-bold text-sm dark:text-white mb-3"><i class="fas fa-chart-bar text-blue-500 ml-1"></i>آخر الاختبارات</h4>
-                    ${recent.length === 0 ? '<p class="text-center text-gray-400 text-sm py-8">لا توجد اختبارات بعد</p>' : `
+                <div class="bg-surface-50 dark:bg-surface-700/50 p-4 rounded-2xl">
+                    <h4 class="font-bold text-sm dark:text-white mb-3"><i class="fas fa-chart-bar text-primary-500 ml-1"></i>آخر الاختبارات</h4>
+                    ${recent.length === 0 ? '<p class="text-center text-surface-400 text-sm py-8">لا توجد اختبارات بعد</p>' : `
                     <div class="flex items-end gap-1 h-40">
                         ${recent.map(q => {
-            const color = q.score >= 85 ? 'bg-green-500' : q.score >= 60 ? 'bg-yellow-500' : 'bg-red-500';
+            const color = q.score >= 85 ? 'bg-accent-500' : q.score >= 60 ? 'bg-yellow-500' : 'bg-red-500';
             return `
                                 <div class="flex-1 flex flex-col items-center gap-1">
-                                    <span class="text-[9px] font-bold dark:text-gray-300">${q.score}%</span>
+                                    <span class="text-[9px] font-bold dark:text-surface-300">${q.score}%</span>
                                     <div class="${color} rounded-t-lg w-full transition-all duration-500" style="height: ${Math.max(q.score, 5)}%"></div>
                                 </div>
                             `;
@@ -364,39 +364,39 @@ const loadStudentAnalyticsData = async (userId) => {
                 </div>
 
                 <!-- Grade Distribution -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl">
-                    <h4 class="font-bold text-sm dark:text-white mb-3"><i class="fas fa-chart-pie text-indigo-500 ml-1"></i>توزيع المستويات</h4>
-                    ${totalQuizzes === 0 ? '<p class="text-center text-gray-400 text-sm py-8">لا توجد بيانات</p>' : `
+                <div class="bg-surface-50 dark:bg-surface-700/50 p-4 rounded-2xl">
+                    <h4 class="font-bold text-sm dark:text-white mb-3"><i class="fas fa-chart-pie text-primary-500 ml-1"></i>توزيع المستويات</h4>
+                    ${totalQuizzes === 0 ? '<p class="text-center text-surface-400 text-sm py-8">لا توجد بيانات</p>' : `
                     <div class="space-y-3">
                         <div>
                             <div class="flex justify-between text-xs mb-1">
-                                <span class="font-bold text-green-600">🌟 ممتاز (85%+)</span>
-                                <span class="text-gray-500">${excellent} (${Math.round(excellent / totalQuizzes * 100)}%)</span>
+                                <span class="font-bold text-accent-600">🌟 ممتاز (85%+)</span>
+                                <span class="text-surface-500">${excellent} (${Math.round(excellent / totalQuizzes * 100)}%)</span>
                             </div>
-                            <div class="bg-gray-200 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
-                                <div class="bg-green-500 h-full rounded-full transition-all" style="width: ${(excellent / totalQuizzes * 100)}%"></div>
+                            <div class="bg-surface-200 dark:bg-surface-600 rounded-full h-3 overflow-hidden">
+                                <div class="bg-accent-500 h-full rounded-full transition-all" style="width: ${(excellent / totalQuizzes * 100)}%"></div>
                             </div>
                         </div>
                         <div>
                             <div class="flex justify-between text-xs mb-1">
                                 <span class="font-bold text-yellow-600">⭐ جيد (60-84%)</span>
-                                <span class="text-gray-500">${good} (${Math.round(good / totalQuizzes * 100)}%)</span>
+                                <span class="text-surface-500">${good} (${Math.round(good / totalQuizzes * 100)}%)</span>
                             </div>
-                            <div class="bg-gray-200 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
+                            <div class="bg-surface-200 dark:bg-surface-600 rounded-full h-3 overflow-hidden">
                                 <div class="bg-yellow-500 h-full rounded-full transition-all" style="width: ${(good / totalQuizzes * 100)}%"></div>
                             </div>
                         </div>
                         <div>
                             <div class="flex justify-between text-xs mb-1">
                                 <span class="font-bold text-red-600">📌 يحتاج تحسين (&lt;60%)</span>
-                                <span class="text-gray-500">${weak} (${Math.round(weak / totalQuizzes * 100)}%)</span>
+                                <span class="text-surface-500">${weak} (${Math.round(weak / totalQuizzes * 100)}%)</span>
                             </div>
-                            <div class="bg-gray-200 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
+                            <div class="bg-surface-200 dark:bg-surface-600 rounded-full h-3 overflow-hidden">
                                 <div class="bg-red-500 h-full rounded-full transition-all" style="width: ${(weak / totalQuizzes * 100)}%"></div>
                             </div>
                         </div>
                     </div>
-                    <p class="text-center text-xs text-gray-400 mt-3">أفضل درجة: <span class="font-bold text-green-600">${bestScore}%</span></p>
+                    <p class="text-center text-xs text-surface-400 mt-3">أفضل درجة: <span class="font-bold text-accent-600">${bestScore}%</span></p>
                     `}
                 </div>
             </div>
@@ -409,13 +409,13 @@ const loadStudentAnalyticsData = async (userId) => {
                 </h4>
                 <div class="space-y-2">
                     ${recommendations.slice(0, 5).map(r => `
-                        <div class="flex items-center gap-3 bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm">
+                        <div class="flex items-center gap-3 bg-white dark:bg-surface-800 p-3 rounded-xl shadow-sm">
                             <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
                                 <span class="font-black text-red-600 text-sm">${r.avg}%</span>
                             </div>
                             <div class="flex-1">
                                 <p class="font-bold text-sm dark:text-white">${r.subject}</p>
-                                <p class="text-xs text-gray-500">متوسطك ${r.avg}% من ${r.attempts} محاولة — ننصحك بمراجعة هذه المادة</p>
+                                <p class="text-xs text-surface-500">متوسطك ${r.avg}% من ${r.attempts} محاولة — ننصحك بمراجعة هذه المادة</p>
                             </div>
                             <i class="fas fa-arrow-left text-orange-500"></i>
                         </div>
@@ -423,9 +423,9 @@ const loadStudentAnalyticsData = async (userId) => {
                 </div>
             </div>
             ` : totalQuizzes > 0 ? `
-            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-2xl text-center border border-green-200 dark:border-green-800">
-                <i class="fas fa-check-circle text-green-500 text-2xl mb-2"></i>
-                <p class="font-bold text-green-700 dark:text-green-400">أداؤك ممتاز! 🎉 كل المواد فوق 70%</p>
+            <div class="bg-accent-50 dark:bg-accent-900/20 p-4 rounded-2xl text-center border border-accent-200 dark:border-accent-800">
+                <i class="fas fa-check-circle text-accent-500 text-2xl mb-2"></i>
+                <p class="font-bold text-accent-700 dark:text-accent-400">أداؤك ممتاز! 🎉 كل المواد فوق 70%</p>
             </div>
             ` : ''}
         `;
@@ -457,7 +457,7 @@ window.exportGradesPDF = async () => {
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
         // Header
-        pdf.setFillColor(13, 148, 136); // blue-600
+        pdf.setFillColor(13, 148, 136); // primary-600
         pdf.rect(0, 0, 210, 40, 'F');
         pdf.setTextColor(255, 255, 255);
         pdf.setFontSize(20);

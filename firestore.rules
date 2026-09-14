@@ -41,6 +41,11 @@ service cloud.firestore {
       allow create: if isLoggedIn() && isOwner(userId);
       allow update: if isLoggedIn() && (isOwner(userId) || isAdmin());
       allow delete: if hasPermission('deleteUsers');
+      
+      // ملاحظات المستخدم (الحفظ التلقائي في صفحة الكتب)
+      match /notes/{noteId} {
+        allow read, write: if isLoggedIn() && isOwner(userId);
+      }
     }
     
     // ============================================================

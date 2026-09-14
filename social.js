@@ -41,9 +41,9 @@ window.openUserProfile = async (uid) => {
         modal.id = 'user-profile-modal';
         modal.className = 'fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center animate-fade-in p-4';
         modal.innerHTML = `
-            <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
                 <!-- Header -->
-                <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 h-32 rounded-t-3xl">
+                <div class="relative bg-gradient-to-br from-primary-500 to-primary-600 h-32 rounded-t-3xl">
                     <button onclick="document.getElementById('user-profile-modal').remove()" class="absolute top-4 left-4 text-white/80 hover:text-white text-2xl">
                         <i class="fas fa-times"></i>
                     </button>
@@ -52,51 +52,51 @@ window.openUserProfile = async (uid) => {
                 <!-- Avatar -->
                 <div class="flex justify-center -mt-16">
                     <img src="${data.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.displayName || 'User')}" 
-                         class="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-xl object-cover bg-white dark:bg-gray-700">
+                         class="w-32 h-32 rounded-full border-4 border-white dark:border-surface-800 shadow-xl object-cover bg-white dark:bg-surface-700">
                 </div>
                 
                 <!-- Info -->
                 <div class="p-6 text-center">
                     <h2 class="text-2xl font-black dark:text-white flex items-center justify-center gap-2">
                         ${data.displayName || 'مستخدم'}
-                        ${data.isVerified ? '<i class="fas fa-check-circle text-blue-500"></i>' : ''}
+                        ${data.isVerified ? '<i class="fas fa-check-circle text-primary-500"></i>' : ''}
                     </h2>
                     
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">${data.email || ''}</p>
+                    <p class="text-surface-500 dark:text-surface-400 text-sm mt-1">${data.email || ''}</p>
                     
                     <!-- Level Badge -->
-                    <div class="mt-3 inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/40 dark:to-indigo-900/40 border border-blue-100 dark:border-blue-800 px-4 py-2 rounded-full shadow-sm">
+                    <div class="mt-3 inline-flex items-center gap-2 bg-gradient-to-r from-primary-50 to-primary-50 dark:from-primary-900/40 dark:to-primary-900/40 border border-primary-100 dark:border-primary-800 px-4 py-2 rounded-full shadow-sm">
                         <span class="text-2xl drop-shadow-sm">${levelInfo.badge}</span>
-                        <span class="font-bold text-blue-700 dark:text-blue-300">المستوى ${levelInfo.level} - ${levelInfo.name}</span>
+                        <span class="font-bold text-primary-700 dark:text-primary-300">المستوى ${levelInfo.level} - ${levelInfo.name}</span>
                     </div>
                     
-                    <p class="text-sm text-gray-400 mt-1 font-mono tracking-wider">${data.xp || 0} XP</p>
+                    <p class="text-sm text-surface-400 mt-1 font-mono tracking-wider">${data.xp || 0} XP</p>
                     
                     <!-- College Info -->
-                    <div class="mt-4 bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
-                        <p class="text-sm text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-university text-blue-500 ml-2"></i>
+                    <div class="mt-4 bg-surface-50 dark:bg-surface-700/50 rounded-2xl p-4 border border-surface-100 dark:border-surface-700">
+                        <p class="text-sm text-surface-600 dark:text-surface-300">
+                            <i class="fas fa-university text-primary-500 ml-2"></i>
                             ${data.collegeName || data.collegeId || 'غير محدد'}
                         </p>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                            <i class="fas fa-book text-indigo-500 ml-2"></i>
+                        <p class="text-sm text-surface-600 dark:text-surface-300 mt-2">
+                            <i class="fas fa-book text-primary-500 ml-2"></i>
                             ${data.departmentName || data.departmentId || 'غير محدد'}
                         </p>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                            <i class="fas fa-layer-group text-green-500 ml-2"></i>
+                        <p class="text-sm text-surface-600 dark:text-surface-300 mt-2">
+                            <i class="fas fa-layer-group text-accent-500 ml-2"></i>
                             الفرقة ${data.year || 'غير محدد'}
                         </p>
                     </div>
                     
                     <!-- Stats -->
                     <div class="flex justify-center gap-8 mt-4">
-                        <div class="text-center p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                            <p class="text-2xl font-black text-blue-600 dark:text-blue-400">${followersCount}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">متابع</p>
+                        <div class="text-center p-2 rounded-xl hover:bg-surface-50 dark:hover:bg-surface-700/50 transition">
+                            <p class="text-2xl font-black text-primary-600 dark:text-primary-400">${followersCount}</p>
+                            <p class="text-xs text-surface-500 dark:text-surface-400">متابع</p>
                         </div>
-                        <div class="text-center p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                            <p class="text-2xl font-black text-indigo-600 dark:text-indigo-400">${followingCount}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">يتابع</p>
+                        <div class="text-center p-2 rounded-xl hover:bg-surface-50 dark:hover:bg-surface-700/50 transition">
+                            <p class="text-2xl font-black text-primary-600 dark:text-primary-400">${followingCount}</p>
+                            <p class="text-xs text-surface-500 dark:text-surface-400">يتابع</p>
                         </div>
                     </div>
                     
@@ -113,14 +113,14 @@ window.openUserProfile = async (uid) => {
                         <div class="flex gap-3 mt-6">
                             <button onclick="window.toggleFollow('${uid}')" id="follow-btn-${uid}"
                                 class="flex-1 py-3 rounded-xl font-bold transition ${isFollowing
-                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'}">
+                    ? 'bg-surface-200 dark:bg-surface-700 text-surface-700 dark:text-surface-300'
+                    : 'bg-primary-600 text-white hover:bg-primary-700'}">
                                 <i class="fas fa-${isFollowing ? 'user-minus' : 'user-plus'} ml-2"></i>
                                 ${isFollowing ? 'إلغاء المتابعة' : 'متابعة'}
                             </button>
                             
                             <button onclick="window.openDMFromProfile('${uid}', '${data.displayName}')" 
-                                class="flex-1 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition">
+                                class="flex-1 py-3 rounded-xl bg-accent-600 text-white font-bold hover:bg-accent-700 transition">
                                 <i class="fas fa-comment ml-2"></i>
                                 مراسلة
                             </button>
@@ -129,12 +129,12 @@ window.openUserProfile = async (uid) => {
                         <button onclick="window.toggleBlock('${uid}')" id="block-btn-${uid}"
                             class="mt-3 w-full py-2 rounded-xl text-sm font-bold transition ${isBlocked
                     ? 'bg-red-100 text-red-600 dark:bg-red-900/30'
-                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'}">
+                    : 'bg-surface-100 text-surface-600 dark:bg-surface-700 dark:text-surface-400'}">
                             <i class="fas fa-${isBlocked ? 'unlock' : 'ban'} ml-2"></i>
                             ${isBlocked ? 'إلغاء الحظر' : 'حظر المراسلة'}
                         </button>
                     ` : `
-                        <button onclick="window.location.hash='profile'" class="mt-6 w-full py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">
+                        <button onclick="window.location.hash='profile'" class="mt-6 w-full py-3 rounded-xl bg-primary-600 text-white font-bold hover:bg-primary-700 transition">
                             <i class="fas fa-edit ml-2"></i>
                             تعديل بروفايلي
                         </button>
@@ -198,8 +198,8 @@ const updateFollowButton = (uid, isFollowing) => {
     if (btn) {
         btn.innerHTML = `<i class="fas fa-${isFollowing ? 'user-minus' : 'user-plus'} ml-2"></i>${isFollowing ? 'إلغاء المتابعة' : 'متابعة'}`;
         btn.className = `flex-1 py-3 rounded-xl font-bold transition ${isFollowing
-            ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-            : 'bg-blue-600 text-white hover:bg-blue-700'}`;
+            ? 'bg-surface-200 dark:bg-surface-700 text-surface-700 dark:text-surface-300'
+            : 'bg-primary-600 text-white hover:bg-primary-700'}`;
     }
 };
 
@@ -245,7 +245,7 @@ const updateBlockButton = (uid, isBlocked) => {
         btn.innerHTML = `<i class="fas fa-${isBlocked ? 'unlock' : 'ban'} ml-2"></i>${isBlocked ? 'إلغاء الحظر' : 'حظر المراسلة'}`;
         btn.className = `mt-3 w-full py-2 rounded-xl text-sm font-bold transition ${isBlocked
             ? 'bg-red-100 text-red-600 dark:bg-red-900/30'
-            : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'}`;
+            : 'bg-surface-100 text-surface-600 dark:bg-surface-700 dark:text-surface-400'}`;
     }
 };
 
@@ -304,14 +304,14 @@ window.renderAdminFeed = async (containerId) => {
         createBtn.classList.remove('hidden');
     }
 
-    container.innerHTML = '<div class="text-center p-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i></div>';
+    container.innerHTML = '<div class="text-center p-10"><i class="fas fa-spinner fa-spin text-3xl text-primary-500"></i></div>';
 
     try {
         const q = query(collection(db, "admin_posts"), orderBy("createdAt", "desc"), limit(20));
 
         onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
-                container.innerHTML = '<div class="text-center p-10 text-gray-400"><i class="fas fa-newspaper text-4xl mb-3"></i><p>لا توجد منشورات حالياً</p></div>';
+                container.innerHTML = '<div class="text-center p-10 text-surface-400"><i class="fas fa-newspaper text-4xl mb-3"></i><p>لا توجد منشورات حالياً</p></div>';
                 return;
             }
 
@@ -337,33 +337,33 @@ window.renderAdminFeed = async (containerId) => {
                 let safeContent = window.sanitizeHTML?.(post.content) || post.content || '';
                 let contentHtml = safeContent.replace(
                     /(https?:\/\/[^\s]+)/g,
-                    '<a href="$1" target="_blank" class="text-blue-600 hover:underline">$1</a>'
+                    '<a href="$1" target="_blank" class="text-primary-600 hover:underline">$1</a>'
                 );
 
                 const commentsCount = post.commentsCount || 0;
 
                 container.innerHTML += `
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-4 border border-gray-100 dark:border-gray-700">
+                    <div class="bg-white dark:bg-surface-800 rounded-2xl shadow-lg p-5 mb-4 border border-surface-100 dark:border-surface-700">
                         <div class="flex items-center gap-3 mb-3">
-                            <img src="${post.authorPhoto || 'https://ui-avatars.com/api/?name=Admin'}" class="w-12 h-12 rounded-full object-cover border-2 border-blue-200">
+                            <img src="${post.authorPhoto || 'https://ui-avatars.com/api/?name=Admin'}" class="w-12 h-12 rounded-full object-cover border-2 border-primary-200">
                             <div>
                                 <p class="font-bold dark:text-white flex items-center gap-2">
                                     ${window.sanitizeHTML?.(post.authorName) || 'الإدارة'}
-                                    <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full">أدمن</span>
+                                    <span class="bg-primary-100 text-primary-700 text-[10px] px-2 py-0.5 rounded-full">أدمن</span>
                                 </p>
-                                <p class="text-xs text-gray-400">${time}</p>
+                                <p class="text-xs text-surface-400">${time}</p>
                             </div>
                         </div>
                         
-                        <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">${contentHtml}</p>
+                        <p class="text-surface-700 dark:text-surface-300 whitespace-pre-wrap leading-relaxed">${contentHtml}</p>
                         ${mediaHtml}
                         
-                        <div class="flex items-center gap-6 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-                            <button onclick="window.togglePostLike('${postId}')" class="flex items-center gap-2 ${isLiked ? 'text-red-500' : 'text-gray-400'} hover:text-red-500 transition">
+                        <div class="flex items-center gap-6 mt-4 pt-3 border-t border-surface-100 dark:border-surface-700">
+                            <button onclick="window.togglePostLike('${postId}')" class="flex items-center gap-2 ${isLiked ? 'text-red-500' : 'text-surface-400'} hover:text-red-500 transition">
                                 <i class="fas fa-heart"></i>
                                 <span>${likesCount}</span>
                             </button>
-                            <button onclick="window.openPostComments('${postId}')" class="flex items-center gap-2 text-gray-400 hover:text-blue-500 transition">
+                            <button onclick="window.openPostComments('${postId}')" class="flex items-center gap-2 text-surface-400 hover:text-primary-500 transition">
                                 <i class="fas fa-comment"></i>
                                 <span>${commentsCount}</span>
                             </button>
@@ -419,45 +419,45 @@ window.openCreatePostModal = async () => {
     modal.id = 'create-post-modal';
     modal.className = 'fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center animate-fade-in p-4 overflow-y-auto';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-lg shadow-2xl my-4">
-            <div class="p-6 border-b dark:border-gray-700">
+        <div class="bg-white dark:bg-surface-800 rounded-3xl w-full max-w-lg shadow-2xl my-4">
+            <div class="p-6 border-b dark:border-surface-700">
                 <h3 class="text-xl font-black dark:text-white">📝 منشور جديد</h3>
             </div>
             
             <div class="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
                 <textarea id="post-content" placeholder="اكتب منشورك هنا..." rows="4" 
-                    class="w-full p-4 border dark:border-gray-600 rounded-xl resize-none dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                    class="w-full p-4 border dark:border-surface-600 rounded-xl resize-none dark:bg-surface-700 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none"></textarea>
                 
                 <!-- Target Audience -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                <div class="bg-surface-50 dark:bg-surface-700/50 p-4 rounded-xl">
                     <label class="text-sm font-bold dark:text-white mb-2 block">🎯 الجمهور المستهدف:</label>
-                    <select id="post-target-type" onchange="window.updatePostTargetOptions()" class="w-full p-3 border dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white mb-2">
+                    <select id="post-target-type" onchange="window.updatePostTargetOptions()" class="w-full p-3 border dark:border-surface-600 rounded-xl dark:bg-surface-700 dark:text-white mb-2">
                         <option value="all">📢 كل الجامعة</option>
                         <option value="colleges">🏛️ كليات معينة</option>
                         <option value="departments">📚 أقسام معينة</option>
                     </select>
                     
                     <div id="target-colleges-container" class="hidden">
-                        <select id="post-target-colleges" multiple class="w-full p-3 border dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white" size="4">
+                        <select id="post-target-colleges" multiple class="w-full p-3 border dark:border-surface-600 rounded-xl dark:bg-surface-700 dark:text-white" size="4">
                             ${collegesOptions}
                         </select>
-                        <p class="text-xs text-gray-400 mt-1">اضغط Ctrl للاختيار المتعدد</p>
+                        <p class="text-xs text-surface-400 mt-1">اضغط Ctrl للاختيار المتعدد</p>
                     </div>
                     
                     <div id="target-departments-container" class="hidden">
-                        <select id="post-target-departments" multiple class="w-full p-3 border dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white" size="4">
+                        <select id="post-target-departments" multiple class="w-full p-3 border dark:border-surface-600 rounded-xl dark:bg-surface-700 dark:text-white" size="4">
                             ${departmentsOptions}
                         </select>
-                        <p class="text-xs text-gray-400 mt-1">اضغط Ctrl للاختيار المتعدد</p>
+                        <p class="text-xs text-surface-400 mt-1">اضغط Ctrl للاختيار المتعدد</p>
                     </div>
                 </div>
                 
                 <div class="flex gap-3">
                     <label class="flex-1 cursor-pointer">
                         <input type="file" id="post-media" accept="image/*,video/*" class="hidden" onchange="window.previewPostMedia(this)">
-                        <div class="flex items-center justify-center gap-2 p-3 border-2 border-dashed dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                            <i class="fas fa-image text-blue-500"></i>
-                            <span class="text-sm text-gray-500">صورة أو فيديو</span>
+                        <div class="flex items-center justify-center gap-2 p-3 border-2 border-dashed dark:border-surface-600 rounded-xl hover:bg-surface-50 dark:hover:bg-surface-700 transition">
+                            <i class="fas fa-image text-primary-500"></i>
+                            <span class="text-sm text-surface-500">صورة أو فيديو</span>
                         </div>
                     </label>
                 </div>
@@ -471,9 +471,9 @@ window.openCreatePostModal = async () => {
                 </div>
             </div>
             
-            <div class="p-6 border-t dark:border-gray-700 flex gap-3">
-                <button onclick="document.getElementById('create-post-modal').remove()" class="flex-1 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 font-bold dark:text-white">إلغاء</button>
-                <button onclick="window.submitPost()" id="submit-post-btn" class="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700">نشر</button>
+            <div class="p-6 border-t dark:border-surface-700 flex gap-3">
+                <button onclick="document.getElementById('create-post-modal').remove()" class="flex-1 py-3 rounded-xl bg-surface-100 dark:bg-surface-700 font-bold dark:text-white">إلغاء</button>
+                <button onclick="window.submitPost()" id="submit-post-btn" class="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold hover:bg-primary-700">نشر</button>
             </div>
         </div>
     `;
@@ -724,21 +724,21 @@ window.openPostComments = async (postId) => {
     modal.id = 'comments-modal';
     modal.className = 'fixed inset-0 bg-black/60 z-[9999] flex items-end md:items-center justify-center animate-fade-in';
     modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 w-full md:max-w-lg md:rounded-3xl rounded-t-3xl shadow-2xl max-h-[80vh] flex flex-col">
-            <div class="p-4 border-b dark:border-gray-700 flex justify-between items-center">
+        <div class="bg-white dark:bg-surface-800 w-full md:max-w-lg md:rounded-3xl rounded-t-3xl shadow-2xl max-h-[80vh] flex flex-col">
+            <div class="p-4 border-b dark:border-surface-700 flex justify-between items-center">
                 <h3 class="font-bold dark:text-white">💬 التعليقات</h3>
-                <button onclick="document.getElementById('comments-modal').remove()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="document.getElementById('comments-modal').remove()" class="text-surface-400 hover:text-surface-600">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="comments-list" class="flex-1 overflow-y-auto p-4 space-y-3">
-                <div class="text-center text-gray-400"><i class="fas fa-spinner fa-spin"></i></div>
+                <div class="text-center text-surface-400"><i class="fas fa-spinner fa-spin"></i></div>
             </div>
-            <div class="p-4 border-t dark:border-gray-700 flex gap-2">
+            <div class="p-4 border-t dark:border-surface-700 flex gap-2">
                 <input id="comment-input" type="text" placeholder="اكتب تعليقك..." 
-                    class="flex-1 p-3 border dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white outline-none"
+                    class="flex-1 p-3 border dark:border-surface-600 rounded-xl dark:bg-surface-700 dark:text-white outline-none"
                     onkeypress="if(event.key==='Enter')window.submitComment('${postId}')">
-                <button onclick="window.submitComment('${postId}')" class="bg-blue-600 text-white px-4 rounded-xl hover:bg-blue-700">
+                <button onclick="window.submitComment('${postId}')" class="bg-primary-600 text-white px-4 rounded-xl hover:bg-primary-700">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -763,7 +763,7 @@ const loadPostComments = (postId, isAdmin) => {
 
     onSnapshot(q, (snapshot) => {
         if (snapshot.empty) {
-            container.innerHTML = '<p class="text-center text-gray-400 py-6">لا توجد تعليقات بعد</p>';
+            container.innerHTML = '<p class="text-center text-surface-400 py-6">لا توجد تعليقات بعد</p>';
             return;
         }
 
@@ -780,8 +780,8 @@ const loadPostComments = (postId, isAdmin) => {
                 // Remove encoded html from payload if needed, we'll decode on the way back to avoid syntax errors
                 actionBtns = `
                     <div class="absolute left-2 top-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        ${isMe ? `<button onclick="window.editComment('${postId}', '${commentId}', '${encodeURIComponent(c.text)}')" class="text-gray-400 hover:text-blue-500 text-xs"><i class="fas fa-edit"></i></button>` : ''}
-                        <button onclick="window.deleteComment('${postId}', '${commentId}')" class="text-gray-400 hover:text-red-500 text-xs"><i class="fas fa-trash"></i></button>
+                        ${isMe ? `<button onclick="window.editComment('${postId}', '${commentId}', '${encodeURIComponent(c.text)}')" class="text-surface-400 hover:text-primary-500 text-xs"><i class="fas fa-edit"></i></button>` : ''}
+                        <button onclick="window.deleteComment('${postId}', '${commentId}')" class="text-surface-400 hover:text-red-500 text-xs"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
             }
@@ -790,13 +790,13 @@ const loadPostComments = (postId, isAdmin) => {
                 <div class="flex gap-3 mb-2">
                     <img src="${c.userPhoto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.userName)}" 
                          class="w-8 h-8 rounded-full object-cover">
-                    <div class="flex-1 bg-gray-100 dark:bg-gray-700 rounded-2xl p-3 relative group">
+                    <div class="flex-1 bg-surface-100 dark:bg-surface-700 rounded-2xl p-3 relative group">
                         ${actionBtns}
                         <div class="flex items-center gap-2 mb-1">
                             <span class="text-sm font-bold dark:text-white line-clamp-1">${window.sanitizeHTML?.(c.userName) || c.userName}</span>
-                            <span class="text-[10px] text-gray-400">${time}</span>
+                            <span class="text-[10px] text-surface-400">${time}</span>
                         </div>
-                        <p class="text-sm dark:text-gray-300 pl-10 whitespace-pre-wrap">${window.sanitizeHTML?.(c.text) || c.text}</p>
+                        <p class="text-sm dark:text-surface-300 pl-10 whitespace-pre-wrap">${window.sanitizeHTML?.(c.text) || c.text}</p>
                     </div>
                 </div>
             `;

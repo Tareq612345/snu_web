@@ -123,11 +123,11 @@ export const checkRoute = async () => {
         const linkHash = el.getAttribute('href')?.slice(1);
         // مقارنة مرنة للروابط لتحديد الزر النشط
         if (linkHash === hash || (hash.startsWith(linkHash) && linkHash !== 'home')) {
-            el.classList.add('bg-blue-50', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-400');
-            el.classList.remove('text-gray-700', 'dark:text-gray-200');
+            el.classList.add('bg-primary-50', 'dark:bg-surface-700', 'text-primary-600', 'dark:text-primary-400');
+            el.classList.remove('text-surface-700', 'dark:text-surface-200');
         } else {
-            el.classList.remove('bg-blue-50', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-400');
-            el.classList.add('text-gray-700', 'dark:text-gray-200');
+            el.classList.remove('bg-primary-50', 'dark:bg-surface-700', 'text-primary-600', 'dark:text-primary-400');
+            el.classList.add('text-surface-700', 'dark:text-surface-200');
         }
     });
 

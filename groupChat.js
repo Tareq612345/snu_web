@@ -30,7 +30,7 @@ export const setupGroupChat = () => {
     chatBtn.id = 'group-chat-toggle'; // ID فريد
 
     // بنرفعو شوية علشان ميتغطاش بالnavbar
-    chatBtn.className = "fixed bottom-20 right-4 md:bottom-8 md:right-8 z-[250] w-14 h-14 bg-green-600 hover:bg-green-700 text-white rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 border-2 border-white animate-bounce-slow";
+    chatBtn.className = "fixed bottom-20 right-4 md:bottom-8 md:right-8 z-[250] w-14 h-14 bg-accent-600 hover:bg-accent-700 text-white rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 border-2 border-white animate-bounce-slow";
 
     chatBtn.innerHTML = `
         <div class="relative">
@@ -43,10 +43,10 @@ export const setupGroupChat = () => {
     chatWindow.id = 'group-chat-window'; // ID فريد للنافذة
 
     // النافذة أيضاً ترتفع بنفس المقدار لتكون متناسقة
-    chatWindow.className = "hidden fixed bottom-20 right-4 md:bottom-24 md:right-8 w-80 md:w-96 h-[550px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl z-[250] flex flex-col border border-gray-200 dark:border-gray-700 overflow-hidden transform transition-all duration-300 origin-bottom-right";
+    chatWindow.className = "hidden fixed bottom-20 right-4 md:bottom-24 md:right-8 w-80 md:w-96 h-[550px] bg-white dark:bg-surface-800 rounded-3xl shadow-2xl z-[250] flex flex-col border border-surface-200 dark:border-surface-700 overflow-hidden transform transition-all duration-300 origin-bottom-right";
 
     chatWindow.innerHTML = `
-        <div class="bg-gradient-to-r from-green-600 to-green-500 p-4 text-white flex justify-between items-center shadow-md">
+        <div class="bg-gradient-to-r from-accent-600 to-accent-500 p-4 text-white flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
                 <div class="bg-white/20 p-2 rounded-full"><i class="fas fa-users"></i></div>
                 <div>
@@ -54,7 +54,7 @@ export const setupGroupChat = () => {
                         الملتقى الجامعي
                         <span id="chat-lock-indicator" class="hidden text-xs bg-red-500 px-2 py-0.5 rounded-full"><i class="fas fa-lock text-[10px]"></i> مغلق</span>
                     </h3>
-                    <p class="text-[10px] text-green-100 opacity-90">مساحة للنقاش وتبادل الخبرات</p>
+                    <p class="text-[10px] text-accent-100 opacity-90">مساحة للنقاش وتبادل الخبرات</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -64,39 +64,39 @@ export const setupGroupChat = () => {
         </div>
         
         <!-- Room Tabs -->
-        <div id="room-tabs" class="flex gap-1 p-2 bg-gray-100 dark:bg-gray-700 overflow-x-auto custom-scrollbar">
-            <button onclick="window.switchChatRoom('general')" class="room-tab active px-3 py-1.5 rounded-full text-xs font-bold bg-green-600 text-white whitespace-nowrap transition" data-room="general">
+        <div id="room-tabs" class="flex gap-1 p-2 bg-surface-100 dark:bg-surface-700 overflow-x-auto custom-scrollbar">
+            <button onclick="window.switchChatRoom('general')" class="room-tab active px-3 py-1.5 rounded-full text-xs font-bold bg-accent-600 text-white whitespace-nowrap transition" data-room="general">
                 💬 العام
             </button>
-            <button id="college-room-tab" onclick="window.switchToCollegeRoom()" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 whitespace-nowrap hover:bg-gray-300 dark:hover:bg-gray-500 transition" data-room="college">
+            <button id="college-room-tab" onclick="window.switchToCollegeRoom()" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-200 whitespace-nowrap hover:bg-surface-300 dark:hover:bg-surface-500 transition" data-room="college">
                 🏫 كليتي
             </button>
-            <button onclick="window.switchChatRoom('study')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 whitespace-nowrap hover:bg-gray-300 dark:hover:bg-gray-500 transition" data-room="study">
+            <button onclick="window.switchChatRoom('study')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-200 whitespace-nowrap hover:bg-surface-300 dark:hover:bg-surface-500 transition" data-room="study">
                 📚 دراسة
             </button>
-            <button onclick="window.switchChatRoom('help')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 whitespace-nowrap hover:bg-gray-300 dark:hover:bg-gray-500 transition" data-room="help">
+            <button onclick="window.switchChatRoom('help')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-200 whitespace-nowrap hover:bg-surface-300 dark:hover:bg-surface-500 transition" data-room="help">
                 ❓ مساعدة
             </button>
-            <button onclick="window.switchChatRoom('random')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 whitespace-nowrap hover:bg-gray-300 dark:hover:bg-gray-500 transition" data-room="random">
+            <button onclick="window.switchChatRoom('random')" class="room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-200 whitespace-nowrap hover:bg-surface-300 dark:hover:bg-surface-500 transition" data-room="random">
                 🎉 عشوائي
             </button>
         </div>
         
-        <div id="group-messages-area" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900 custom-scrollbar relative">
-            <div class="text-center text-gray-400 mt-20 text-sm opacity-50">
+        <div id="group-messages-area" class="flex-1 overflow-y-auto p-4 space-y-4 bg-surface-50 dark:bg-surface-900 custom-scrollbar relative">
+            <div class="text-center text-surface-400 mt-20 text-sm opacity-50">
                 <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
                 <p>جاري الاتصال...</p>
             </div>
         </div>
         
-        <div id="reply-banner" class="hidden bg-gray-100 dark:bg-gray-700 p-2 px-4 border-t dark:border-gray-600 flex justify-between items-center animate-slide-up">
+        <div id="reply-banner" class="hidden bg-surface-100 dark:bg-surface-700 p-2 px-4 border-t dark:border-surface-600 flex justify-between items-center animate-slide-up">
             <div class="flex flex-col max-w-[85%]">
-                <span class="text-[10px] font-bold text-green-600 dark:text-green-400">
+                <span class="text-[10px] font-bold text-accent-600 dark:text-accent-400">
                     <i class="fas fa-reply"></i> رد على <span id="reply-to-name">...</span>
                 </span>
-                <span id="reply-to-text" class="text-xs text-gray-500 dark:text-gray-300 truncate">...</span>
+                <span id="reply-to-text" class="text-xs text-surface-500 dark:text-surface-300 truncate">...</span>
             </div>
-            <button onclick="window.cancelReply()" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+            <button onclick="window.cancelReply()" class="text-surface-400 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
         </div>
 
         <div id="edit-indicator" class="hidden bg-yellow-100 text-yellow-800 px-3 py-1 text-xs flex justify-between items-center">
@@ -104,14 +104,14 @@ export const setupGroupChat = () => {
             <button onclick="window.cancelEdit()" class="text-red-500 font-bold">إلغاء</button>
         </div>
 
-        <div id="group-input-container" class="p-3 bg-white dark:bg-gray-800 border-t dark:border-gray-700 relative">
+        <div id="group-input-container" class="p-3 bg-white dark:bg-surface-800 border-t dark:border-surface-700 relative">
             
-            <div id="chat-file-preview-box" class="hidden mb-2 relative w-fit p-2 bg-gray-100 dark:bg-gray-600 rounded-lg border dark:border-gray-500">
+            <div id="chat-file-preview-box" class="hidden mb-2 relative w-fit p-2 bg-surface-100 dark:bg-surface-600 rounded-lg border dark:border-surface-500">
                 <div class="flex items-center gap-2">
-                    <i id="file-preview-icon" class="fas fa-file text-2xl text-gray-500"></i>
+                    <i id="file-preview-icon" class="fas fa-file text-2xl text-surface-500"></i>
                     <div>
                         <p id="file-preview-name" class="text-xs font-bold dark:text-white truncate max-w-[150px]"></p>
-                        <p id="file-preview-size" class="text-[10px] text-gray-400"></p>
+                        <p id="file-preview-size" class="text-[10px] text-surface-400"></p>
                     </div>
                 </div>
                 <img id="chat-img-preview" class="hidden h-16 rounded mt-2">
@@ -123,10 +123,10 @@ export const setupGroupChat = () => {
                 
                 <!-- Emoji Picker -->
                 <div class="relative">
-                    <button type="button" id="emoji-picker-btn" class="text-gray-400 hover:text-yellow-500 transition p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full" title="إيموجي">
+                    <button type="button" id="emoji-picker-btn" class="text-surface-400 hover:text-yellow-500 transition p-2 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-full" title="إيموجي">
                         <i class="far fa-smile text-xl"></i>
                     </button>
-                    <div id="emoji-picker" class="hidden absolute bottom-12 right-0 bg-white dark:bg-gray-700 rounded-xl shadow-xl p-2 border dark:border-gray-600 z-50">
+                    <div id="emoji-picker" class="hidden absolute bottom-12 right-0 bg-white dark:bg-surface-700 rounded-xl shadow-xl p-2 border dark:border-surface-600 z-50">
                         <div class="flex gap-1 flex-wrap w-48">
                             <button type="button" onclick="window.insertEmoji('😀')" class="text-xl hover:scale-125 transition p-1">😀</button>
                             <button type="button" onclick="window.insertEmoji('❤️')" class="text-xl hover:scale-125 transition p-1">❤️</button>
@@ -145,18 +145,18 @@ export const setupGroupChat = () => {
                 </div>
                 
                 <!-- File Upload -->
-                <button type="button" onclick="document.getElementById('chat-file-upload').click()" class="text-gray-400 hover:text-green-600 transition p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full" title="إرفاق ملف">
+                <button type="button" onclick="document.getElementById('chat-file-upload').click()" class="text-surface-400 hover:text-accent-600 transition p-2 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-full" title="إرفاق ملف">
                     <i class="fas fa-paperclip text-xl"></i>
                 </button>
                 
                 <!-- Voice Recording -->
-                <button type="button" id="voice-record-btn" onclick="window.toggleVoiceRecording()" class="text-gray-400 hover:text-red-500 transition p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full" title="تسجيل صوتي">
+                <button type="button" id="voice-record-btn" onclick="window.toggleVoiceRecording()" class="text-surface-400 hover:text-red-500 transition p-2 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-full" title="تسجيل صوتي">
                     <i class="fas fa-microphone text-xl"></i>
                 </button>
 
-                <input type="text" id="group-msg-input" autocomplete="off" placeholder="اكتب رسالتك هنا..." class="flex-grow p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm focus:outline-none dark:text-white transition focus:ring-2 focus:ring-green-500">
+                <input type="text" id="group-msg-input" autocomplete="off" placeholder="اكتب رسالتك هنا..." class="flex-grow p-3 bg-surface-100 dark:bg-surface-700 rounded-xl text-sm focus:outline-none dark:text-white transition focus:ring-2 focus:ring-accent-500">
                 
-                <button type="submit" id="send-group-btn" class="bg-green-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-green-700 shadow-lg transition transform active:scale-95">
+                <button type="submit" id="send-group-btn" class="bg-accent-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-accent-700 shadow-lg transition transform active:scale-95">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </form>
@@ -221,7 +221,7 @@ export const setupGroupChat = () => {
             // إخفاء منطقة الإدخال للمستخدمين العاديين
             if (inputArea && isLocked && user?.email !== SUPER_ADMIN_EMAIL) {
                 inputArea.innerHTML = `
-                    <div class="p-4 text-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
+                    <div class="p-4 text-center text-surface-500 dark:text-surface-400 bg-surface-100 dark:bg-surface-800">
                         <i class="fas fa-lock text-2xl mb-2 text-red-500"></i>
                         <p class="text-sm font-bold">المحادثة مغلقة حالياً من قبل الإدارة</p>
                     </div>
@@ -265,7 +265,7 @@ const listenToMessages = () => {
     unsubscribeChat = onSnapshot(q, (snapshot) => {
         if (snapshot.empty) {
             area.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full text-gray-400 opacity-60">
+                <div class="flex flex-col items-center justify-center h-full text-surface-400 opacity-60">
                     <i class="fas fa-comments text-6xl mb-4"></i>
                     <p>لا توجد رسائل بعد. كن أول من يكتب!</p>
                 </div>`;
@@ -299,11 +299,11 @@ const listenToMessages = () => {
             let replyHtml = '';
             if (msg.replyTo) {
                 replyHtml = `
-                    <div class="mb-1 p-2 rounded-lg bg-black/5 dark:bg-white/10 border-r-4 border-green-500 text-xs flex flex-col gap-0.5 cursor-pointer hover:bg-black/10 transition" onclick="document.getElementById('${msg.replyTo.id}')?.scrollIntoView({behavior:'smooth', block:'center'})">
-                        <span class="font-bold text-green-700 dark:text-green-300 flex items-center gap-1">
+                    <div class="mb-1 p-2 rounded-lg bg-black/5 dark:bg-white/10 border-r-4 border-accent-500 text-xs flex flex-col gap-0.5 cursor-pointer hover:bg-black/10 transition" onclick="document.getElementById('${msg.replyTo.id}')?.scrollIntoView({behavior:'smooth', block:'center'})">
+                        <span class="font-bold text-accent-700 dark:text-accent-300 flex items-center gap-1">
                             <i class="fas fa-reply"></i> ${msg.replyTo.userName}
                         </span>
-                        <span class="truncate text-gray-600 dark:text-gray-300 italic">"${msg.replyTo.text}"</span>
+                        <span class="truncate text-surface-600 dark:text-surface-300 italic">"${msg.replyTo.text}"</span>
                     </div>
                 `;
             }
@@ -313,19 +313,19 @@ const listenToMessages = () => {
             if (msg.imageUrl) {
                 mediaHtml = `
                     <div class="mt-1 mb-1">
-                        <img src="${msg.imageUrl}" loading="lazy" class="max-w-full rounded-lg max-h-48 object-cover cursor-pointer hover:opacity-90 transition border-2 border-transparent hover:border-green-300" onclick="window.open('${msg.imageUrl}', '_blank')">
+                        <img src="${msg.imageUrl}" loading="lazy" class="max-w-full rounded-lg max-h-48 object-cover cursor-pointer hover:opacity-90 transition border-2 border-transparent hover:border-accent-300" onclick="window.open('${msg.imageUrl}', '_blank')">
                     </div>
                 `;
             } else if (msg.fileUrl) {
                 const getIcon = (type) => {
                     if (type?.includes('pdf')) return 'fa-file-pdf text-red-500';
-                    if (type?.includes('word') || type?.includes('doc')) return 'fa-file-word text-blue-600';
-                    if (type?.includes('excel') || type?.includes('sheet')) return 'fa-file-excel text-green-600';
+                    if (type?.includes('word') || type?.includes('doc')) return 'fa-file-word text-primary-600';
+                    if (type?.includes('excel') || type?.includes('sheet')) return 'fa-file-excel text-accent-600';
                     if (type?.includes('powerpoint') || type?.includes('presentation')) return 'fa-file-powerpoint text-orange-500';
-                    return 'fa-file text-gray-500';
+                    return 'fa-file text-surface-500';
                 };
                 mediaHtml = `
-                    <div class="mt-1 mb-1 flex items-center gap-2 bg-white/20 dark:bg-gray-600/50 p-2 rounded-lg cursor-pointer hover:bg-white/30 transition" onclick="window.open('${msg.fileUrl}', '_blank')">
+                    <div class="mt-1 mb-1 flex items-center gap-2 bg-white/20 dark:bg-surface-600/50 p-2 rounded-lg cursor-pointer hover:bg-white/30 transition" onclick="window.open('${msg.fileUrl}', '_blank')">
                         <i class="fas ${getIcon(msg.fileType)} text-xl"></i>
                         <div class="flex-1 min-w-0">
                             <p class="text-xs font-bold truncate">${msg.fileName || 'ملف'}</p>
@@ -344,20 +344,20 @@ const listenToMessages = () => {
 
             const avatarHtml = `
                 <div class="flex-shrink-0 flex flex-col items-center gap-1">
-                    <img src="${userAvatar}" loading="lazy" class="w-8 h-8 rounded-full object-cover shadow-sm border dark:border-gray-600">
+                    <img src="${userAvatar}" loading="lazy" class="w-8 h-8 rounded-full object-cover shadow-sm border dark:border-surface-600">
                 </div>`;
 
             const controlsHtml = `
                 <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition duration-200 self-center px-2">
-                    <button onclick="window.replyToMsg('${msg.id}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}', '${window.sanitizeHTML?.(msg.text) || 'صورة'}')" class="text-gray-400 hover:text-green-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="رد"><i class="fas fa-reply text-xs"></i></button>
+                    <button onclick="window.replyToMsg('${msg.id}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}', '${window.sanitizeHTML?.(msg.text) || 'صورة'}')" class="text-surface-400 hover:text-accent-600 bg-white dark:bg-surface-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="رد"><i class="fas fa-reply text-xs"></i></button>
                     ${(isMe) ? `
-                        <button onclick="window.editGroupMsg('${msg.id}', '${msg.text}')" class="text-blue-500 hover:text-blue-700 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="تعديل"><i class="fas fa-pen text-xs"></i></button>
+                        <button onclick="window.editGroupMsg('${msg.id}', '${msg.text}')" class="text-primary-500 hover:text-primary-700 bg-white dark:bg-surface-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="تعديل"><i class="fas fa-pen text-xs"></i></button>
                     ` : ''}
                     ${(isMe || auth.currentUser?.email === SUPER_ADMIN_EMAIL) ? `
-                        <button onclick="window.deleteGroupMsg('${msg.id}')" class="text-gray-400 hover:text-red-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="حذف"><i class="fas fa-trash text-xs"></i></button>
+                        <button onclick="window.deleteGroupMsg('${msg.id}')" class="text-surface-400 hover:text-red-600 bg-white dark:bg-surface-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="حذف"><i class="fas fa-trash text-xs"></i></button>
                     ` : ''}
                     ${!isMe ? `
-                        <button onclick="window.showReportUserModal?.('${msg.userId}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}')" class="text-gray-400 hover:text-red-500 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="إبلاغ"><i class="fas fa-flag text-xs"></i></button>
+                        <button onclick="window.showReportUserModal?.('${msg.userId}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}')" class="text-surface-400 hover:text-red-500 bg-white dark:bg-surface-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="إبلاغ"><i class="fas fa-flag text-xs"></i></button>
                     ` : ''}
                 </div>
             `;
@@ -382,7 +382,7 @@ const listenToMessages = () => {
                 for (const [emoji, users] of Object.entries(msg.reactions)) {
                     const count = users.length;
                     const isMine = users.includes(auth.currentUser?.uid);
-                    reactionsHtml += `<button onclick="window.addReaction('${msg.id}', '${emoji}')" class="text-xs px-1.5 py-0.5 rounded-full ${isMine ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-gray-100 dark:bg-gray-600'} hover:scale-110 transition">${emoji} ${count}</button>`;
+                    reactionsHtml += `<button onclick="window.addReaction('${msg.id}', '${emoji}')" class="text-xs px-1.5 py-0.5 rounded-full ${isMine ? 'bg-primary-100 dark:bg-primary-900/50' : 'bg-surface-100 dark:bg-surface-600'} hover:scale-110 transition">${emoji} ${count}</button>`;
                 }
                 reactionsHtml += '</div>';
             }
@@ -400,18 +400,18 @@ const listenToMessages = () => {
             const bodyHtml = `
                 <div class="max-w-[75%] min-w-[120px]">
                     <div class="flex items-baseline gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
-                        <span onclick="window.openUserProfile?.('${msg.userId}')" class="text-[11px] font-bold text-gray-700 dark:text-gray-300 truncate max-w-[100px] cursor-pointer hover:text-blue-600 hover:underline">${window.sanitizeHTML?.(msg.userName) || msg.userName}</span>
-                        ${infoText ? `<span class="text-[9px] text-gray-400 dark:text-gray-500 truncate max-w-[120px] bg-gray-100 dark:bg-gray-700 px-1.5 rounded">${infoText}</span>` : ''}
+                        <span onclick="window.openUserProfile?.('${msg.userId}')" class="text-[11px] font-bold text-surface-700 dark:text-surface-300 truncate max-w-[100px] cursor-pointer hover:text-primary-600 hover:underline">${window.sanitizeHTML?.(msg.userName) || msg.userName}</span>
+                        ${infoText ? `<span class="text-[9px] text-surface-400 dark:text-surface-500 truncate max-w-[120px] bg-surface-100 dark:bg-surface-700 px-1.5 rounded">${infoText}</span>` : ''}
                     </div>
                     
                     <div class="relative px-3 py-2 text-sm shadow-sm break-words
-                        ${isMe ? 'bg-green-600 text-white rounded-2xl rounded-tr-none' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-2xl rounded-tl-none'}">
+                        ${isMe ? 'bg-accent-600 text-white rounded-2xl rounded-tr-none' : 'bg-white dark:bg-surface-700 text-surface-800 dark:text-white border border-surface-200 dark:border-surface-600 rounded-2xl rounded-tl-none'}">
                         ${replyHtml}
                         ${mediaHtml}
                         ${audioHtml}
                         ${msg.text ? `<p class="leading-relaxed whitespace-pre-wrap">${window.sanitizeHTML?.(msg.text) || msg.text}</p>` : ''}
                         
-                        <div class="text-[9px] text-right mt-1 opacity-60 ${isMe ? 'text-green-100' : 'text-gray-400'}">
+                        <div class="text-[9px] text-right mt-1 opacity-60 ${isMe ? 'text-accent-100' : 'text-surface-400'}">
                             ${msg.createdAt ? msg.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '...'}
                             ${msg.edited ? '<span class="mx-1">(معدل)</span>' : ''}
                         </div>
@@ -556,10 +556,10 @@ window.previewChatFile = (input) => {
         // تحديد أيقونة الملف
         const getFileIcon = (type) => {
             if (type.includes('pdf')) return 'fa-file-pdf text-red-500';
-            if (type.includes('word') || type.includes('doc')) return 'fa-file-word text-blue-600';
-            if (type.includes('excel') || type.includes('sheet') || type.includes('xls')) return 'fa-file-excel text-green-600';
+            if (type.includes('word') || type.includes('doc')) return 'fa-file-word text-primary-600';
+            if (type.includes('excel') || type.includes('sheet') || type.includes('xls')) return 'fa-file-excel text-accent-600';
             if (type.includes('powerpoint') || type.includes('presentation') || type.includes('ppt')) return 'fa-file-powerpoint text-orange-500';
-            return 'fa-file text-gray-500';
+            return 'fa-file text-surface-500';
         };
 
         // عرض معلومات الملف
@@ -596,9 +596,9 @@ window.switchChatRoom = (room) => {
     // تحديث التبويبات
     document.querySelectorAll('.room-tab').forEach(tab => {
         if (tab.dataset.room === room) {
-            tab.className = 'room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-green-600 text-white whitespace-nowrap transition';
+            tab.className = 'room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-accent-600 text-white whitespace-nowrap transition';
         } else {
-            tab.className = 'room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 whitespace-nowrap hover:bg-gray-300 dark:hover:bg-gray-500 transition';
+            tab.className = 'room-tab px-3 py-1.5 rounded-full text-xs font-bold bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-200 whitespace-nowrap hover:bg-surface-300 dark:hover:bg-surface-500 transition';
         }
     });
 

@@ -20,7 +20,7 @@ export const openStatisticsDashboard = async () => {
     document.getElementById('admin-view-title').textContent = '📊 داشبورد الإحصائيات';
     const content = document.getElementById('admin-view-content');
 
-    content.innerHTML = '<div class="text-center p-20"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i><p class="mt-4 text-gray-500">جاري تحميل الإحصائيات...</p></div>';
+    content.innerHTML = '<div class="text-center p-20"><i class="fas fa-spinner fa-spin text-4xl text-primary-600"></i><p class="mt-4 text-surface-500">جاري تحميل الإحصائيات...</p></div>';
 
     try {
         const usersSnap = await getDocs(collection(db, "users"));
@@ -44,26 +44,26 @@ export const openStatisticsDashboard = async () => {
         const totalGrades = gradesSnap.size;
 
         let collegeRows = Object.entries(collegeStats).map(([col, stats]) => `
-            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+            <div class="flex items-center justify-between p-4 bg-surface-50 dark:bg-surface-700 rounded-xl">
                 <span class="font-bold">${col}</span>
                 <div class="flex gap-4">
-                    <span class="text-blue-600">${stats.total} طالب</span>
-                    <span class="text-green-600">${stats.verified} موثق</span>
+                    <span class="text-primary-600">${stats.total} طالب</span>
+                    <span class="text-accent-600">${stats.verified} موثق</span>
                 </div>
             </div>
         `).join('');
 
         content.innerHTML = `
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-6 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-6 rounded-2xl text-center shadow-lg">
                     <div class="text-4xl font-black">${totalUsers}</div>
                     <div class="text-sm opacity-80">إجمالي المستخدمين</div>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-accent-500 to-accent-600 text-white p-6 rounded-2xl text-center shadow-lg">
                     <div class="text-4xl font-black">${verifiedUsers}</div>
                     <div class="text-sm opacity-80">الموثقين</div>
                 </div>
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-6 rounded-2xl text-center shadow-lg">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-6 rounded-2xl text-center shadow-lg">
                     <div class="text-4xl font-black">${onlineUsers}</div>
                     <div class="text-sm opacity-80">متصلين الآن</div>
                 </div>
@@ -74,24 +74,24 @@ export const openStatisticsDashboard = async () => {
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-lg mb-4 dark:text-white"><i class="fas fa-university ml-2 text-blue-500"></i>إحصائيات الكليات</h3>
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-lg mb-4 dark:text-white"><i class="fas fa-university ml-2 text-primary-500"></i>إحصائيات الكليات</h3>
                     <div class="space-y-3">${collegeRows}</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-lg mb-4 dark:text-white"><i class="fas fa-chart-bar ml-2 text-green-500"></i>إحصائيات عامة</h3>
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-lg mb-4 dark:text-white"><i class="fas fa-chart-bar ml-2 text-accent-500"></i>إحصائيات عامة</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div class="flex justify-between items-center p-4 bg-surface-50 dark:bg-surface-700 rounded-xl">
                             <span>نسبة التوثيق</span>
-                            <span class="font-bold text-green-600">${Math.round((verifiedUsers / totalUsers) * 100)}%</span>
+                            <span class="font-bold text-accent-600">${Math.round((verifiedUsers / totalUsers) * 100)}%</span>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div class="flex justify-between items-center p-4 bg-surface-50 dark:bg-surface-700 rounded-xl">
                             <span>الدرجات المرفوعة</span>
-                            <span class="font-bold text-blue-600">${totalGrades}</span>
+                            <span class="font-bold text-primary-600">${totalGrades}</span>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div class="flex justify-between items-center p-4 bg-surface-50 dark:bg-surface-700 rounded-xl">
                             <span>معدل الطلاب/كلية</span>
-                            <span class="font-bold text-indigo-600">${Math.round(totalUsers / Object.keys(collegeStats).length)}</span>
+                            <span class="font-bold text-primary-600">${Math.round(totalUsers / Object.keys(collegeStats).length)}</span>
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ export const openAdvancedStatsDashboard = async () => {
 
     document.getElementById('admin-view-title').textContent = '📊 لوحة الإحصائيات المتقدمة';
     const content = document.getElementById('admin-view-content');
-    content.innerHTML = '<div class="text-center p-20"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i><p class="mt-4 text-gray-500">جاري تحميل الإحصائيات...</p></div>';
+    content.innerHTML = '<div class="text-center p-20"><i class="fas fa-spinner fa-spin text-4xl text-primary-600"></i><p class="mt-4 text-surface-500">جاري تحميل الإحصائيات...</p></div>';
 
     try {
         const usersSnap = await getDocs(collection(db, "users"));
@@ -162,11 +162,11 @@ export const openAdvancedStatsDashboard = async () => {
 
         content.innerHTML = `
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-6 rounded-2xl shadow-lg">
                     <div class="text-5xl font-black">${totalUsers}</div>
                     <div class="text-sm opacity-80 font-bold mt-2">إجمالي المستخدمين</div>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl shadow-lg">
+                <div class="bg-gradient-to-br from-accent-500 to-accent-600 text-white p-6 rounded-2xl shadow-lg">
                     <div class="text-5xl font-black">${activeToday}</div>
                     <div class="text-sm opacity-80 font-bold mt-2">نشط اليوم</div>
                 </div>
@@ -174,45 +174,45 @@ export const openAdvancedStatsDashboard = async () => {
                     <div class="text-5xl font-black">${newThisWeek}</div>
                     <div class="text-sm opacity-80 font-bold mt-2">مستخدم جديد هذا الأسبوع</div>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-500 to-pink-600 text-white p-6 rounded-2xl shadow-lg">
+                <div class="bg-gradient-to-br from-primary-500 to-pink-600 text-white p-6 rounded-2xl shadow-lg">
                     <div class="text-5xl font-black">${Math.round((activeWeek / totalUsers) * 100)}%</div>
                     <div class="text-sm opacity-80 font-bold mt-2">نسبة النشاط الأسبوعي</div>
                 </div>
             </div>
             
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border dark:border-gray-700">
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg border dark:border-surface-700">
                     <h3 class="font-black text-lg mb-4 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-user-plus text-green-500"></i> المستخدمين الجدد (آخر 7 أيام)
+                        <i class="fas fa-user-plus text-accent-500"></i> المستخدمين الجدد (آخر 7 أيام)
                     </h3>
                     <div class="space-y-2">
                         ${Object.entries(dailyUsers).map(([day, count]) => `
                             <div class="flex items-center gap-3">
-                                <span class="w-16 text-sm font-bold text-gray-500">${day}</span>
-                                <div class="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-6 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-full rounded-full flex items-center justify-end px-2" style="width: ${Math.min(count / Math.max(...Object.values(dailyUsers)) * 100, 100)}%">
+                                <span class="w-16 text-sm font-bold text-surface-500">${day}</span>
+                                <div class="flex-1 bg-surface-100 dark:bg-surface-700 rounded-full h-6 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-accent-500 to-accent-500 h-full rounded-full flex items-center justify-end px-2" style="width: ${Math.min(count / Math.max(...Object.values(dailyUsers)) * 100, 100)}%">
                                         <span class="text-white text-xs font-bold">${count}</span>
                                     </div>
                                 </div>
                             </div>
-                        `).join('') || '<p class="text-gray-400 text-center">لا يوجد بيانات</p>'}
+                        `).join('') || '<p class="text-surface-400 text-center">لا يوجد بيانات</p>'}
                     </div>
                 </div>
                 
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border dark:border-gray-700">
+                <div class="bg-white dark:bg-surface-800 p-6 rounded-2xl shadow-lg border dark:border-surface-700">
                     <h3 class="font-black text-lg mb-4 dark:text-white flex items-center gap-2">
                         <i class="fas fa-fire text-orange-500"></i> أكثر المواد نشاطاً
                     </h3>
                     <div class="space-y-3">
                         ${topSubjects.map(([name, count], i) => `
                             <div class="flex items-center gap-3">
-                                <span class="w-8 h-8 rounded-full bg-gradient-to-r ${i === 0 ? 'from-yellow-400 to-orange-500' : i === 1 ? 'from-gray-300 to-gray-400' : i === 2 ? 'from-orange-300 to-orange-400' : 'from-gray-200 to-gray-300'} flex items-center justify-center text-white font-black text-sm">${i + 1}</span>
+                                <span class="w-8 h-8 rounded-full bg-gradient-to-r ${i === 0 ? 'from-yellow-400 to-orange-500' : i === 1 ? 'from-surface-300 to-surface-400' : i === 2 ? 'from-orange-300 to-orange-400' : 'from-surface-200 to-surface-300'} flex items-center justify-center text-white font-black text-sm">${i + 1}</span>
                                 <div class="flex-1">
                                     <p class="font-bold dark:text-white text-sm truncate">${name}</p>
-                                    <p class="text-xs text-gray-400">${count} تفاعل</p>
+                                    <p class="text-xs text-surface-400">${count} تفاعل</p>
                                 </div>
                             </div>
-                        `).join('') || '<p class="text-gray-400 text-center">لا يوجد بيانات</p>'}
+                        `).join('') || '<p class="text-surface-400 text-center">لا يوجد بيانات</p>'}
                     </div>
                 </div>
             </div>
