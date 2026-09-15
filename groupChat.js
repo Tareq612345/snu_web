@@ -9,6 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 import { uploadToCloudinary } from './cms.js';
 import { getStructureName } from './structure.js';
+import { escapeHTML, normalizeHttpUrl, openExternalUrl } from './security.js';
 
 let editingMsgId = null;
 let replyingTo = null;
@@ -299,11 +300,11 @@ const listenToMessages = () => {
             let replyHtml = '';
             if (msg.replyTo) {
                 replyHtml = `
-                    <div class="mb-1 p-2 rounded-lg bg-black/5 dark:bg-white/10 border-r-4 border-green-500 text-xs flex flex-col gap-0.5 cursor-pointer hover:bg-black/10 transition" onclick="document.getElementById('${msg.replyTo.id}')?.scrollIntoView({behavior:'smooth', block:'center'})">
+                    <div class="mb-1 p-2 rounded-lg bg-black/5 dark:bg-white/10 border-r-4 border-green-500 text-xs flex flex-col gap-0.5 cursor-pointer hover:bg-black/10 transition" data-chat-action="scroll-reply">
                         <span class="font-bold text-green-700 dark:text-green-300 flex items-center gap-1">
-                            <i class="fas fa-reply"></i> ${msg.replyTo.userName}
+                            <i class="fas fa-reply"></i> ${escapeHTML(msg.replyTo.userName)}
                         </span>
-                        <span class="truncate text-gray-600 dark:text-gray-300 italic">"${msg.replyTo.text}"</span>
+                        <span class="truncate text-gray-600 dark:text-gray-300 italic">"${escapeHTML(msg.replyTo.text)}"</span>
                     </div>
                 `;
             }
@@ -313,7 +314,7 @@ const listenToMessages = () => {
             if (msg.imageUrl) {
                 mediaHtml = `
                     <div class="mt-1 mb-1">
-                        <img src="${msg.imageUrl}" loading="lazy" class="max-w-full rounded-lg max-h-48 object-cover cursor-pointer hover:opacity-90 transition border-2 border-transparent hover:border-green-300" onclick="window.open('${msg.imageUrl}', '_blank')">
+                        <img src="${escapeHTML(normalizeHttpUrl(msg.imageUrl))}" loading="lazy" class="max-w-full rounded-lg max-h-48 object-cover cursor-pointer hover:opacity-90 transition border-2 border-transparent hover:border-green-300" data-chat-action="open-image">
                     </div>
                 `;
             } else if (msg.fileUrl) {
@@ -325,10 +326,10 @@ const listenToMessages = () => {
                     return 'fa-file text-gray-500';
                 };
                 mediaHtml = `
-                    <div class="mt-1 mb-1 flex items-center gap-2 bg-white/20 dark:bg-gray-600/50 p-2 rounded-lg cursor-pointer hover:bg-white/30 transition" onclick="window.open('${msg.fileUrl}', '_blank')">
+                    <div class="mt-1 mb-1 flex items-center gap-2 bg-white/20 dark:bg-gray-600/50 p-2 rounded-lg cursor-pointer hover:bg-white/30 transition" data-chat-action="open-file">
                         <i class="fas ${getIcon(msg.fileType)} text-xl"></i>
                         <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold truncate">${msg.fileName || 'ملف'}</p>
+                            <p class="text-xs font-bold truncate">${escapeHTML(msg.fileName || 'ملف')}</p>
                             <p class="text-[10px] opacity-70">اضغط لتحميل</p>
                         </div>
                         <i class="fas fa-download text-xs opacity-50"></i>
@@ -344,20 +345,20 @@ const listenToMessages = () => {
 
             const avatarHtml = `
                 <div class="flex-shrink-0 flex flex-col items-center gap-1">
-                    <img src="${userAvatar}" loading="lazy" class="w-8 h-8 rounded-full object-cover shadow-sm border dark:border-gray-600">
+                    <img src="${escapeHTML(normalizeHttpUrl(userAvatar))}" loading="lazy" class="w-8 h-8 rounded-full object-cover shadow-sm border dark:border-gray-600">
                 </div>`;
 
             const controlsHtml = `
                 <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition duration-200 self-center px-2">
-                    <button onclick="window.replyToMsg('${msg.id}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}', '${window.sanitizeHTML?.(msg.text) || 'صورة'}')" class="text-gray-400 hover:text-green-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="رد"><i class="fas fa-reply text-xs"></i></button>
+                    <button data-chat-action="reply" class="text-gray-400 hover:text-green-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="رد"><i class="fas fa-reply text-xs"></i></button>
                     ${(isMe) ? `
-                        <button onclick="window.editGroupMsg('${msg.id}', '${msg.text}')" class="text-blue-500 hover:text-blue-700 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="تعديل"><i class="fas fa-pen text-xs"></i></button>
+                        <button data-chat-action="edit" class="text-blue-500 hover:text-blue-700 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="تعديل"><i class="fas fa-pen text-xs"></i></button>
                     ` : ''}
                     ${(isMe || auth.currentUser?.email === SUPER_ADMIN_EMAIL) ? `
-                        <button onclick="window.deleteGroupMsg('${msg.id}')" class="text-gray-400 hover:text-red-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="حذف"><i class="fas fa-trash text-xs"></i></button>
+                        <button data-chat-action="delete" class="text-gray-400 hover:text-red-600 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="حذف"><i class="fas fa-trash text-xs"></i></button>
                     ` : ''}
                     ${!isMe ? `
-                        <button onclick="window.showReportUserModal?.('${msg.userId}', '${window.sanitizeHTML?.(msg.userName) || msg.userName}')" class="text-gray-400 hover:text-red-500 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="إبلاغ"><i class="fas fa-flag text-xs"></i></button>
+                        <button data-chat-action="report" class="text-gray-400 hover:text-red-500 bg-white dark:bg-gray-700 rounded-full w-6 h-6 shadow flex items-center justify-center" title="إبلاغ"><i class="fas fa-flag text-xs"></i></button>
                     ` : ''}
                 </div>
             `;
@@ -369,7 +370,7 @@ const listenToMessages = () => {
                     <div class="mt-1 mb-1 flex items-center gap-2 bg-white/10 p-2 rounded-lg">
                         <i class="fas fa-microphone text-sm opacity-70"></i>
                         <audio controls class="h-8 max-w-[180px]">
-                            <source src="${msg.audioUrl}" type="audio/webm">
+                            <source src="${escapeHTML(normalizeHttpUrl(msg.audioUrl))}" type="audio/webm">
                         </audio>
                     </div>
                 `;
@@ -382,7 +383,7 @@ const listenToMessages = () => {
                 for (const [emoji, users] of Object.entries(msg.reactions)) {
                     const count = users.length;
                     const isMine = users.includes(auth.currentUser?.uid);
-                    reactionsHtml += `<button onclick="window.addReaction('${msg.id}', '${emoji}')" class="text-xs px-1.5 py-0.5 rounded-full ${isMine ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-gray-100 dark:bg-gray-600'} hover:scale-110 transition">${emoji} ${count}</button>`;
+                    reactionsHtml += `<button data-chat-action="reaction" data-emoji="${escapeHTML(emoji)}" class="text-xs px-1.5 py-0.5 rounded-full ${isMine ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-gray-100 dark:bg-gray-600'} hover:scale-110 transition">${escapeHTML(emoji)} ${count}</button>`;
                 }
                 reactionsHtml += '</div>';
             }
@@ -390,18 +391,18 @@ const listenToMessages = () => {
             // Quick reaction buttons
             const quickReactionHtml = `
                 <div class="flex items-center gap-0.5 mt-1 opacity-0 group-hover:opacity-100 transition">
-                    <button onclick="window.addReaction('${msg.id}', '❤️')" class="text-xs hover:scale-125 transition">❤️</button>
-                    <button onclick="window.addReaction('${msg.id}', '👍')" class="text-xs hover:scale-125 transition">👍</button>
-                    <button onclick="window.addReaction('${msg.id}', '😂')" class="text-xs hover:scale-125 transition">😂</button>
-                    <button onclick="window.addReaction('${msg.id}', '🔥')" class="text-xs hover:scale-125 transition">🔥</button>
+                    <button data-chat-action="reaction" data-emoji="❤️" class="text-xs hover:scale-125 transition">❤️</button>
+                    <button data-chat-action="reaction" data-emoji="👍" class="text-xs hover:scale-125 transition">👍</button>
+                    <button data-chat-action="reaction" data-emoji="😂" class="text-xs hover:scale-125 transition">😂</button>
+                    <button data-chat-action="reaction" data-emoji="🔥" class="text-xs hover:scale-125 transition">🔥</button>
                 </div>
             `;
 
             const bodyHtml = `
                 <div class="max-w-[75%] min-w-[120px]">
                     <div class="flex items-baseline gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
-                        <span onclick="window.openUserProfile?.('${msg.userId}')" class="text-[11px] font-bold text-gray-700 dark:text-gray-300 truncate max-w-[100px] cursor-pointer hover:text-blue-600 hover:underline">${window.sanitizeHTML?.(msg.userName) || msg.userName}</span>
-                        ${infoText ? `<span class="text-[9px] text-gray-400 dark:text-gray-500 truncate max-w-[120px] bg-gray-100 dark:bg-gray-700 px-1.5 rounded">${infoText}</span>` : ''}
+                        <span data-chat-action="profile" class="text-[11px] font-bold text-gray-700 dark:text-gray-300 truncate max-w-[100px] cursor-pointer hover:text-blue-600 hover:underline">${escapeHTML(msg.userName)}</span>
+                        ${infoText ? `<span class="text-[9px] text-gray-400 dark:text-gray-500 truncate max-w-[120px] bg-gray-100 dark:bg-gray-700 px-1.5 rounded">${escapeHTML(infoText)}</span>` : ''}
                     </div>
                     
                     <div class="relative px-3 py-2 text-sm shadow-sm break-words
@@ -409,7 +410,7 @@ const listenToMessages = () => {
                         ${replyHtml}
                         ${mediaHtml}
                         ${audioHtml}
-                        ${msg.text ? `<p class="leading-relaxed whitespace-pre-wrap">${window.sanitizeHTML?.(msg.text) || msg.text}</p>` : ''}
+                        ${msg.text ? `<p class="leading-relaxed whitespace-pre-wrap">${escapeHTML(msg.text)}</p>` : ''}
                         
                         <div class="text-[9px] text-right mt-1 opacity-60 ${isMe ? 'text-green-100' : 'text-gray-400'}">
                             ${msg.createdAt ? msg.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '...'}
@@ -422,6 +423,18 @@ const listenToMessages = () => {
             `;
 
             div.innerHTML = isMe ? (controlsHtml + bodyHtml + avatarHtml) : (avatarHtml + bodyHtml + controlsHtml);
+            div.querySelectorAll('[data-chat-action]').forEach(el => el.addEventListener('click', () => {
+                const action = el.dataset.chatAction;
+                if (action === 'scroll-reply') document.getElementById(String(msg.replyTo?.id || ''))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                else if (action === 'open-image') openExternalUrl(msg.imageUrl);
+                else if (action === 'open-file') openExternalUrl(msg.fileUrl);
+                else if (action === 'reply') window.replyToMsg(msg.id, msg.userName || '', msg.text || 'صورة');
+                else if (action === 'edit') window.editGroupMsg(msg.id, msg.text || '');
+                else if (action === 'delete') window.deleteGroupMsg(msg.id);
+                else if (action === 'report') window.showReportUserModal?.(msg.userId, msg.userName || '');
+                else if (action === 'profile') window.openUserProfile?.(msg.userId);
+                else if (action === 'reaction') window.addReaction(msg.id, el.dataset.emoji || '');
+            }));
             area.appendChild(div);
         });
 
