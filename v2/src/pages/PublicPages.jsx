@@ -1,2 +1,55 @@
-import {Navigate,useNavigate} from 'react-router-dom';import Brand from '../components/Brand';import Icon from '../components/Icon';import {useAuth} from '../context/AuthContext';import {isSupabaseConfigured} from '../lib/supabase';import {cleanText} from '../lib/validation';import {useState} from 'react';export function Landing(){const nav=useNavigate();return <div className="landing"><header><Brand/><button onClick={()=>nav('/login')}>تسجيل الدخول</button></header><main><div className="heroCopy"><span className="eyebrow">منصة المواد والمقررات الجامعية</span><h1>تعليم جامعي منظم، في بوابة واحدة.</h1><p>وصول واضح إلى الكتب والمذكرات والمحاضرات والواجبات، مع بوابة مستقلة لأعضاء هيئة التدريس.</p><button onClick={()=>nav('/login')}>الدخول إلى البوابة</button></div><div className="bookPanel"><Icon name="book"/><strong>المكتبة الرقمية</strong><span>المقررات • الكتب • المحاضرات • الملفات</span></div></main><section className="features">{[['building','هيكل جامعي واضح','الكليات والأقسام والمقررات في تسلسل بسيط.'],['book','محتوى أكاديمي','كتب وملفات ومحاضرات منظمة لكل مقرر.'],['upload','بوابة للدكاترة','رفع المواد وإدارتها ومتابعة الطلاب.'],['shield','صلاحيات مؤسسية','حماية البيانات بسياسات Supabase RLS.']].map(x=><article key={x[1]}><Icon name={x[0]}/><h3>{x[1]}</h3><p>{x[2]}</p></article>)}</section></div>}
-const attempts={count:0,until:0};export function Login(){const {session,profile,client}=useAuth(),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);if(session&&profile)return <Navigate to={profile.role==='faculty'?'/faculty':'/student'} replace/>;async function submit(e){e.preventDefault();const now=Date.now();if(attempts.until>now){setError('انتظر قليلًا قبل المحاولة مرة أخرى.');return;}if(!isSupabaseConfigured||!client){setError('لم يتم ربط Supabase بعد.');return;}setBusy(true);setError('');const safeEmail=cleanText(email,254).toLowerCase();const {error:err}=await client.auth.signInWithPassword({email:safeEmail,password});if(err){attempts.count++;if(attempts.count>=5){attempts.until=now+300000;attempts.count=0;}setError('تعذر تسجيل الدخول. تحقق من البيانات وحاول لاحقًا.');}else attempts.count=0;setBusy(false);}return <div className="loginPage"><div className="loginCard"><Brand/><h1>تسجيل الدخول</h1><p>استخدم حسابك الجامعي للوصول إلى البوابة المناسبة.</p><form onSubmit={submit}><label>البريد الجامعي<input type="email" autoComplete="username" maxLength="254" value={email} onChange={e=>setEmail(e.target.value)} required/></label><label>كلمة المرور<input type="password" autoComplete="current-password" minLength="8" maxLength="128" value={password} onChange={e=>setPassword(e.target.value)} required/></label>{error&&<div className="error" role="alert">{error}</div>}<button disabled={busy}>{busy?'جاري الدخول…':'دخول'}</button></form><a href="/">العودة للرئيسية</a></div></div>}
+import {Navigate,useNavigate} from 'react-router-dom';
+import {useState} from 'react';
+import Brand from '../components/Brand';
+import Icon from '../components/Icon';
+import {useAuth} from '../context/AuthContext';
+import {isSupabaseConfigured} from '../lib/supabase';
+import {cleanText} from '../lib/validation';
+
+export function Landing(){
+  const nav=useNavigate();
+  return <div className="landing"><header><Brand/><button onClick={()=>nav('/login')}>تسجيل الدخول</button></header><main><div className="heroCopy"><span className="eyebrow">منصة المواد والمقررات الجامعية</span><h1>تعليم جامعي منظم، في بوابة واحدة.</h1><p>وصول واضح إلى الكتب والمذكرات والمحاضرات والواجبات، مع بوابة مستقلة لأعضاء هيئة التدريس.</p><button onClick={()=>nav('/login')}>الدخول إلى البوابة</button></div><div className="bookPanel"><Icon name="book"/><strong>المكتبة الرقمية</strong><span>المقررات • الكتب • المحاضرات • الملفات</span></div></main><section className="features">{[['building','هيكل جامعي واضح','الكليات والأقسام والمقررات في تسلسل بسيط.'],['book','محتوى أكاديمي','كتب وملفات ومحاضرات منظمة لكل مقرر.'],['upload','بوابة للدكاترة','رفع المواد وإدارتها ومتابعة الطلاب.'],['shield','صلاحيات مؤسسية','حماية البيانات بسياسات Supabase RLS.']].map(x=><article key={x[1]}><Icon name={x[0]}/><h3>{x[1]}</h3><p>{x[2]}</p></article>)}</section></div>;
+}
+
+const attempts={count:0,until:0};
+export function Login(){
+  const {session,profile,loading,client,signOut}=useAuth();
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [error,setError]=useState('');
+  const [busy,setBusy]=useState(false);
+
+  if(!loading&&session&&profile){
+    return <Navigate to={profile.role==='student'?'/student':'/faculty'} replace/>;
+  }
+  if(!loading&&session&&!profile){
+    return <div className="loginPage"><div className="loginCard"><Brand/><h1>الحساب غير مهيأ</h1><p>الحساب مسجل، لكن ملفه الجامعي غير نشط أو لم يُنشأ بعد. تواصل مع إدارة النظام.</p><button onClick={signOut}>تسجيل الخروج</button></div></div>;
+  }
+
+  async function submit(e){
+    e.preventDefault();
+    const now=Date.now();
+    if(attempts.until>now){setError('انتظر قليلًا قبل المحاولة مرة أخرى.');return;}
+    if(!isSupabaseConfigured||!client){setError('لم يتم ربط Supabase بعد.');return;}
+    setBusy(true);
+    setError('');
+    const safeEmail=cleanText(email,254).toLowerCase();
+    try{
+      const {error:err}=await client.auth.signInWithPassword({email:safeEmail,password});
+      if(err){
+        attempts.count++;
+        if(attempts.count>=5){attempts.until=now+300000;attempts.count=0;}
+        setError('تعذر تسجيل الدخول. تحقق من البيانات وحاول لاحقًا.');
+      }else{
+        attempts.count=0;
+        attempts.until=0;
+      }
+    }catch{
+      setError('تعذر الاتصال بالخدمة. حاول لاحقًا.');
+    }finally{
+      setBusy(false);
+    }
+  }
+
+  return <div className="loginPage"><div className="loginCard"><Brand/><h1>تسجيل الدخول</h1><p>استخدم حسابك الجامعي للوصول إلى البوابة المناسبة.</p><form onSubmit={submit}><label>البريد الجامعي<input type="email" autoComplete="username" inputMode="email" maxLength="254" value={email} onChange={e=>setEmail(e.target.value)} required/></label><label>كلمة المرور<input type="password" autoComplete="current-password" minLength="8" maxLength="128" value={password} onChange={e=>setPassword(e.target.value)} required/></label>{error&&<div className="error" role="alert">{error}</div>}<button disabled={busy||loading}>{busy?'جاري الدخول…':'دخول'}</button></form><a href="/">العودة للرئيسية</a></div></div>;
+}
