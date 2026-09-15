@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test:security": "node --test tests/security.test.mjs",
     "test:features": "node --test tests/featureFlags.test.mjs"
   },
   "devDependencies": {
