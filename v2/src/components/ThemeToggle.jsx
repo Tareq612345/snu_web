@@ -9,5 +9,5 @@ export default function ThemeToggle(){
     document.documentElement.dataset.theme=dark?'dark':'light';
     localStorage.setItem('snu-theme',dark?'dark':'light');
   },[dark]);
-  return <button type="button" className="themeToggle" onClick={()=>setDark(value=>!value)} aria-label="تغيير المظهر">{dark?'الوضع النهاري':'الوضع الداكن'}</button>;
+  return <button type="button" className="themeToggle" onClick={()=>setDark(value=>!value)} aria-label={dark?'تشغيل الوضع النهاري':'تشغيل الوضع الداكن'} title={dark?'الوضع النهاري':'الوضع الداكن'}>{dark?'☀':'☾'}</button>;
 }
