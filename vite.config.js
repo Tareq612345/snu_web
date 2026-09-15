@@ -1,22 +1,23 @@
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+const officialModeEntry = {
+    name: 'official-mode-entry',
+    transformIndexHtml() {
+        return [{ tag: 'script', attrs: { type: 'module', src: '/officialMode.js' }, injectTo: 'body' }];
+    }
+};
+
 export default defineConfig({
     root: '.',
     publicDir: 'public',
-    // حذف console.log و debugger من ملفات الإنتاج
-    esbuild: {
-        drop: ['console', 'debugger'],
-    },
+    esbuild: { drop: ['console', 'debugger'] },
     build: {
         outDir: 'dist',
         rollupOptions: {
-            input: {
-                main: './index.html'
-            },
+            input: { main: './index.html' },
             output: {
                 manualChunks: {
-                    // Split large modules into separate chunks
                     'admin': ['./admin.js'],
                     'quiz': ['./quiz.js'],
                     'social': ['./social.js', './dm.js', './groupChat.js'],
@@ -28,23 +29,18 @@ export default defineConfig({
             }
         },
         copyPublicDir: true,
-        chunkSizeWarningLimit: 600 // Increase limit since we're splitting
+        chunkSizeWarningLimit: 600
     },
     plugins: [
+        officialModeEntry,
         viteStaticCopy({
             targets: [
-                { src: 'sw.js', dest: '' },
-                { src: 'firebase-messaging-sw.js', dest: '' },
-                { src: 'manifest.json', dest: '' },
-                { src: 'favicon.png', dest: '' },
-                { src: '_headers', dest: '' },
-                { src: '404.html', dest: '' },
+                { src: 'sw.js', dest: '' }, { src: 'firebase-messaging-sw.js', dest: '' },
+                { src: 'manifest.json', dest: '' }, { src: 'favicon.png', dest: '' },
+                { src: '_headers', dest: '' }, { src: '404.html', dest: '' },
                 { src: 'offline.html', dest: '' }
             ]
         })
     ],
-    server: {
-        port: 3000,
-        open: true
-    }
+    server: { port: 3000, open: true }
 });
