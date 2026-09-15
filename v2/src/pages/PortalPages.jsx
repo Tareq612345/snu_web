@@ -1,97 +1,14 @@
 import {useEffect,useState} from 'react';
-import Icon from '../components/Icon';
-import {getSupabase} from '../lib/supabase';
-import {cleanText,isUuid,validateMaterial} from '../lib/validation';
-import {useAuth} from '../context/AuthContext';
-
+import Icon from '../components/Icon';import {getSupabase} from '../lib/supabase';import {cleanText,isUuid,validateMaterial} from '../lib/validation';import {useAuth} from '../context/AuthContext';
 const Stat=({icon,label,value})=><article className="stat"><Icon name={icon}/><div><strong>{value}</strong><span>{label}</span></div></article>;
-
-export function StudentHome(){return <><div className="pageTitle"><div><span>مرحباً بك</span><h1>لوحة الطالب</h1><p>تابع موادك وآخر الملفات الأكاديمية.</p></div></div><div className="stats"><Stat icon="book" label="المقررات الحالية" value="—"/><Stat icon="file" label="ملفات جديدة" value="—"/><Stat icon="calendar" label="مهام قادمة" value="—"/><Stat icon="news" label="إعلانات" value="—"/></div><Courses/></>}
-export function FacultyHome(){return <><div className="pageTitle"><div><span>مساحة العمل الأكاديمية</span><h1>لوحة عضو هيئة التدريس</h1><p>إدارة المقررات ونشر المواد للطلاب.</p></div></div><div className="stats"><Stat icon="book" label="المقررات" value="—"/><Stat icon="users" label="الطلاب" value="—"/><Stat icon="file" label="المواد المنشورة" value="—"/><Stat icon="upload" label="مسودات" value="—"/></div><Courses faculty/></>}
-
-export function Courses({faculty=false}){
-  const {profile}=useAuth();
-  const [rows,setRows]=useState([]);
-  const [loading,setLoading]=useState(true);
-  const [failed,setFailed]=useState(false);
-  useEffect(()=>{
-    let live=true;
-    (async()=>{
-      const db=await getSupabase();
-      if(!db||!profile){if(live)setLoading(false);return;}
-      const relation=faculty?'course_staff!inner(profile_id)':'enrollments!inner(student_id,status)';
-      const field=faculty?'course_staff.profile_id':'enrollments.student_id';
-      let query=db.from('courses').select(`id,code,title,term,academic_year,${relation}`).eq(field,profile.id);
-      if(!faculty)query=query.eq('enrollments.status','active').eq('is_published',true);
-      const {data,error}=await query.order('code').limit(24);
-      if(live){setRows(data||[]);setFailed(Boolean(error));setLoading(false);}
-    })();
-    return()=>{live=false;};
-  },[profile,faculty]);
-  return <div className="contentBlock"><div className="blockHead"><div><h2>{faculty?'مقرراتي':'المقررات الحالية'}</h2><p>المحتوى الأكاديمي المتاح خلال الفصل الحالي</p></div></div>{loading?<p className="muted">جاري التحميل…</p>:failed?<div className="empty"><h3>تعذر تحميل المقررات</h3><p>حاول تحديث الصفحة لاحقًا.</p></div>:rows.length?<div className="courseGrid">{rows.map(c=><article className="courseCard" key={c.id}><span>{c.code}</span><Icon name="book"/><h3>{c.title}</h3><p>{c.term} • {c.academic_year}</p><button type="button" disabled>فتح المقرر قريبًا</button></article>)}</div>:<div className="empty"><Icon name="book"/><h3>لا توجد مقررات مرتبطة بالحساب</h3><p>ستظهر المقررات هنا بعد تسجيلها من الإدارة.</p></div>}</div>;
-}
-
-export const Materials=()=> <EmptyPage title="المكتبة والملفات" text="الكتب والمذكرات والمحاضرات المنشورة في مقرراتك." icon="download"/>;
-export const Announcements=()=> <EmptyPage title="الإعلانات" text="التحديثات الرسمية الخاصة بمقرراتك والجامعة." icon="news"/>;
-export const Students=()=> <EmptyPage title="الطلاب" text="قوائم الطلاب المسجلين في مقرراتك." icon="users"/>;
-function EmptyPage({title,text,icon}){return <div className="contentBlock"><div className="blockHead"><div><h1>{title}</h1><p>{text}</p></div></div><div className="empty"><Icon name={icon}/><h3>لا توجد بيانات لعرضها الآن</h3></div></div>}
-
-export function UploadMaterial(){
-  const {profile}=useAuth();
-  const [file,setFile]=useState(null);
-  const [title,setTitle]=useState('');
-  const [courseId,setCourseId]=useState('');
-  const [courses,setCourses]=useState([]);
-  const [loadingCourses,setLoadingCourses]=useState(true);
-  const [message,setMessage]=useState('');
-  const [busy,setBusy]=useState(false);
-  const [fileKey,setFileKey]=useState(0);
-
-  useEffect(()=>{
-    let active=true;
-    (async()=>{
-      const db=await getSupabase();
-      if(!db||!profile){if(active)setLoadingCourses(false);return;}
-      let query=db.from('courses').select('id,code,title').order('code').limit(50);
-      if(profile.role!=='admin')query=query.select('id,code,title,course_staff!inner(profile_id)').eq('course_staff.profile_id',profile.id);
-      const {data}=await query;
-      if(active){setCourses(data||[]);setLoadingCourses(false);}
-    })();
-    return()=>{active=false;};
-  },[profile]);
-
-  async function submit(e){
-    e.preventDefault();
-    const fileError=validateMaterial(file);
-    const safeTitle=cleanText(title,160);
-    if(fileError||!isUuid(courseId)||!courses.some(course=>course.id===courseId)||safeTitle.length<3){
-      setMessage(fileError||'تحقق من المقرر والعنوان.');
-      return;
-    }
-    setBusy(true);
-    setMessage('');
-    const path=`${courseId}/${crypto.randomUUID()}`;
-    try{
-      const db=await getSupabase();
-      if(!db)throw new Error('not-configured');
-      const {error:uploadError}=await db.storage.from('course-materials').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});
-      if(uploadError){setMessage('فشل رفع الملف.');return;}
-      const {error}=await db.from('materials').insert({course_id:courseId,title:safeTitle,file_path:path,file_name:cleanText(file.name,180),mime_type:file.type,size_bytes:file.size,uploaded_by:profile.id,status:'published'});
-      if(error){
-        await db.storage.from('course-materials').remove([path]);
-        setMessage('فشل حفظ بيانات الملف.');
-      }else{
-        setMessage('تم رفع المادة ونشرها بنجاح.');
-        setFile(null);
-        setTitle('');
-        setFileKey(value=>value+1);
-      }
-    }catch{
-      setMessage('تعذر الاتصال بالخدمة. حاول لاحقًا.');
-    }finally{
-      setBusy(false);
-    }
-  }
-
-  return <div className="contentBlock narrow"><div className="blockHead"><div><h1>رفع مادة علمية</h1><p>الحد الأقصى 25MB للملف.</p></div></div><form className="uploadForm" onSubmit={submit}><label>المقرر<select value={courseId} onChange={e=>setCourseId(e.target.value)} disabled={loadingCourses||busy} required><option value="">{loadingCourses?'جاري تحميل المقررات…':'اختر المقرر'}</option>{courses.map(course=><option key={course.id} value={course.id}>{course.code} — {course.title}</option>)}</select></label><label>عنوان المادة<input value={title} onChange={e=>setTitle(e.target.value)} maxLength="160" disabled={busy} required/></label><label className="drop"><Icon name="upload"/><strong>{file?file.name:'اختر ملفًا للرفع'}</strong><span>PDF أو PowerPoint أو Word</span><input key={fileKey} type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setFile(e.target.files[0]||null)} disabled={busy} required/></label>{message&&<p role="status">{message}</p>}<button disabled={busy||loadingCourses||!courses.length}>{busy?'جاري الرفع…':'رفع ونشر'}</button></form></div>;
-}
+export function StudentHome(){return <><div className="pageTitle"><div><span>مرحباً بك</span><h1>لوحة الطالب</h1><p>تابع موادك وآخر الملفات الأكاديمية.</p></div></div><Courses/></>}
+export function FacultyHome(){return <><div className="pageTitle"><div><span>مساحة العمل الأكاديمية</span><h1>لوحة عضو هيئة التدريس</h1><p>إدارة المقررات ونشر المواد للطلاب.</p></div></div><Courses faculty/></>}
+export function AdminHome(){return <><div className="pageTitle"><div><span>إدارة المنصة</span><h1>لوحة الإدارة</h1><p>إدارة الحسابات والهيكل الأكاديمي.</p></div></div><div className="stats"><Stat icon="users" label="المستخدمون" value="—"/><Stat icon="book" label="المقررات" value="—"/><Stat icon="file" label="المواد" value="—"/></div></>}
+export function Courses({faculty=false}){const {profile}=useAuth(),[rows,setRows]=useState([]),[loading,setLoading]=useState(true);useEffect(()=>{let live=true;(async()=>{const db=await getSupabase();if(!db||!profile){if(live)setLoading(false);return;}const relation=faculty?'course_staff!inner(profile_id)':'enrollments!inner(student_id,status)',field=faculty?'course_staff.profile_id':'enrollments.student_id';let query=db.from('courses').select(`id,code,title,term,academic_year,${relation}`).eq(field,profile.id);if(!faculty)query=query.eq('enrollments.status','active').eq('is_published',true);const {data}=await query.order('code').limit(24);if(live){setRows(data||[]);setLoading(false);}})();return()=>{live=false;};},[profile,faculty]);return <Block title={faculty?'مقرراتي':'المقررات الحالية'}>{loading?<p>جاري التحميل…</p>:<div className="courseGrid">{rows.map(c=><article className="courseCard" key={c.id}><span>{c.code}</span><h3>{c.title}</h3><p>{c.term} • {c.academic_year}</p></article>)}</div>}</Block>}
+export function Materials(){const {profile}=useAuth(),[rows,setRows]=useState([]),[selected,setSelected]=useState(null);useEffect(()=>{let active=true;(async()=>{const db=await getSupabase();if(!db)return;const {data}=await db.from('materials').select('id,title,file_name,file_path,created_at,courses(code,title)').eq('status','published').order('created_at',{ascending:false}).limit(30);if(active)setRows(data||[]);})();return()=>{active=false;};},[]);async function download(row){const db=await getSupabase();const {data}=await db.storage.from('course-materials').createSignedUrl(row.file_path,60);if(data?.signedUrl)location.assign(data.signedUrl);}return <Block title="المواد والكتب"><div className="materialList">{rows.map(row=><article key={row.id}><div><strong>{row.title}</strong><small>{row.courses?.code} — {row.file_name}</small></div><button onClick={()=>download(row)}>تنزيل</button><button onClick={()=>setSelected(row.id)}><Icon name="comment"/> التعليقات</button>{selected===row.id&&<Comments materialId={row.id} userId={profile.id}/>}</article>)}</div></Block>}
+function Comments({materialId,userId}){const [rows,setRows]=useState([]),[body,setBody]=useState('');async function load(){const db=await getSupabase();const {data}=await db.from('material_comments').select('id,author_id,body,created_at').eq('material_id',materialId).order('created_at').limit(100);setRows(data||[]);}useEffect(()=>{load();},[materialId]);async function add(e){e.preventDefault();const text=cleanText(body,1000);if(!text)return;const db=await getSupabase();const {error}=await db.from('material_comments').insert({material_id:materialId,author_id:userId,body:text});if(!error){setBody('');load();}}return <div className="comments"><div>{rows.map(row=><p key={row.id}><strong>{row.author_id===userId?'أنت':'عضو جامعي'}</strong> {row.body}</p>)}</div><form onSubmit={add}><input value={body} maxLength="1000" onChange={e=>setBody(e.target.value)} placeholder="اكتب تعليقًا"/><button>إرسال</button></form></div>}
+export const Announcements=()=> <Block title="الإعلانات"><p>لا توجد إعلانات الآن.</p></Block>;export const Students=()=> <Block title="الطلاب"><p>ستظهر قوائم الطلاب هنا.</p></Block>;
+export function AdminUsers(){const [rows,setRows]=useState([]);useEffect(()=>{(async()=>{const db=await getSupabase();const {data}=await db.from('profiles').select('id,full_name,university_id,role,is_active').order('full_name').limit(100);setRows(data||[]);})();},[]);return <Block title="المستخدمون"><div className="dataList">{rows.map(row=><div key={row.id}><strong>{row.full_name}</strong><span>{row.role} • {row.university_id||'—'}</span></div>)}</div></Block>}
+export function Profile(){const {client,session,profile,refreshProfile}=useAuth(),[name,setName]=useState(profile.full_name||''),[phone,setPhone]=useState(profile.phone||''),[place,setPlace]=useState(profile.location||''),[email,setEmail]=useState(session?.user?.email||''),[currentPassword,setCurrentPassword]=useState(''),[newPassword,setNewPassword]=useState(''),[message,setMessage]=useState('');async function save(e){e.preventDefault();setMessage('');const updates={full_name:cleanText(name,160),phone:cleanText(phone,32)||null,location:cleanText(place,180)||null,updated_at:new Date().toISOString()};const {error}=await client.from('profiles').update(updates).eq('id',profile.id);if(!error&&email!==session.user.email)await client.auth.updateUser({email:cleanText(email,254)});if(!error){await refreshProfile();setMessage('تم حفظ البيانات.');}else setMessage('تعذر حفظ البيانات.');}async function avatar(e){const file=e.target.files[0];if(!file||file.size>2097152||!['image/jpeg','image/png','image/webp'].includes(file.type)){setMessage('الصورة يجب أن تكون JPG أو PNG أو WebP وأقل من 2MB.');return;}const ext=file.type.split('/')[1].replace('jpeg','jpg'),path=`${profile.id}/avatar.${ext}`;const {error}=await client.storage.from('profile-avatars').upload(path,file,{upsert:true,contentType:file.type});if(!error){await client.from('profiles').update({avatar_path:path,updated_at:new Date().toISOString()}).eq('id',profile.id);await refreshProfile();setMessage('تم تحديث الصورة.');}}async function password(e){e.preventDefault();if(newPassword.length<10){setMessage('كلمة السر الجديدة يجب ألا تقل عن 10 أحرف.');return;}const {error:loginError}=await client.auth.signInWithPassword({email:session.user.email,password:currentPassword});if(loginError){setMessage('كلمة السر الحالية غير صحيحة.');return;}const {error}=await client.auth.updateUser({password:newPassword});setMessage(error?'تعذر تغيير كلمة السر.':'تم تغيير كلمة السر.');if(!error){setCurrentPassword('');setNewPassword('');}}return <><Block title="الملف الشخصي"><form className="profileForm" onSubmit={save}><label>الصورة الشخصية<input type="file" accept="image/jpeg,image/png,image/webp" onChange={avatar}/></label><label>الاسم<input value={name} maxLength="160" onChange={e=>setName(e.target.value)} required/></label><label>البريد الإلكتروني<input type="email" value={email} maxLength="254" onChange={e=>setEmail(e.target.value)} required/></label><label>رقم الهاتف<input value={phone} maxLength="32" onChange={e=>setPhone(e.target.value)}/></label><label>المكان<input value={place} maxLength="180" onChange={e=>setPlace(e.target.value)}/></label><button>حفظ البيانات</button></form></Block><Block title="تغيير كلمة السر"><form className="profileForm" onSubmit={password}><label>كلمة السر الحالية<input type="password" value={currentPassword} onChange={e=>setCurrentPassword(e.target.value)} required/></label><label>كلمة السر الجديدة<input type="password" minLength="10" value={newPassword} onChange={e=>setNewPassword(e.target.value)} required/></label><button>تغيير كلمة السر</button></form>{message&&<p role="status">{message}</p>}</Block></>}
+export function UploadMaterial(){const [file,setFile]=useState(null),[title,setTitle]=useState(''),[courseId,setCourseId]=useState(''),[courses,setCourses]=useState([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);const {profile}=useAuth();useEffect(()=>{(async()=>{const db=await getSupabase();let q=db.from('courses').select('id,code,title').order('code').limit(50);if(profile.role!=='admin')q=q.select('id,code,title,course_staff!inner(profile_id)').eq('course_staff.profile_id',profile.id);const {data}=await q;setCourses(data||[]);})();},[profile]);async function submit(e){e.preventDefault();const err=validateMaterial(file),safe=cleanText(title,160);if(err||!isUuid(courseId)||!courses.some(c=>c.id===courseId)){setMessage(err||'تحقق من المقرر.');return;}setBusy(true);const db=await getSupabase(),path=`${courseId}/${crypto.randomUUID()}`;const {error:uploadError}=await db.storage.from('course-materials').upload(path,file,{upsert:false,contentType:file.type});if(uploadError){setMessage('فشل الرفع.');setBusy(false);return;}const {error}=await db.from('materials').insert({course_id:courseId,title:safe,file_path:path,file_name:cleanText(file.name,180),mime_type:file.type,size_bytes:file.size,uploaded_by:profile.id,status:'published'});if(error)await db.storage.from('course-materials').remove([path]);setMessage(error?'فشل الحفظ.':'تم النشر.');setBusy(false);}return <Block title="رفع مادة علمية"><form className="uploadForm" onSubmit={submit}><label>المقرر<select value={courseId} onChange={e=>setCourseId(e.target.value)} required><option value="">اختر المقرر</option>{courses.map(c=><option value={c.id} key={c.id}>{c.code} — {c.title}</option>)}</select></label><label>العنوان<input value={title} onChange={e=>setTitle(e.target.value)} required/></label><label>الملف<input type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setFile(e.target.files[0])} required/></label><button disabled={busy}>رفع ونشر</button>{message&&<p>{message}</p>}</form></Block>}
+function Block({title,children}){return <div className="contentBlock"><div className="blockHead"><h1>{title}</h1></div>{children}</div>}
