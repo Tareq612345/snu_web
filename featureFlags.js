@@ -1,5 +1,5 @@
 // Central feature policy for the official university mode.
-// Unknown or missing optional features are disabled by default.
+// Unknown features are disabled. Only explicitly enabled defaults remain visible.
 
 export const FEATURE_KEYS = Object.freeze([
     'privateMessages',
@@ -10,18 +10,37 @@ export const FEATURE_KEYS = Object.freeze([
     'socialFeed',
     'follows',
     'leaderboard',
-    'gamification',
+    'xp',
+    'achievements',
+    'streak',
     'aiAssistant',
     'videoCalls'
 ]);
 
-export const OFFICIAL_MODE_DEFAULTS = Object.freeze(
-    Object.fromEntries(FEATURE_KEYS.map(key => [key, false]))
-);
+export const OFFICIAL_MODE_DEFAULTS = Object.freeze({
+    privateMessages: false,
+    generalChat: false,
+    studyChat: false,
+    helpChat: false,
+    randomChat: false,
+    socialFeed: false,
+    follows: false,
+    leaderboard: false,
+    xp: false,
+    achievements: false,
+    streak: true,
+    aiAssistant: true,
+    videoCalls: false
+});
 
 export const normalizeFeatureFlags = (storedFlags = {}) => Object.freeze(
     Object.fromEntries(
-        FEATURE_KEYS.map(key => [key, storedFlags?.[key] === true])
+        FEATURE_KEYS.map(key => [
+            key,
+            typeof storedFlags?.[key] === 'boolean'
+                ? storedFlags[key]
+                : OFFICIAL_MODE_DEFAULTS[key]
+        ])
     )
 );
 
