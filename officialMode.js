@@ -7,7 +7,8 @@ let flags=normalizeFeatureFlags(OFFICIAL_MODE_DEFAULTS),isOwner=false,unsubscrib
 const selectors={privateMessages:['button[onclick*="openDMPanel"]','button[onclick*="openNewDM"]','button[onclick*="openDMFromProfile"]','button[onclick*="startDMWith"]','#dm-panel'],socialFeed:['a[href="#feed"]','a[href="#posts"]','#feed-section'],follows:['button[onclick*="toggleFollow"]'],leaderboard:['a[href="#leaderboard"]','#leaderboard-section','button[onclick*="openCollegeRankingPanel"]'],xp:['#xp-widget','#level-widget','[data-feature="xp"]'],achievements:['#achievements-widget','[data-feature="achievements"]'],videoCalls:['button[onclick*="startVideoCall"]'],aiAssistant:['#ai-chat-widget'],streak:['#streak-widget']};
 window.isOfficialFeatureEnabled=key=>isFeatureEnabled(flags,key);
 window.isOfficialModeOwner=()=>isOwner;
-const inspectProtectionDisabled=()=>isOwner||!isFeatureEnabled(flags,'inspectProtection');
+// Preview/login pages have no authenticated user, so inspection must stay available there.
+const inspectProtectionDisabled=()=>!auth.currentUser||isOwner||!isFeatureEnabled(flags,'inspectProtection');
 const setVisible=(el,visible)=>{if(!el)return;if(!visible){el.style.setProperty('display','none','important');el.setAttribute('aria-hidden','true');}else{el.style.removeProperty('display');el.removeAttribute('aria-hidden');}};
 const applyRoomPolicy=()=>{document.querySelectorAll('.room-tab').forEach(tab=>setVisible(tab,tab.id==='college-room-tab'||tab.dataset.room==='college'||tab.dataset.room?.startsWith('college_')));const chat=document.getElementById('group-chat-window'),open=Boolean(chat&&!chat.classList.contains('hidden'));if(!open){collegeRoomApplied=false;return;}if(!collegeRoomApplied&&typeof window.switchToCollegeRoom==='function'){collegeRoomApplied=true;window.switchToCollegeRoom();}};
 function closePanel(){document.getElementById('official-feature-panel')?.remove();}
