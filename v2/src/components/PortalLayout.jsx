@@ -1,0 +1,7 @@
+import {BookOpen,ChevronLeft,FileText,GraduationCap,Home,LogOut,Megaphone,Upload,Users} from 'lucide-react';
+import {NavLink,Outlet} from 'react-router-dom';
+import Brand from './Brand';
+import {useAuth} from '../context/AuthContext';
+const studentLinks=[['/student',Home,'الرئيسية'],['/student/courses',BookOpen,'موادي'],['/student/materials',FileText,'المكتبة والملفات'],['/student/announcements',Megaphone,'الإعلانات']];
+const facultyLinks=[['/faculty',Home,'الرئيسية'],['/faculty/courses',BookOpen,'المقررات'],['/faculty/upload',Upload,'رفع مادة علمية'],['/faculty/students',Users,'الطلاب']];
+export default function PortalLayout({type}){const {profile,signOut}=useAuth();const links=type==='faculty'?facultyLinks:studentLinks;return <div className="portal"><aside><Brand/><div className="identity"><span>{type==='faculty'?'عضو هيئة تدريس':'طالب'}</span><strong>{profile?.full_name||'مستخدم الجامعة'}</strong><small>{profile?.university_id||''}</small></div><nav>{links.map(([to,Icon,label])=><NavLink key={to} to={to} end={to===`/${type}`}><Icon size={19}/><span>{label}</span><ChevronLeft size={15}/></NavLink>)}</nav><button className="logout" onClick={signOut}><LogOut size={18}/>تسجيل الخروج</button></aside><main><header><div><GraduationCap size={21}/><span>{type==='faculty'?'بوابة أعضاء هيئة التدريس':'بوابة الطالب'}</span></div><small>العام الجامعي 2026/2027</small></header><section className="page"><Outlet/></section></main></div>}
