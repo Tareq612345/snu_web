@@ -16,4 +16,6 @@ Set one portal scope per site:
 - Faculty: `VITE_PORTAL_TYPE=faculty`
 - Admin: `VITE_PORTAL_TYPE=admin`
 
+Vite environment variables are embedded during the build, so changing any `VITE_*` value requires a fresh deploy.
+
 Do not publish or merge to `main` until the V2 review is complete.
