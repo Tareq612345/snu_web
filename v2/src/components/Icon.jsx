@@ -1,0 +1,1 @@
+const symbols={home:'⌂',book:'▤',file:'▧',news:'◫',upload:'⇧',users:'♙',logout:'↪',calendar:'□',shield:'◇',building:'▥',download:'⇩',graduate:'◆'};export default function Icon({name}){return <span className="icon" aria-hidden="true">{symbols[name]||'•'}</span>}

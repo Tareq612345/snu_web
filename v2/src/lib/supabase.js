@@ -1,5 +1,2 @@
-import { createClient } from '@supabase/supabase-js';
-const url=import.meta.env.VITE_SUPABASE_URL;
-const key=import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const isSupabaseConfigured=Boolean(url&&key&&!url.includes('YOUR_PROJECT'));
-export const supabase=isSupabaseConfigured?createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+const url=import.meta.env.VITE_SUPABASE_URL?.trim();const key=import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();export const isSupabaseConfigured=Boolean(url&&key&&/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url));let promise;
+export function getSupabase(){if(!isSupabaseConfigured)return Promise.resolve(null);promise??=import('@supabase/supabase-js').then(({createClient})=>createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'},realtime:{params:{eventsPerSecond:2}},global:{headers:{'X-Client-Info':'snu-portals/2.0'}}}));return promise;}
