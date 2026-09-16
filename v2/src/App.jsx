@@ -9,10 +9,12 @@ const lazyNamed=(loader,name)=>lazy(()=>loader().then(module=>({default:module[n
 const loadPublic=()=>import('./pages/PublicPages');
 const loadPortal=()=>import('./pages/PortalPages');
 const loadOps=()=>import('./pages/AcademicOperations');
+const loadQuiz=()=>import('./pages/QuizPage');
 const Landing=lazyNamed(loadPublic,'Landing'),Login=lazyNamed(loadPublic,'Login');
 const StudentHome=lazyNamed(loadPortal,'StudentHome'),FacultyHome=lazyNamed(loadPortal,'FacultyHome');
 const Courses=lazyNamed(loadPortal,'Courses'),Materials=lazyNamed(loadPortal,'Materials'),UploadMaterial=lazyNamed(loadPortal,'UploadMaterial'),Profile=lazyNamed(loadPortal,'Profile');
-const Announcements=lazyNamed(loadOps,'Announcements'),Assignments=lazyNamed(loadOps,'Assignments'),Students=lazyNamed(loadOps,'Students'),Attendance=lazyNamed(loadOps,'Attendance'),Quizzes=lazyNamed(loadOps,'Quizzes'),Support=lazyNamed(loadOps,'Support'),AdminDashboard=lazyNamed(loadOps,'AdminDashboard'),AdminUsers=lazyNamed(loadOps,'AdminUsers'),AcademicStructure=lazyNamed(loadOps,'AcademicStructure');
+const Announcements=lazyNamed(loadOps,'Announcements'),Assignments=lazyNamed(loadOps,'Assignments'),Students=lazyNamed(loadOps,'Students'),Attendance=lazyNamed(loadOps,'Attendance'),Support=lazyNamed(loadOps,'Support'),AdminDashboard=lazyNamed(loadOps,'AdminDashboard'),AdminUsers=lazyNamed(loadOps,'AdminUsers'),AcademicStructure=lazyNamed(loadOps,'AcademicStructure');
+const Quizzes=lazyNamed(loadQuiz,'Quizzes');
 const Load=({children})=><Suspense fallback={<div className="fullLoader">جاري التحميل…</div>}>{children}</Suspense>;
 const Auth=({children})=><AuthProvider>{children}</AuthProvider>;
 
