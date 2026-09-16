@@ -5,9 +5,11 @@ create table if not exists public.platform_owners(
   created_at timestamptz not null default now()
 );
 alter table public.platform_owners enable row level security;
+
+-- Bootstrap the owner from the active admin account(s) that already exist.
+-- Newly created admins are not owners unless explicitly added by an owner later.
 insert into public.platform_owners(user_id)
-select p.id from public.profiles p join auth.users u on u.id=p.id
-where lower(u.email)=lower('tareq612345@gmail.com')
+select id from public.profiles where role='admin' and is_active=true
 on conflict(user_id) do nothing;
 
 create or replace function public.is_platform_owner(check_user uuid default auth.uid())
@@ -16,6 +18,7 @@ returns boolean language sql stable security definer set search_path=public,pg_c
 $$;
 revoke all on function public.is_platform_owner(uuid) from public,anon;
 grant execute on function public.is_platform_owner(uuid) to authenticated;
+drop policy if exists "admins read platform owners" on public.platform_owners;
 create policy "admins read platform owners" on public.platform_owners for select to authenticated using(public.current_role()='admin');
 grant select on public.platform_owners to authenticated;
 
