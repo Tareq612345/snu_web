@@ -32,24 +32,25 @@ Project: `snu-student`
 - Deploy: `npx wrangler deploy --config wrangler.student.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.student.jsonc`
 - Variables: Node 22, Supabase URL, publishable anon key, `VITE_PORTAL_TYPE=student`
+- Status: build successful; URL/login verification pending.
 
-Current status:
-- [x] Project created and branch/root/commands configured.
-- [x] Owner reported all four build variables configured.
-- [ ] Current deployment verification in progress.
+## Faculty project
 
-## Remaining projects
+Project: `snu-faculty`
 
-### Faculty
-- Name: `snu-faculty`
+- Branch: `rebuild/snu-portals-supabase`
+- Root: `v2`
+- Build: `npm run test && npm run build`
 - Deploy: `npx wrangler deploy --config wrangler.faculty.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.faculty.jsonc`
-- `VITE_PORTAL_TYPE=faculty`
+- Variables: Node 22, Supabase URL, publishable anon key, `VITE_PORTAL_TYPE=faculty`
+- Status: owner reported setup complete; deployment verification in progress.
 
-### Admin
+## Admin project
+
 - Name: `snu-admin`
 - Deploy: `npx wrangler deploy --config wrangler.admin.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.admin.jsonc`
 - `VITE_PORTAL_TYPE=admin`
 
-After all three URLs work, add them to Supabase Auth Redirect URLs, attach custom domains, and keep Netlify/combined Worker for 48 hours as rollback.
+After all three URLs work, add them to Supabase Auth Redirect URLs, attach custom domains, and keep existing deploys for 48 hours as rollback. Netlify builds are paused by `ignore = "exit 0"` in the repository configuration.
