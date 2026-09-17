@@ -1,187 +1,99 @@
 # SNU University Platform V2 — Canonical Project Context
 
-> Persistent project memory for every AI model and human contributor. Read before changes; update in the same commit as meaningful work.
+> Persistent shared memory. Every model must read it before work and update it in the same meaningful commit.
 
-## 1. Project identity
+## Identity
+- Repository: `Tareq612345/snu_web`
+- Active branch: `rebuild/snu-portals-supabase`
+- PR: `#7` draft; do not merge.
+- Active code: `v2/`; root is legacy/reference-only.
+- Stack: React 19, Vite 8, React Router 7, Supabase.
+- Supabase project: `ixqpqognqifeemeamnbm`.
+- Target hosting: Cloudflare Workers/Pages static assets with custom domains.
 
-| Item | Value |
-|---|---|
-| Repository | `Tareq612345/snu_web` |
-| Active branch | `rebuild/snu-portals-supabase` |
-| Pull request | `#7` — draft, do not merge yet |
-| New platform root | `v2/` |
-| Legacy platform | repository root; reference-only |
-| Frontend | React 19 + Vite 8 + React Router 7 |
-| Backend | Supabase Auth, Postgres, RLS, Storage, Realtime, Edge Functions |
-| Target hosting | **Cloudflare Pages**, three portal projects, custom domains recommended |
-| Old hosting | Netlify; temporary rollback only after Cloudflare cutover |
-| Supabase project ref | `ixqpqognqifeemeamnbm` |
+## Mandatory rules
+- Never touch/merge `main` without approval.
+- Run package/build/deploy commands from `v2`, not repository root.
+- RLS/server checks are authorization; UI checks are not.
+- No service-role keys/tokens/passwords in browser, repository, logs, or chat.
+- Bounded/paginated reads only.
+- Do not claim migration/deployment success without evidence.
+- Update this file with every meaningful change.
 
-## 2. Non-negotiable rules
+## Dependency policy
+- At each session start inspect `v2/package.json`, lockfile, runtime/build logs, and official security/release notes.
+- Check `npm outdated` when network is available.
+- Use latest stable, non-prerelease, mutually compatible versions.
+- Do not blindly jump to incompatible majors: read migration notes, upgrade incrementally, regenerate lockfile, run tests/build, document result.
+- Pin exact versions. Never use legacy root dependency versions for V2.
 
-- Never edit or merge `main` without explicit owner approval.
-- Never treat the legacy root as active implementation.
-- Never expose service-role keys, tokens, passwords, or DB passwords.
-- UI checks are not authorization; use RLS/functions.
-- Never fetch unbounded tables or deeply nested unbounded relations.
-- Never claim a migration/deployment is applied without evidence.
-- Update this file in the same commit as meaningful changes.
-- Every feature needs authorization, loading/error/empty states, and verification.
+## Architecture
+- Bounded CRUD: Supabase client + RLS.
+- Aggregates/read models/transactions: PostgreSQL RPC.
+- Privileged Auth/admin actions: Edge Functions.
+- Files: private Storage + signed URLs.
+- Realtime: notification deltas only.
+- Target folders: `app/`, feature modules, `shared/`, thin route pages.
 
-## 3. Roles
+## Roles
+- Student: active enrollment and own records/support.
+- Faculty: assigned courses/rosters; no platform support.
+- Admin: management/support; cannot alter own role/status.
+- Owner: protected `platform_owners`; may create admins.
 
-- **Student:** active-enrollment content and own submissions/attempts/attendance/support.
-- **Faculty:** assigned courses/rosters; no platform support access.
-- **Admin:** academic/user/support management; cannot change own role or disable self.
-- **Owner:** `platform_owners`; cannot be demoted/disabled; may create admins.
+## Performance
+- Admin dashboard: 6 requests → 1 RPC after migration `013`.
+- Course workspace: currently 6; next target 1 RPC.
+- Lists currently 100–500 rows; target 25/page.
+- Targets: read p95 <500ms, writes <1s excluding uploads, errors <1%, DB CPU <70%, pool <70–80%.
 
-## 4. Architecture
+## Security backlog
+- [ ] MFA owner/admin.
+- [ ] CAPTCHA/Turnstile.
+- [ ] Session/inactivity and sensitive-action reauth.
+- [ ] Admin audit log/rate limits.
+- [ ] Rotate/remove legacy keys.
+- [ ] Admin BFF/HttpOnly-cookie decision.
 
-### Data access
-- Simple bounded CRUD: Supabase client + RLS.
-- Aggregates/read models/atomic workflows: PostgreSQL RPC.
-- Privileged Auth/admin actions: Supabase Edge Functions.
-- Files: private Storage + signed URLs + RLS.
-- Realtime: notifications/deltas only.
+## Migrations
+- `001`–`012`: repository ✅; applied state needs environment confirmation.
+- `013_admin_dashboard_read_model.sql`: repository ✅; must be applied.
+- Run in numeric order; never rewrite applied migrations.
 
-### Target frontend structure
+## Edge Functions
+- `admin-create-user`: code ✅; deployed ✅ to `ixqpqognqifeemeamnbm` on 2026-09-16.
 
-```text
-src/
-├── app/
-├── features/            # auth, users, courses, materials, assignments, quizzes, attendance, announcements, notifications, support
-├── shared/              # api, components, hooks, validation, errors, utils
-└── pages/               # thin route composition
-```
+## Hosting state
+- [x] Cloudflare selected.
+- [x] Migration guide added.
+- [x] `v2/wrangler.jsonc` added for static `dist` + SPA fallback.
+- [x] First failure diagnosed: Cloudflare built legacy root with Vite 5.4.21.
+- [ ] In Cloudflare `snu-web` set production branch to `rebuild/snu-portals-supabase`.
+- [ ] Set Root directory to `v2`.
+- [ ] Build: `npm run test && npm run build`.
+- [ ] Deploy: `npx wrangler deploy`.
+- [ ] Add V2 environment variables and redeploy.
+- [ ] Verify combined deployment, then create role-specific projects/custom domains.
+- [ ] Update Supabase Auth URLs; keep Netlify 48h rollback.
 
-### Current hotspots
-- Course workspace: 6 requests; target 1 RPC.
-- Admin dashboard: fixed by `013`; 6 counts → 1 RPC.
-- Lists request 100–500 rows without real pagination.
-- Broad assignment queries can embed every submission.
-- `AcademicOperations.jsx` is oversized with unused quiz code.
+## Completed
+- [x] Role builds, PKCE/profile guards, RLS, private storage, CSP.
+- [x] Owner-aware accounts and secure account Edge Function.
+- [x] Courses/structure/enrollment/staff assignment/workspaces/material tracks.
+- [x] Announcements/assignments/grading/quizzes/attendance/notifications/support.
+- [x] Multi-agent context/instructions.
+- [x] Admin dashboard request consolidation.
 
-## 5. Request budget
+## Roadmap
+1. **Hosting:** complete Cloudflare settings and verification.
+2. **Requests:** course workspace RPC; shared API helpers; bounded cache.
+3. **Maintainability:** split `AcademicOperations.jsx`; remove unused quiz code.
+4. **Pagination:** users/notifications/materials/support/rosters/assignments/submissions.
+5. **Security:** MFA/CAPTCHA/audit/rate limits/legacy key rotation.
+6. **Capacity:** realistic staging data, E2E, k6 50→2,000 concurrent users.
 
-| Flow | Current | Target |
-|---|---:|---:|
-| Authenticated bootstrap | session + profile | max 2 network requests |
-| Admin dashboard | 1 RPC after `013` | 1 |
-| Course workspace | 6 | 1 RPC + optional paginated detail |
-| Lists | 100–500 rows | 25 rows/page |
-| Repeated navigation | refetches | bounded cache + invalidation |
-
-Targets: read p95 `<500ms`, write p95 `<1s` excluding uploads, errors `<1%`, DB CPU `<70%`, pool `<70–80%`, notification lag `<2s`. Capacity is unproven until load testing.
-
-## 6. Authentication/security
-
-- SPA uses PKCE, automatic refresh, persistent Supabase sessions, JWT + RLS, and strict CSP.
-- No service-role key exists in V2 browser code.
-- Student/faculty may remain SPA. Decide admin BFF/SSR HttpOnly-cookie architecture before production.
-
-Required:
-- [ ] MFA for owner/admins.
-- [ ] CAPTCHA/Turnstile for login/recovery.
-- [ ] Session/inactivity policy and sensitive-action reauth.
-- [ ] Admin audit log and rate limits.
-- [ ] Rotate/remove legacy exposed keys.
-- [ ] WAF/custom-domain plan.
-
-## 7. Hosting
-
-### Decision
-- [x] Select Cloudflare Pages as Netlify replacement.
-- [x] Add `CLOUDFLARE_DEPLOYMENT.md` and compatible build configuration.
-- [ ] Create student Cloudflare Pages project.
-- [ ] Create faculty Cloudflare Pages project.
-- [ ] Create admin Cloudflare Pages project.
-- [ ] Add custom subdomains and HTTPS.
-- [ ] Update Supabase Auth Site/Redirect URLs.
-- [ ] Run role and route-refresh smoke tests.
-- [ ] Keep Netlify 48 hours for rollback, then disable.
-
-Static asset requests are free/unlimited on Cloudflare. Pages/Workers dynamic function limits are separate. Supabase Auth/DB/Realtime quotas remain unchanged by this move.
-
-## 8. Migrations
-
-| Migration | Purpose | Repository | Applied |
-|---|---|---:|---:|
-| `001`–`007` | base schema, RLS, storage, levels | ✅ | confirm environment |
-| `008` | academic operations | ✅ | confirm environment |
-| `009` | roster + notifications | ✅ | confirm environment |
-| `010` | tracks + activity notifications | ✅ | confirm environment |
-| `011` | support/write hardening | ✅ | confirm environment |
-| `012` | owner + accounts | ✅ | confirm environment |
-| `013` | one-request admin dashboard | ✅ | must be applied |
-
-Run in order; never rewrite/re-run applied migrations blindly.
-
-## 9. Edge Functions
-
-| Function | Purpose | Code | Deployment |
-|---|---|---:|---:|
-| `admin-create-user` | secured Auth user creation | ✅ | ✅ deployed to `ixqpqognqifeemeamnbm` on 2026-09-16 |
-
-## 10. Completed work
-
-- [x] Separate role builds, PKCE, active-profile guards, RLS, private storage, CSP.
-- [x] Owner-aware account management and account Edge Function.
-- [x] Courses, structure, enrollments, teaching assignments, course workspace, material tracks.
-- [x] Announcements, assignments, grading, quizzes, attendance, notifications, support.
-- [x] Canonical multi-agent instructions/context.
-- [x] Admin dashboard 6 requests → 1 RPC.
-- [x] Cloudflare Pages migration plan prepared.
-- [ ] Confirm migrations through `013`.
-- [ ] Real-account E2E testing.
-- [ ] Merge to `main` — blocked.
-
-## 11. Roadmap
-
-### Phase A — memory/guardrails
-- [x] Context and AI instruction files.
-
-### Phase B — requests/features
-- [x] Admin summary RPC.
-- [ ] Course workspace RPC.
-- [ ] Shared API helpers.
-- [ ] Split `AcademicOperations.jsx`; remove unused quizzes.
-- [ ] Bounded cache + invalidation.
-
-### Phase C — pagination/database
-- [ ] Paginate users, notifications, materials, support, rosters, assignments, submissions.
-- [ ] Stop broad nested submission loading.
-- [ ] Review indexes with `EXPLAIN` on realistic data.
-- [ ] Retention/archive policy.
-
-### Phase D — production security
-- [ ] MFA, CAPTCHA, audit log, reauth, rate limits.
-- [ ] Rotate legacy keys.
-- [ ] Decide admin BFF vs hardened SPA.
-
-### Phase E — capacity
-- [ ] Staging data: 10k–30k students, 500–1,000 courses.
-- [ ] E2E/integration/k6 tests.
-- [ ] Test 50→2,000 concurrent users and record p50/p95/p99/errors/CPU/pool/Realtime lag.
-- [ ] Choose Supabase plan from evidence.
-
-## 12. Risks
-
-| Risk | Severity | Mitigation |
-|---|---|---|
-| Migrations not confirmed | Critical | verify Supabase |
-| Six course requests | High | next RPC |
-| Unbounded lists | High | pagination |
-| No capacity evidence | High | load tests |
-| Shared provider domains can be blocked | High | owned custom domains on Cloudflare |
-| Admin SPA session | Medium/High | CSP/RLS now; MFA+BFF decision |
-| Direct Supabase API bypasses front-door WAF | Medium/High | RLS, platform controls, Edge Functions |
-| Legacy keys | High | rotate/remove |
-
-## 13. Multi-model workflow
-
-Start: read root `AGENTS.md` and this file, inspect branch/checks, select one roadmap item, read relevant files. During work: small commits, no duplicate routes/functions/migrations, no simultaneous edits to one file. Finish: verify checks/request count/RLS, update this file, state manual steps.
-
-Handoff:
+## Multi-model handoff
+At start read root `AGENTS.md` and this file, confirm branch/root, check dependencies, select one roadmap item. At finish verify tests/request count/RLS, update this file, and state manual steps.
 
 ```text
 Task:
@@ -190,19 +102,19 @@ Branch/head:
 Files changed:
 Migration/function changes:
 Security decisions:
+Dependency decisions:
 Request-count change:
 Tests/checks:
-Manual steps remaining:
+Manual steps:
 Next task:
 ```
 
-## 14. Change log
+## Changelog
+- **2026-09-17 — Cloudflare build fix:** added explicit Worker static-assets config, diagnosed legacy-root Vite mismatch, documented exact build/branch/root settings, and added latest-stable dependency policy.
+- **2026-09-17 — Hosting:** selected Cloudflare and documented migration/custom domains.
+- **2026-09-17 — Performance:** admin dashboard 6 requests → 1 RPC (`013`).
+- **2026-09-17 — Project memory:** canonical context and model instructions.
+- **2026-09-16 — Accounts/security/features:** owner protection, Edge Function, academic operations, support and write hardening.
 
-- **2026-09-17 — Hosting:** selected Cloudflare Pages, documented three-project migration, custom domains, Auth URL cutover, and rollback.
-- **2026-09-17 — Dashboard:** added `013`; six counts → one authorized RPC.
-- **2026-09-17 — Project memory:** context, guardrails, request budgets, multi-agent instructions.
-- **2026-09-16 — Accounts/security:** owner protection, account Edge Function, support/notification/submission hardening.
-
-## 15. Next recommended task
-
-Create the three Cloudflare Pages projects and custom subdomains, then continue Phase B.2 (`get_course_workspace`: 6 requests → 1).
+## Next action
+In Cloudflare update `snu-web` Settings → Builds: branch `rebuild/snu-portals-supabase`, root `v2`, build `npm run test && npm run build`, deploy `npx wrangler deploy`; then redeploy.

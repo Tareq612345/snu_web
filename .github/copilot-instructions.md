@@ -1,5 +1,1 @@
-# SNU Web Copilot instructions
-
-Before editing, read `AGENTS.md` and `v2/PROJECT_CONTEXT.md`.
-
-Work only on the V2 rebuild unless explicitly asked otherwise. Preserve RLS authorization, keep queries bounded/paginated, consolidate multi-request screens with RPC read models, never expose secrets, and update `v2/PROJECT_CONTEXT.md` in the same commit as every meaningful change. Do not modify or merge `main` without explicit approval.
+Read `AGENTS.md` and `v2/PROJECT_CONTEXT.md` before editing. Work only in V2 unless explicitly asked. Always run/build from `v2`, never the legacy root. At session start check runtime and dependency freshness; use latest stable non-prerelease mutually compatible versions, read major-version migration notes, pin exact versions, regenerate the lockfile, test, and document upgrades. Preserve RLS, bounded queries, RPC consolidation, and secret isolation. Update `v2/PROJECT_CONTEXT.md` in the same commit. Never modify or merge `main` without approval.

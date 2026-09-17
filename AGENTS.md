@@ -1,40 +1,40 @@
 # SNU Web — mandatory agent instructions
 
 ## Scope
-- The active rebuild is `v2/` on branch `rebuild/snu-portals-supabase`.
-- Root-level legacy files are reference-only. Do not modify, delete, migrate, or deploy them unless the user explicitly approves a separate legacy task.
-- Do not merge into or modify `main` without explicit user approval.
+- Active rebuild: `v2/` on `rebuild/snu-portals-supabase`.
+- Root-level legacy files are reference-only. Do not modify, deploy, or use their dependencies unless explicitly approved.
+- Never modify or merge `main` without explicit approval.
 
 ## Source of truth
-Before planning, editing, or answering implementation-status questions, read:
-
-`v2/PROJECT_CONTEXT.md`
-
-It is the canonical project memory for all AI models and humans.
+Read `v2/PROJECT_CONTEXT.md` before planning, editing, or answering status questions. It is the canonical shared memory for all models.
 
 ## Required workflow
-1. Read `v2/PROJECT_CONTEXT.md` and the files relevant to the requested feature.
-2. Confirm current branch/head before writing.
-3. Reuse existing services, migrations, policies, components, and routes; do not duplicate features.
-4. Keep reads bounded and paginated. Avoid fetching entire tables or nested unbounded relations.
-5. Use direct Supabase reads for simple bounded queries, SQL RPCs for aggregate/read-model/transactional work, and Edge Functions only for privileged server-side actions.
-6. Treat RLS as the authorization boundary. UI hiding is not authorization.
-7. Never expose service-role keys, access tokens, refresh tokens, passwords, database passwords, or personal data in code, commits, logs, screenshots, or chat.
-8. Run available tests/build checks and inspect deploy checks.
-9. In the same commit as every meaningful change, update `v2/PROJECT_CONTEXT.md`:
-   - mark completed checklist items;
-   - add new work and blockers;
-   - record migrations/functions/deployment steps;
-   - append a short changelog entry;
-   - set the next recommended task.
-10. Never mark a migration or deployment as applied merely because its file exists. Record it as applied only after command/dashboard evidence.
+1. Read `v2/PROJECT_CONTEXT.md` and relevant feature files.
+2. Confirm branch/head and confirm commands run from `v2/`, never the legacy repository root.
+3. Reuse existing routes, services, migrations, policies, and components.
+4. Keep reads bounded/paginated; avoid nested unbounded relations.
+5. Use Supabase direct reads for bounded CRUD, RPCs for aggregates/transactions, and Edge Functions for privileged server work.
+6. Treat RLS/server checks as authorization; UI hiding is not authorization.
+7. Never expose secrets, tokens, passwords, or personal data.
+8. Run tests/build/deploy checks.
+9. Update `v2/PROJECT_CONTEXT.md` in the same commit: status, blockers, migrations/functions, verification, changelog, next task.
+10. Never mark migrations/deployments applied without command/dashboard evidence.
+
+## Dependency freshness policy
+At the start of each implementation session:
+1. Inspect `v2/package.json`, the lockfile when present, runtime/build logs, and official release/security notices.
+2. Check for outdated dependencies with the package manager (`npm outdated`) when network access is available.
+3. Use the latest **stable, non-prerelease, mutually compatible** versions supported by the runtime and hosting platform.
+4. Never upgrade blindly to an incompatible major merely because it is numerically highest. Read migration notes, update one major at a time, regenerate the lockfile, and run tests/builds.
+5. Pin exact production dependency versions and commit the lockfile.
+6. Do not infer V2 versions from root legacy `package.json`; Cloudflare/CI root directory must be `v2`.
+7. Record every dependency/runtime upgrade and compatibility decision in `v2/PROJECT_CONTEXT.md`.
 
 ## Performance rules
-- Target no more than 2 data requests for initial dashboard rendering and no more than 2 for a course workspace shell.
-- Prefer one purpose-built RPC over many count or aggregate requests.
-- Default page size: 25; maximum normal page size: 100.
-- Do not load all submissions, notifications, users, or messages in one request.
-- Realtime is for notification deltas and explicitly justified events, not as a replacement for paginated reads.
+- Maximum 2 data requests for initial dashboard and course shell.
+- Prefer one purpose-built RPC over multiple aggregate requests.
+- Default page size 25; normal maximum 100.
+- Realtime is for justified deltas, not bulk reads.
 
 ## Completion rule
-A task is not complete until code, authorization, error handling, documentation, and verification are addressed. Database-dependent work must explicitly state which migrations still need applying.
+Code, authorization, error handling, documentation, and verification are all required. State every manual database/hosting step explicitly.
