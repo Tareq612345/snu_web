@@ -6,7 +6,7 @@
 - Never modify or merge `main` without explicit approval.
 
 ## Source of truth
-Read `v2/PROJECT_CONTEXT.md` before planning, editing, or answering status questions. It is the canonical shared memory for all models.
+Read `v2/PROJECT_CONTEXT.md` before planning, editing, or answering status questions. It is the canonical shared memory for all models. For any UI work, also read and follow `v2/DESIGN_SYSTEM.md`.
 
 ## Required workflow
 1. Read `v2/PROJECT_CONTEXT.md` and relevant feature files.
@@ -24,11 +24,19 @@ Read `v2/PROJECT_CONTEXT.md` before planning, editing, or answering status quest
 At the start of each implementation session:
 1. Inspect `v2/package.json`, the lockfile when present, runtime/build logs, and official release/security notices.
 2. Check for outdated dependencies with the package manager (`npm outdated`) when network access is available.
-3. Use the latest **stable, non-prerelease, mutually compatible** versions supported by the runtime and hosting platform.
+3. Use the latest stable, non-prerelease, mutually compatible versions supported by the runtime and hosting platform.
 4. Never upgrade blindly to an incompatible major merely because it is numerically highest. Read migration notes, update one major at a time, regenerate the lockfile, and run tests/builds.
 5. Pin exact production dependency versions and commit the lockfile.
 6. Do not infer V2 versions from root legacy `package.json`; Cloudflare/CI root directory must be `v2`.
 7. Record every dependency/runtime upgrade and compatibility decision in `v2/PROJECT_CONTEXT.md`.
+
+## UI and anti-generic design policy
+- The approved direction is `Editorial University`; `v2/DESIGN_SYSTEM.md` is binding.
+- Do not use dominant green, generic gradients, glassmorphism, excessive rounded cards/shadows, side-stripe cards, repeated icon tiles, invented metrics, or filler copy.
+- Never design from adjectives alone. Inspect the real code, render pixels when possible, and say when visual inspection is unavailable.
+- Preserve SNU specificity, information density, accessibility, responsive RTL behavior, and request budgets.
+- Do not add UI/font/icon dependencies without explicit justification.
+- Any visual-direction change requires product-owner approval and a same-commit update to `DESIGN_SYSTEM.md` and `PROJECT_CONTEXT.md`.
 
 ## Performance rules
 - Maximum 2 data requests for initial dashboard and course shell.
