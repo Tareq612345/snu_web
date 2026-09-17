@@ -1,0 +1,75 @@
+/* Mobile portal shell — compact header + accessible drawer. */
+.mobilePortalBar,.mobileDrawerHead,.portalOverlay{display:none}
+@media(max-width:900px){
+  body.portalMenuOpen{overflow:hidden}
+  .portal{display:block;min-height:100vh}
+  .mobilePortalBar{position:sticky;top:0;z-index:30;height:64px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-bottom:2px solid var(--brand)}
+  .mobilePortalBar .brand{gap:8px;min-width:0}
+  .mobilePortalBar .brand img,.mobilePortalBar .brandFallback{width:40px;height:40px;flex:0 0 40px}
+  .mobilePortalBar .brand div:last-child{min-width:0}
+  .mobilePortalBar .brand strong{font-size:12px;white-space:nowrap}
+  .mobilePortalBar .brand span{font-size:9px}
+  .mobileMenuButton{width:44px;height:44px;padding:11px;border:1px solid var(--line);background:transparent;color:var(--brand);display:grid;align-content:center;gap:5px}
+  .mobileMenuButton span{display:block;width:20px;height:2px;background:currentColor;margin:auto}
+  .portalOverlay{display:block;position:fixed;inset:0;z-index:39;border:0;background:rgba(16,26,45,.52);opacity:0;pointer-events:none;transition:opacity .18s ease}
+  .portalOverlay.isOpen{opacity:1;pointer-events:auto}
+  .portalSidebar{display:flex;position:fixed;z-index:40;top:0;right:0;width:min(320px,88vw);height:100dvh;padding:16px 18px;background:#e9e4da;border:0;border-left:1px solid #bdb3a2;overflow-y:auto;visibility:hidden;transform:translateX(100vw);transition:transform .2s ease}
+  .portalSidebar.isOpen{visibility:visible;transform:none}
+  .mobileDrawerHead{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:3px double #bdb3a2}
+  .mobileDrawerHead strong{font-family:var(--font-display);font-size:18px}
+  .mobileDrawerHead button{width:44px;height:44px;border:1px solid #bdb3a2;background:transparent;color:var(--brand);font-size:28px;line-height:1}
+  .sidebarBrand{display:none}
+  .identity{margin:14px 0 18px;padding:12px 0}
+  .navLabel{display:block;font-size:11px;padding:0 6px 7px}
+  .portal nav{display:grid;overflow:visible;padding:0;border-top:1px solid var(--line)}
+  .portal nav a{min-width:0;min-height:46px;grid-template-columns:22px minmax(0,1fr) 16px;padding:10px 7px;border:0;border-bottom:1px solid var(--line);font-size:14px}
+  .portal nav a>.icon:last-child{display:block}
+  .portal nav a.active{background:transparent;color:var(--brand2);border-bottom-color:var(--brand2)}
+  .sidebarFooter{display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px;margin-top:18px;padding-top:14px;border-top:3px double #bdb3a2}
+  .sidebarFooter .themeToggle,.sidebarFooter .logout{width:100%;min-height:44px;margin:0!important}
+  .portalTopbar{position:static;height:58px;padding:0 14px;background:var(--page)}
+  .topbarMark{width:30px;height:30px}
+  .topbarTitle strong{font-size:13px}
+  .topbarTitle small{font-size:10px}
+  .page{padding:18px 14px}
+  .dashboard{gap:26px}
+}
+@media(max-width:600px){
+  .landing>header{height:68px;padding:0 14px;gap:8px}
+  .landing>header .brand{gap:7px;min-width:0}
+  .landing>header .brand img,.landing>header .brandFallback{width:40px;height:40px;flex:0 0 40px}
+  .landing>header .brand strong{font-size:11px;white-space:nowrap}
+  .landing>header .brand span{font-size:9px}
+  .headerActions{gap:6px;flex:0 0 auto}
+  .landing .themeToggle{width:44px;height:44px;padding:0!important}
+  .landing>header .headerActions>button:not(.themeToggle){min-height:44px;padding:9px 11px;font-size:12px}
+  .landing>main{min-height:auto;padding:42px 18px 56px;gap:40px}
+  .heroCopy h1{font-size:34px;line-height:1.45;margin:12px 0}
+  .heroCopy p{font-size:15px;line-height:1.9;margin:0 0 22px}
+  .heroCopy>button{width:100%;min-height:48px}
+  .bookPanel{min-height:190px;padding:28px 18px}
+  .loginPage{align-items:center;padding:18px}
+  .loginCard{padding:28px 22px;width:100%}
+  .loginCard h1{font-size:30px;line-height:1.45;margin:24px 0 6px}
+  .loginCard form{gap:15px;margin:22px 0 0}
+  .loginCard label{font-size:14px}
+  .loginCard input{min-height:48px}
+  .loginCard button{min-height:48px}
+  .pageTitle{padding:24px 20px;margin-bottom:18px}
+  .dashboardHero{min-height:152px}
+  .dashboardHero h1{font-size:32px;line-height:1.35}
+  .dashboardHero p{font-size:13px;line-height:1.8}
+  .sectionHeading{margin-bottom:8px}
+  .sectionHeading h2{font-size:22px}
+  .quickAction{min-height:76px;padding:14px 0;grid-template-columns:28px minmax(0,1fr) 16px}
+  .quickAction strong{font-size:16px}
+  .quickAction small{font-size:12px}
+  .courseCard{padding:18px 0}
+  .courseCard h3{font-size:18px}
+  .courseCard p,.courseOpen{font-size:12px}
+  .panel,.contentBlock{padding:18px 16px}
+  .trackTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .trackTabs button{min-height:44px;padding:8px 2px;font-size:13px}
+  .opsTable th,.opsTable td{padding:10px;font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.portalSidebar,.portalOverlay{transition:none}}

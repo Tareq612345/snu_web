@@ -57,7 +57,7 @@
 ## Hosting state
 - [x] `snu-web`, `snu-student`, and `snu-faculty` created and previously built successfully.
 - [x] Separate Wrangler configs and environment variables configured.
-- [ ] Verify Editorial University deployment builds.
+- [x] Verify Editorial University deployment builds (GitHub/Cloudflare checks passed for `snu-web`, `snu-student`, and `snu-faculty` at `42dab0f`).
 - [ ] Owner visual QA of refreshed Student/Faculty desktop and mobile pages.
 - [ ] Create `snu-admin` with admin deploy config/env.
 - [ ] Add Supabase Auth redirect URLs and custom domains.
@@ -84,6 +84,7 @@
 A commit pushed to the production branch triggers Cloudflare automatically. Cloudflare runs `npm ci`, tests/build, then project-specific Wrangler deploy. Vite environment changes require a new build. Netlify is canceled by `ignore = "exit 0"`.
 
 ## Changelog
+- **2026-09-17 — Mobile portal shell:** replaced the oversized mobile sidebar/header stack with a compact sticky header and accessible slide-in drawer; tightened mobile landing, login, dashboard, course, form, and tab spacing; replaced the unsupported theme glyph with inline SVG; removed the render-blocking Google font request and aligned browser theme color with Editorial University. Verified at 390px with an authenticated student account: dashboard, drawer, courses, and course workspace rendered without horizontal overflow. Local `npm test`, combined build, student build, and faculty build passed.
 - **2026-09-17 — Editorial redesign:** owner rejected dominant green and selected Editorial University. Added binding design system and anti-AI instructions; replaced gradients/rounded-card language with paper, ink navy, oxblood, rules, and flat service-first composition.
 - **2026-09-17 — Student/Faculty UI:** shared dashboards, role quick actions, SVG icons, bounded 6-course query, duplicate module removal.
 - **2026-09-17 — Netlify pause:** future Netlify builds canceled, existing sites preserved.
@@ -93,4 +94,4 @@ A commit pushed to the production branch triggers Cloudflare automatically. Clou
 - **2026-09-16 — Features/security:** academic operations, owner accounts, secured support/writes.
 
 ## Next action
-Wait for all Cloudflare checks, then owner sends refreshed Student and Faculty screenshots plus one MyU screenshot for exact brand-comparison QA before filming.
+Deploy the mobile portal-shell commit through Cloudflare, verify the refreshed Student and Faculty URLs at 390px and 430px, then owner sends final Student/Faculty screenshots plus one MyU screenshot for exact brand-comparison QA before filming.
