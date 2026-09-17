@@ -2,59 +2,54 @@
 
 ## How builds start
 
-Cloudflare watches the production branch `rebuild/snu-portals-supabase`. Every successful `git push` that adds a commit starts a build automatically. Cloudflare runs from Root directory `v2`:
+Cloudflare watches `rebuild/snu-portals-supabase`. Every pushed commit starts a build automatically. From Root directory `v2`, Cloudflare runs:
 
 ```text
 Install: npm ci
 Build: npm run test && npm run build
-Deploy: npx wrangler deploy [portal config]
+Deploy: project-specific Wrangler command
 ```
 
-Vite embeds `VITE_*` variables during the build, so changing a variable requires a new deployment. A harmless documentation commit can trigger a rebuild, but normal development commits should be used instead.
+Vite embeds `VITE_*` variables during the build, so changing variables requires a new deployment.
 
 ## Combined verification project
 
 Current project: `snu-web`
 
-- Deploy command: `npx wrangler deploy`
+- Deploy: `npx wrangler deploy`
 - Config: `wrangler.jsonc`
 - `VITE_PORTAL_TYPE=all`
 
-Keep it temporarily while role-specific projects are verified.
+Keep temporarily while separate portals are verified.
 
-## Separate production projects
+## Student project
 
-Create three Cloudflare Workers connected to the same repository and branch. All use:
+Project: `snu-student`
 
 - Branch: `rebuild/snu-portals-supabase`
-- Root directory: `v2`
-- Build command: `npm run test && npm run build`
-- Preview command: same config as production, using `wrangler versions upload --config ...`
-- Build variables: `NODE_VERSION=22`, Supabase URL, publishable anon key.
-
-### Student
-
-- Project name: `snu-student`
+- Root: `v2`
+- Build: `npm run test && npm run build`
 - Deploy: `npx wrangler deploy --config wrangler.student.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.student.jsonc`
-- `VITE_PORTAL_TYPE=student`
+- Variables: Node 22, Supabase URL, publishable anon key, `VITE_PORTAL_TYPE=student`
+
+Current status:
+- [x] Project created and branch/root/commands configured.
+- [x] Owner reported all four build variables configured.
+- [ ] Current deployment verification in progress.
+
+## Remaining projects
 
 ### Faculty
-
-- Project name: `snu-faculty`
+- Name: `snu-faculty`
 - Deploy: `npx wrangler deploy --config wrangler.faculty.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.faculty.jsonc`
 - `VITE_PORTAL_TYPE=faculty`
 
 ### Admin
-
-- Project name: `snu-admin`
+- Name: `snu-admin`
 - Deploy: `npx wrangler deploy --config wrangler.admin.jsonc`
 - Preview: `npx wrangler versions upload --config wrangler.admin.jsonc`
 - `VITE_PORTAL_TYPE=admin`
 
-The Wrangler `name` must match the Cloudflare project name. Static assets are served from `dist`, and SPA fallback is configured in each Wrangler file.
-
-## Supabase/Auth cutover
-
-After all three URLs work, add them to Supabase Authentication Redirect URLs. Then attach owned custom subdomains and keep Netlify plus `snu-web` for 48 hours as rollback before disabling them.
+After all three URLs work, add them to Supabase Auth Redirect URLs, attach custom domains, and keep Netlify/combined Worker for 48 hours as rollback.
