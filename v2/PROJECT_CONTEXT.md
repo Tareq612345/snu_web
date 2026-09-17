@@ -17,64 +17,34 @@
 | Backend | Supabase Auth, Postgres, RLS, Storage, Realtime, Edge Functions |
 | Hosting | separate Netlify student/faculty/admin builds |
 | Supabase project ref | `ixqpqognqifeemeamnbm` |
-| Current documented head | `be18ab93d854e02caced122f087d27eb8c35758b` before this document commit |
+| Current documented head | this file must be refreshed after each commit |
 
 ## 2. Non-negotiable rules
 
-- [ ] Never edit or merge `main` without explicit owner approval.
-- [ ] Never treat the legacy root as the active implementation.
-- [ ] Never put `SUPABASE_SERVICE_ROLE_KEY` in Vite, Netlify, GitHub, browser code, or chat.
-- [ ] Never trust UI role checks alone; enforce access with RLS/functions.
-- [ ] Never fetch unbounded tables or deeply nested unbounded relations.
-- [ ] Never claim a migration is applied without SQL/CLI/dashboard evidence.
-- [ ] Every meaningful commit must update this file.
-- [ ] Every new feature must include authorization, loading/error/empty states, and verification.
+- Never edit or merge `main` without explicit owner approval.
+- Never treat the legacy root as the active implementation.
+- Never put service-role keys, tokens, passwords, or DB passwords in Vite, Netlify, GitHub, browser code, logs, screenshots, or chat.
+- Never trust UI role checks alone; enforce access with RLS/functions.
+- Never fetch unbounded tables or deeply nested unbounded relations.
+- Never claim a migration is applied without SQL/CLI/dashboard evidence.
+- Every meaningful commit must update this file.
+- Every feature must include authorization, loading/error/empty states, and verification.
 
-These boxes intentionally remain unchecked: they are recurring rules, not one-time tasks.
+## 3. Roles and trust model
 
-## 3. User roles and trust model
+- **Student:** active-enrollment content, own submissions/attempts/attendance/support only.
+- **Faculty:** assigned courses and rosters; publishes and grades only assigned courses; no platform support access.
+- **Admin:** academic/user/support management; cannot change own role or disable self.
+- **Platform owner:** stored in `platform_owners`; cannot be demoted/disabled; may create other admins.
 
-### Student
-- Reads only active enrollment data.
-- Reads published course content.
-- Submits own assignments and quiz attempts.
-- Checks into attendance through secure RPC.
-- Sees and replies only to own support requests.
+## 4. Architecture decision
 
-### Faculty
-- Reads assigned courses and enrolled rosters for those courses.
-- Publishes course materials, announcements, assignments, quizzes, and attendance sessions only for assigned courses.
-- Grades submissions only in assigned courses.
-- Does **not** receive or view platform support requests.
-
-### Admin
-- Manages academic structure, enrollments, teaching assignments, users, and support.
-- Cannot demote or disable the currently signed-in admin account.
-- Non-owner admins cannot create or modify admin accounts.
-
-### Platform owner
-- Stored in `public.platform_owners` after migration `012`.
-- Existing active admin account(s) are bootstrapped as owner when migration `012` first runs.
-- Owner account cannot be demoted or disabled.
-- Owner may create another admin through the secured Edge Function.
-
-## 4. Current architecture
-
-### Frontend
-- `src/App.jsx`: route composition and role portal boundaries.
-- `src/context/AuthContext.jsx`: one Supabase client, session lifecycle, active profile load.
-- `src/components/PortalLayout.jsx`: role-specific navigation.
-- `src/pages/CourseWorkspace.jsx`: courses, course workspace, materials, uploads.
-- `src/pages/AdminUsersPage.jsx`: owner-aware account management.
-- `src/pages/AcademicOperations.jsx`: currently oversized; must be split by feature.
-- Route pages are lazy-loaded; Vite splits React, router, and Supabase vendor chunks.
-
-### Data access decision
+### Data access
 - Simple bounded CRUD: Supabase client + RLS.
 - Aggregates, multi-table read models, atomic workflows: PostgreSQL RPC.
 - Privileged Auth/admin operations: Edge Functions.
-- Files: private Storage buckets + signed URLs + RLS.
-- Realtime: notifications only unless another use is explicitly justified.
+- Files: private Storage + signed URLs + RLS.
+- Realtime: notifications/deltas only, not bulk reads.
 
 ### Target frontend structure
 
@@ -92,219 +62,155 @@ src/
 │   ├── announcements/
 │   ├── notifications/
 │   └── support/
-├── shared/
-│   ├── api/
-│   ├── components/
-│   ├── hooks/
-│   ├── validation/
-│   ├── errors/
-│   └── utils/
+├── shared/              # api, components, hooks, validation, errors, utils
 └── pages/               # thin route composition only
 ```
 
-## 5. Request and performance budget
+### Current hotspots
+- Course workspace: 6 parallel requests; target 1 read-model RPC.
+- Admin dashboard: **fixed in migration `013`**; 6 count requests replaced by 1 RPC.
+- Lists request 100–500 rows without real pagination.
+- Broad assignment queries can embed every submission.
+- `AcademicOperations.jsx` is oversized and contains unused legacy quiz code.
 
-### Current known hotspots
-
-- Course workspace performs 6 parallel data requests on first open.
-- Admin dashboard performs 6 count requests.
-- Some screens request 100–500 rows without real pagination.
-- Assignment queries can embed all submissions for many assignments.
-- There is no shared query cache/deduplication layer yet.
-
-### Target budgets
+## 5. Request budget
 
 | Flow | Current | Target |
 |---|---:|---:|
-| Authenticated app bootstrap | session + profile | maximum 2 network requests |
-| Admin dashboard | 6 count requests | 1 summary RPC |
-| Course workspace shell | 6 requests | 1 read-model RPC, optional paginated detail request |
-| Lists | 100–500 rows | 25 rows/page, cursor/range pagination |
+| Authenticated bootstrap | session + profile | maximum 2 network requests |
+| Admin dashboard | **1 summary RPC after `013`** | 1 |
+| Course workspace shell | 6 | 1 read-model RPC + optional paginated detail |
+| Lists | 100–500 rows | 25 rows/page |
 | Repeated navigation | refetches | bounded cache + explicit invalidation |
 
-### Performance SLO proposal
+Performance targets: read p95 `<500ms`, write p95 `<1s` excluding uploads, errors `<1%`, DB CPU `<70%`, pool `<70–80%`, notification lag `<2s`. Capacity remains unproven until staging load tests.
 
-- Read p95: `< 500 ms` under expected peak load.
-- Write p95: `< 1 s` excluding file upload time.
-- Error rate: `< 1%`.
-- Database CPU sustained: `< 70%`.
-- Pool utilization sustained: `< 70–80%`.
-- Realtime notification lag: `< 2 s`.
+## 6. Authentication and browser security
 
-These are targets; capacity is not proven until staging load tests run.
+- SPA uses PKCE, automatic refresh, and persistent Supabase sessions.
+- JWT + RLS is the data authorization boundary.
+- Strict CSP is enabled; no service-role key exists in V2 browser code.
+- Student/faculty may remain SPA. Before production, decide whether admin moves to BFF/SSR HttpOnly cookies.
+- Cookie architecture requires server session handling and CSRF protection; do not switch casually.
 
-## 6. Authentication, tokens, and browser security
+Required before production:
+- [ ] MFA for owner/admins.
+- [ ] CAPTCHA/Turnstile for login/recovery.
+- [ ] Session/inactivity policy and sensitive-action reauthentication.
+- [ ] Admin audit log.
+- [ ] Rate limiting for privileged/expensive actions.
+- [ ] Rotate/remove legacy exposed third-party keys.
+- [ ] WAF/custom-domain plan.
 
-### Current state
-- Supabase client uses PKCE.
-- `persistSession: true`, `autoRefreshToken: true`.
-- SPA sessions are stored by Supabase in browser storage.
-- Access is scoped by JWT + RLS.
-- CSP blocks third-party scripts and frames; assets are immutable-cached.
-- No service-role key exists in V2 browser code.
+## 7. Migrations
 
-### Decision
-- Student/faculty portals may remain SPA + PKCE + strict CSP + RLS.
-- Before production, admin security must be reviewed for MFA and potentially a BFF/SSR HttpOnly-cookie architecture.
-- Do not switch to cookies casually: a cookie architecture requires server-side session handling and CSRF protection.
-
-### Required before production
-- [ ] Require MFA for platform owner and admins.
-- [ ] Configure login/recovery CAPTCHA or Turnstile.
-- [ ] Define session duration, inactivity timeout, and re-authentication for sensitive actions.
-- [ ] Add audit logs for admin actions.
-- [ ] Rotate/remove legacy exposed third-party keys before production.
-- [ ] Put custom domains behind WAF/rate limiting where applicable.
-
-## 7. Database and migrations
-
-| Migration | Purpose | Repository | Applied to Supabase |
+| Migration | Purpose | Repository | Applied |
 |---|---|---:|---:|
-| `001` | Initial schema/RLS/storage | ✅ | Needs environment confirmation |
-| `002` | Security + indexes | ✅ | Needs environment confirmation |
-| `003` | Access hardening | ✅ | Needs environment confirmation |
-| `004` | Profiles/comments/avatars | ✅ | Needs environment confirmation |
-| `005` | Security audit hardening | ✅ | Needs environment confirmation |
-| `006` | Storage completion | ✅ | Needs environment confirmation |
-| `007` | Academic levels | ✅ | Needs environment confirmation |
-| `008` | Academic operations | ✅ | Needs environment confirmation |
-| `009` | Roster + notifications | ✅ | Needs environment confirmation |
-| `010` | Course workspace tracks + activity notifications | ✅ | Needs environment confirmation |
-| `011` | Final write/support hardening | ✅ | Needs environment confirmation |
-| `012` | Owner + account management | ✅ | Needs environment confirmation |
+| `001`–`007` | base schema, RLS, storage, levels | ✅ | Needs environment confirmation |
+| `008` | academic operations | ✅ | Needs environment confirmation |
+| `009` | roster + notifications | ✅ | Needs environment confirmation |
+| `010` | course tracks + activity notifications | ✅ | Needs environment confirmation |
+| `011` | support/write hardening | ✅ | Needs environment confirmation |
+| `012` | owner + account management | ✅ | Needs environment confirmation |
+| `013` | one-request admin dashboard read model | ✅ | **Must be applied** |
 
-**Rule:** migrations must be applied in numeric order. Do not rerun non-idempotent old migrations blindly against an existing database.
+Migrations run in numeric order. Do not rewrite/re-run old applied migrations blindly.
 
 ## 8. Edge Functions
 
 | Function | Purpose | Code | Deployment |
 |---|---|---:|---:|
-| `admin-create-user` | Server-side Auth user creation with owner/admin checks | ✅ | ✅ deployed to project `ixqpqognqifeemeamnbm` on 2026-09-16 |
+| `admin-create-user` | server-side user creation with owner/admin checks | ✅ | ✅ deployed to `ixqpqognqifeemeamnbm` on 2026-09-16 |
 
-Deployment command used successfully:
+Successful deployment command:
 
 ```bash
 npx supabase functions deploy admin-create-user --use-api
 ```
 
-## 9. Completed implementation
+## 9. Completed work
 
-### Foundation and security
-- [x] V2 React/Vite/Supabase scaffold.
-- [x] Separate student/faculty/admin portal builds.
-- [x] PKCE session handling and active-profile guard.
-- [x] RLS and secure helper functions.
-- [x] Private storage with signed downloads.
-- [x] Security headers and CSP.
-- [x] Owner-aware account protection.
-- [x] Secure server-side account creation function.
+- [x] Separate student/faculty/admin V2 builds.
+- [x] PKCE and active-profile guards.
+- [x] RLS, secure helper functions, private storage, CSP.
+- [x] Owner-aware user management and server-side account creation.
+- [x] Courses, academic structure, enrollments, teaching assignments.
+- [x] Per-course workspace and theory/practical/general materials.
+- [x] Announcements, assignments, grading, quizzes, attendance, notifications, support.
+- [x] Canonical multi-agent context and instruction files.
+- [x] Admin dashboard reduced from six browser requests to one summary RPC (`013`).
+- [ ] Confirm migrations through `013` in the target database.
+- [ ] Real-account E2E testing for all roles.
+- [ ] Merge to `main` — blocked until explicit approval/readiness.
 
-### Academic features
-- [x] Courses and academic structure.
-- [x] Enrollment and faculty assignment management.
-- [x] Per-course workspace.
-- [x] Theory/practical/general material tracks.
-- [x] Announcements.
-- [x] Assignments, submissions, grading, feedback.
-- [x] Atomic quiz creation and server-side grading.
-- [x] Attendance sessions with hashed temporary codes.
-- [x] Student/faculty rosters.
-- [x] Notifications and Realtime delivery.
-- [x] Student/admin-only support workflow.
-- [x] Admin account creation and role management.
-
-### Deployment
-- [x] Netlify preview checks succeeded for student/faculty/site builds on previous feature commits.
-- [x] `admin-create-user` Edge Function deployed.
-- [ ] Confirm migrations through `012` are applied in the target database.
-- [ ] Complete real-account end-to-end testing for all roles.
-- [ ] Merge to `main` — explicitly blocked until approval and production readiness.
-
-## 10. Architecture and scalability roadmap
+## 10. Roadmap
 
 ### Phase A — Project memory and guardrails
-- [x] Add canonical project context.
-- [x] Add multi-agent instruction files.
-- [x] Define request budgets and target architecture.
+- [x] Canonical project context.
+- [x] `AGENTS.md`, `CLAUDE.md`, Copilot instructions.
+- [x] Request budgets and target architecture.
 
 ### Phase B — Reduce requests and split features
-- [ ] Add `get_admin_dashboard_summary` RPC and replace 6 dashboard requests.
-- [ ] Add `get_course_workspace` RPC and replace 6 course requests.
-- [ ] Introduce shared API error/result helpers.
-- [ ] Split `AcademicOperations.jsx` into feature modules.
-- [ ] Remove the unused legacy `Quizzes` function from `AcademicOperations.jsx`.
-- [ ] Add bounded cache and explicit mutation invalidation.
+- [x] `get_admin_dashboard_summary` RPC; 6 → 1 browser request.
+- [ ] `get_course_workspace` RPC; 6 → 1 request.
+- [ ] Shared API error/result helpers.
+- [ ] Split `AcademicOperations.jsx` by feature.
+- [ ] Remove unused legacy `Quizzes` implementation.
+- [ ] Bounded query cache + mutation invalidation.
 
-### Phase C — Pagination and database efficiency
-- [ ] Add cursor/range pagination to users, notifications, materials, support, rosters, assignments, and submissions.
-- [ ] Stop embedding all submissions inside broad assignment lists.
-- [ ] Review indexes with `EXPLAIN (ANALYZE, BUFFERS)` against production-like data.
-- [ ] Add archive/retention strategy for notifications, audit logs, and old attendance events.
+### Phase C — Pagination/database efficiency
+- [ ] Pagination for users, notifications, materials, support, rosters, assignments, submissions.
+- [ ] Stop embedding all submissions in broad assignment lists.
+- [ ] Review indexes with `EXPLAIN (ANALYZE, BUFFERS)` on production-like data.
+- [ ] Retention/archive policy for notifications, audit logs, attendance.
 
 ### Phase D — Production security
-- [ ] MFA for admin/owner.
-- [ ] CAPTCHA/Turnstile for login and recovery.
-- [ ] Admin audit log and sensitive-action reauthentication.
-- [ ] Rate limit account creation, attendance check-in, quiz submission, support spam, and uploads.
+- [ ] MFA, CAPTCHA, audit logs, sensitive-action reauth.
+- [ ] Rate limits: account creation, attendance, quizzes, support, uploads.
 - [ ] Rotate/remove legacy keys and isolate legacy deployment.
-- [ ] Review admin session storage/BFF decision.
+- [ ] Decide admin BFF/SSR vs hardened SPA.
 
-### Phase E — Testing and capacity
-- [ ] Create staging data generator: 10k–30k students, 500–1,000 courses, realistic enrollments.
-- [ ] Add integration/E2E tests for student/faculty/admin workflows.
-- [ ] Add k6 load tests for login, dashboards, course open, attendance burst, quiz submit, assignment upload, and notification fan-out.
+### Phase E — Capacity testing
+- [ ] Staging generator: 10k–30k students, 500–1,000 courses.
+- [ ] Integration/E2E tests.
+- [ ] k6 tests: login, dashboard, course open, attendance burst, quiz submit, upload, notification fan-out.
 - [ ] Test 50 → 100 → 250 → 500 → 1,000 → 2,000 concurrent users.
-- [ ] Record p50/p95/p99, errors, DB CPU, pool usage, and Realtime lag.
-- [ ] Select Supabase/Realtime plan from evidence, not guesses.
+- [ ] Record p50/p95/p99, errors, CPU, pool usage, Realtime lag.
+- [ ] Choose Supabase plan from evidence.
 
-## 11. Known risks and blockers
+## 11. Risks
 
-| Risk | Severity | Status / mitigation |
+| Risk | Severity | Mitigation |
 |---|---|---|
-| Migrations may not all be applied | Critical | Confirm in target Supabase before feature testing |
-| Too many requests on course/dashboard | High | Phase B read-model RPCs |
-| Unbounded lists/nested submissions | High | Phase C pagination |
-| No measured capacity | High | Phase E staging load tests |
-| Admin session in SPA browser storage | Medium/High | strict CSP/RLS now; MFA + BFF decision before production |
-| Direct Supabase API can bypass front-door CDN/WAF | Medium/High | RLS, Supabase rate controls, Edge Functions for expensive writes |
-| Legacy keys/config remain in repository history | High | rotate and remove before production |
-| Oversized `AcademicOperations.jsx` | Medium | split by feature in Phase B |
-| Copilot review not yet returned | Low | re-request/check later |
+| Migrations not confirmed applied | Critical | verify target Supabase |
+| Six course requests | High | next: course read-model RPC |
+| Unbounded lists/nested submissions | High | pagination phase |
+| No measured capacity | High | staging load tests |
+| Admin session in SPA storage | Medium/High | CSP/RLS now; MFA+BFF decision |
+| Direct Supabase API bypasses front-door WAF | Medium/High | RLS, Supabase controls, Edge Functions |
+| Legacy keys/config remain | High | rotate/remove before production |
+| Oversized operations file | Medium | split by feature |
 
-## 12. Working method for multiple AI models
+## 12. Multi-model workflow
 
-### At the start of every session
+### Start
+1. Read root `AGENTS.md` and this file.
+2. Inspect latest branch head and PR checks.
+3. Select one roadmap item and read only relevant files.
+4. Record authorization/request/migration impact before coding.
 
-1. Read `AGENTS.md`.
-2. Read this file completely.
-3. Inspect the latest branch head and PR checks.
-4. Identify one roadmap item and its dependencies.
-5. Read only the relevant implementation/migration files.
+### During work
+- Small feature-focused commits.
+- Do not duplicate routes, pages, policies, functions, or migrations.
+- New migration number only; do not rewrite an already-applied migration.
+- Never let two agents update the same file in parallel.
 
-### Before coding
-
-Write a short internal plan with:
-- scope;
-- files likely affected;
-- authorization impact;
-- request-count impact;
-- migration/deployment impact;
-- verification plan.
-
-### During coding
-
-- Keep commits small and feature-focused.
-- Do not combine unrelated UI, schema, and security changes without documenting them.
-- Prefer extending an existing migration with a new numbered migration; never rewrite an already-applied migration.
-- Never perform parallel updates to the same file from different agents.
-
-### Before finishing
-
-1. Run tests/build checks.
-2. Check request count for changed screens.
-3. Check RLS/server authorization, not only UI visibility.
-4. Update the status, migration table, known risks, changelog, and next action here.
-5. State manual deployment steps clearly.
+### Finish
+1. Verify code/build/checks.
+2. Measure request count for changed screen.
+3. Verify server/RLS authorization.
+4. Update this file in the same commit.
+5. State manual deployment steps.
 
 ### Handoff template
 
@@ -323,12 +229,12 @@ Next recommended task:
 
 ## 13. Change log
 
-- **2026-09-17 — Project memory:** added this canonical multi-agent context, guardrails, architecture target, request budgets, risks, and phased roadmap.
-- **2026-09-16 — Account management:** added owner-aware administration, protected owner/self roles, and deployed `admin-create-user`.
-- **2026-09-16 — Security hardening:** restricted support to owner/admin participants, limited notification updates, hardened assignment object writes.
-- **2026-09-16 — Course workspace:** added per-course pages, theory/practical/general materials, and activity notifications.
-- **2026-09-16 — Academic operations:** added assignments, quizzes, attendance, support, rosters, and administration flows.
+- **2026-09-17 — Admin dashboard performance:** added `013`, moved dashboard to a dedicated lazy page, consolidated six counts into one authorized RPC.
+- **2026-09-17 — Project memory:** added canonical context, guardrails, request budgets, risks, and multi-agent instructions.
+- **2026-09-16 — Account management:** owner protection and deployed `admin-create-user`.
+- **2026-09-16 — Security:** support/notification/submission hardening.
+- **2026-09-16 — Course workspace:** course pages, material tracks, activity notifications.
 
 ## 14. Next recommended task
 
-**Phase B.1: implement one summary RPC for the admin dashboard, replace the six browser count requests, record before/after request counts, and add a migration-level verification query.**
+**Phase B.2: implement `get_course_workspace`, replace the six course requests with one authorized read-model RPC, and record before/after request counts.**
