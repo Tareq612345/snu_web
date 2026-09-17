@@ -1,0 +1,7 @@
+{
+  "name":"snu-university-portals","private":true,"version":"2.1.0","type":"module",
+  "scripts":{"dev":"vite","build":"vite build","build:student":"VITE_PORTAL_TYPE=student vite build --outDir dist/student","build:faculty":"VITE_PORTAL_TYPE=faculty vite build --outDir dist/faculty","build:admin":"VITE_PORTAL_TYPE=admin vite build --outDir dist/admin","preview":"vite preview","test":"node --test tests/*.test.mjs"},
+  "dependencies":{"@supabase/supabase-js":"2.116.0","react":"19.3.0","react-dom":"19.3.0","react-router-dom":"7.18.4"},
+  "devDependencies":{"@vitejs/plugin-react":"6.1.1","vite":"8.3.0"},
+  "engines":{"node":">=22.0.0"}
+}
