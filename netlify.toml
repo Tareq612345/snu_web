@@ -2,6 +2,9 @@
   base = "v2"
   command = "npm run test && npm run build"
   publish = "dist"
+  # Exit 0 tells Netlify to cancel builds while Cloudflare migration is verified.
+  # Remove this line to resume Netlify CI/CD.
+  ignore = "exit 0"
 
 [build.environment]
   NODE_VERSION = "22"

@@ -48,11 +48,13 @@
 - [x] Production/preview Worker URLs enabled.
 - [x] Supabase URL, publishable key, `VITE_PORTAL_TYPE=all`, Node 22 configured and successful rebuild verified.
 - [x] Added explicit configs: `wrangler.student.jsonc`, `wrangler.faculty.jsonc`, `wrangler.admin.jsonc`.
-- [ ] Create `snu-student` with student deploy config/env.
+- [x] Created `snu-student`; build completed successfully.
+- [ ] Verify student URL and role-restricted login.
 - [ ] Create `snu-faculty` with faculty deploy config/env.
 - [ ] Create `snu-admin` with admin deploy config/env.
 - [ ] Verify role routing/login and add Supabase Auth redirect URLs.
 - [ ] Attach owned custom domains; retain rollback for 48h.
+- [x] Netlify builds paused through `netlify.toml` ignore command; existing deploys remain available for rollback.
 
 ## Completed features
 - [x] Role builds, PKCE/profile guards, RLS, private storage, CSP.
@@ -62,7 +64,7 @@
 - [x] Multi-agent context/instructions and dashboard request consolidation.
 
 ## Roadmap
-1. Create and verify three separate Cloudflare projects.
+1. Verify student and create Faculty/Admin Cloudflare projects.
 2. Course workspace RPC; shared API helpers; bounded cache.
 3. Split `AcademicOperations.jsx`; remove unused quiz code.
 4. Paginate large lists and submissions.
@@ -70,13 +72,14 @@
 6. Staging data, E2E, k6 50→2,000 concurrent users.
 
 ## Build mechanics
-A commit pushed to the configured production branch triggers Cloudflare automatically. From `v2`, Cloudflare runs `npm ci`, tests/build, then the project-specific Wrangler deploy command. Vite environment changes require a new build.
+A commit pushed to the configured production branch triggers Cloudflare automatically. From `v2`, Cloudflare runs `npm ci`, tests/build, then the project-specific Wrangler deploy command. Vite environment changes require a new build. Netlify builds are temporarily canceled by `ignore = "exit 0"` without deleting the existing rollback deployments.
 
 ## Changelog
+- **2026-09-17 — Netlify pause:** canceled future Netlify builds while preserving existing deployed sites for rollback.
 - **2026-09-17 — Portal split preparation:** added separate Student/Faculty/Admin Wrangler configs and exact CI commands.
 - **2026-09-17 — Cloudflare:** fixed root, lockfile and redirect failures; combined Worker build succeeded with Supabase variables.
 - **2026-09-17 — Performance/context:** admin dashboard RPC and multi-model memory.
 - **2026-09-16 — Features/security:** academic operations, owner accounts, secured support/writes.
 
 ## Next action
-Create Cloudflare project `snu-student` first using `wrangler.student.jsonc` and `VITE_PORTAL_TYPE=student`; verify it before creating faculty/admin projects.
+Verify the Student URL, then create Cloudflare project `snu-faculty` using `wrangler.faculty.jsonc` and `VITE_PORTAL_TYPE=faculty`.
