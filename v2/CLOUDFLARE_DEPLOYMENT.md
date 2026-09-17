@@ -1,41 +1,60 @@
-# Cloudflare deployment — current setup
+# Cloudflare deployment
 
-The Cloudflare project `snu-web` is a Worker with Static Assets. Static asset requests remain free/unlimited.
+## How builds start
 
-## Required build settings
+Cloudflare watches the production branch `rebuild/snu-portals-supabase`. Every successful `git push` that adds a commit starts a build automatically. Cloudflare runs from Root directory `v2`:
 
-Open `snu-web` → **Settings** → **Builds** and set:
+```text
+Install: npm ci
+Build: npm run test && npm run build
+Deploy: npx wrangler deploy [portal config]
+```
 
-- Production branch: `rebuild/snu-portals-supabase`
+Vite embeds `VITE_*` variables during the build, so changing a variable requires a new deployment. A harmless documentation commit can trigger a rebuild, but normal development commits should be used instead.
+
+## Combined verification project
+
+Current project: `snu-web`
+
+- Deploy command: `npx wrangler deploy`
+- Config: `wrangler.jsonc`
+- `VITE_PORTAL_TYPE=all`
+
+Keep it temporarily while role-specific projects are verified.
+
+## Separate production projects
+
+Create three Cloudflare Workers connected to the same repository and branch. All use:
+
+- Branch: `rebuild/snu-portals-supabase`
 - Root directory: `v2`
 - Build command: `npm run test && npm run build`
-- Deploy command: `npx wrangler deploy`
-- Preview deploy command: `npx wrangler versions upload`
+- Preview command: same config as production, using `wrangler versions upload --config ...`
+- Build variables: `NODE_VERSION=22`, Supabase URL, publishable anon key.
 
-Build variables:
+### Student
 
-- `NODE_VERSION=22`
-- `VITE_SUPABASE_URL=<project URL>`
-- `VITE_SUPABASE_ANON_KEY=<publishable anon key>`
-- `VITE_PORTAL_TYPE=all` for the first combined verification deployment
+- Project name: `snu-student`
+- Deploy: `npx wrangler deploy --config wrangler.student.jsonc`
+- Preview: `npx wrangler versions upload --config wrangler.student.jsonc`
+- `VITE_PORTAL_TYPE=student`
 
-`v2/wrangler.jsonc` deploys `dist` and sets `assets.not_found_handling` to `single-page-application`. Therefore `public/_redirects` must not contain Netlify's `/* /index.html 200` rule; Cloudflare Workers detects that rule as an infinite loop. The file is comment-only and Wrangler owns SPA fallback.
+### Faculty
 
-## Diagnosed build failures
+- Project name: `snu-faculty`
+- Deploy: `npx wrangler deploy --config wrangler.faculty.jsonc`
+- Preview: `npx wrangler versions upload --config wrangler.faculty.jsonc`
+- `VITE_PORTAL_TYPE=faculty`
 
-1. Cloudflare initially built the repository root and found legacy Vite `5.4.21`; fixed by Root directory `v2`.
-2. `npm ci` initially failed because V2 lacked `package-lock.json`; fixed by committing the V2 lockfile.
-3. Worker asset deployment rejected Netlify's `_redirects` SPA rule as an infinite loop; fixed by using only `wrangler.jsonc` SPA fallback.
+### Admin
 
-## Current status
+- Project name: `snu-admin`
+- Deploy: `npx wrangler deploy --config wrangler.admin.jsonc`
+- Preview: `npx wrangler versions upload --config wrangler.admin.jsonc`
+- `VITE_PORTAL_TYPE=admin`
 
-- [x] Correct branch and root directory configured.
-- [x] V2 lockfile committed.
-- [x] SPA routing configured through Wrangler.
-- [x] Production and preview Worker URLs enabled.
-- [x] Supabase URL, publishable key, portal type, and Node 22 build variables configured by the owner.
-- [ ] Verify the environment-variable rebuild and authenticated login.
+The Wrangler `name` must match the Cloudflare project name. Static assets are served from `dist`, and SPA fallback is configured in each Wrangler file.
 
-## After the combined deployment works
+## Supabase/Auth cutover
 
-Create separate projects for student, faculty, and admin with portal type `student`, `faculty`, or `admin`. Use owned subdomains for production and update Supabase Auth Site/Redirect URLs. Keep Netlify for 48 hours as rollback before disabling it.
+After all three URLs work, add them to Supabase Authentication Redirect URLs. Then attach owned custom subdomains and keep Netlify plus `snu-web` for 48 hours as rollback before disabling them.
